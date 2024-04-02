@@ -1,0 +1,13 @@
+{
+    "builds": [{
+        "src": "Gomart/wsgi.py",
+        "use": "@vercel/python",
+        "config": { "maxLambdaSize": "15mb", "runtime": "Python 3.11.0" }
+    }],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "Gomart/wsgi.py"
+        }
+    ]
+}
