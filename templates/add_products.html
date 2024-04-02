@@ -1,0 +1,89 @@
+{% include 'left_nav.html' %}
+<div class="page-wrapper">
+    <div class="content">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <h4 class="page-title">Add Product</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <form action="/add_product/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input class="form-control" type="text" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea class="form-control" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input class="form-control" type="text" name="price">
+                    </div>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <select class="form-control" name="country">
+                            <option value="{{i.id}}">Select Country</option>
+                            <!-- Populate options dynamically from database -->
+                            {% for country in cou %}
+                                <option value="{{ country.id }}">{{ country.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control" name="brand">
+                            <option value="">Select Brand</option>
+                            {% for brand in bran %}
+                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="category">
+                            <option value="">Select Category</option>
+                            {% for category in cat %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Product Code</label>
+                        <input class="form-control" type="text" name="product_code">
+                    </div>
+                    <div class="form-group">
+                        <label>Opening Stock</label>
+                        <input class="form-control" type="text" name="opening_stock">
+                    </div>
+                    <div class="form-group">
+                        <label>Current Stock</label>
+                        <input class="form-control" type="text" name="current_stock">
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input class="form-control" type="file" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label class="display-block">Status</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="product_active" value="Active" checked>
+                            <label class="form-check-label" for="product_active">Active</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="status" id="product_inactive" value="Inactive">
+                            <label class="form-check-label" for="product_inactive">Inactive</label>
+                        </div>
+                    </div>
+                    <div class="m-t-20 text-center">
+                        <button class="btn btn-primary submit-btn">Create Product</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="notification-box">
+        <!-- Message notifications list -->
+    </div>
+</div>
