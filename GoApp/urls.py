@@ -22,5 +22,7 @@ urlpatterns = [
     path("save_signup/",views.save_signup),
     path("check_email/",views.check_email),
     path("check_login/",views.check_login,name="check_login"),
-    path("HomePage/",views.HomePage,name="HomePage")
+    path("HomePage/",views.HomePage,name="HomePage"),
+    path("add_to_wishlist/<id>",views.add_to_wishlist,name="add_to_wishlist"),
+    path("add_vat_gst/",views.add_vat_gst,name="add_vat_gst")
 ]

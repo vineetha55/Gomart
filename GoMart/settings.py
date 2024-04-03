@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-i2!-(cf=54n6stcq2w(v6yi696vtu0p^8b7fq$^9*tfs!dno8v
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -81,7 +81,7 @@ DATABASES = {
     }
 }
 
-
+LOGIN_URL = '/Login/'
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 

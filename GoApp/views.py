@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -113,7 +114,18 @@ def add_product(request):
         cou=tbl_Country.objects.all()
         cat=tbl_Category.objects.all()
         bran=tbl_Brand.objects.all()
-        return render(request,"add_products.html",{"cou":cou,"cat":cat,"bran":bran})
+        d = tbl_Product.objects.all().last()
+        print(d)
+
+        if d == None:
+            pdt_code = 'GM/PD00' + '1'
+            print(pdt_code)
+        else:
+            d1 = d.id
+            d2 = d1 + 1
+            pdt_code = 'GM/PD00' + str(d2)
+            print(pdt_code)
+        return render(request,"add_products.html",{"cou":cou,"cat":cat,"bran":bran,"pdt_code":pdt_code})
 
 def show_by_country(request,id):
     d=tbl_Product.objects.filter(country=id)
@@ -200,20 +212,38 @@ def check_login(request):
         if user:
             us = tbl_SignUp.objects.get(email=email, password=password)
             request.session['userid']=us.id
+            print(request.session['userid'])
             return redirect("/HomePage/")
         else:
             return redirect("/Login/")
 
 def HomePage(request):
-    try:
+        print("hii")
         r=request.session['userid']
+        print(r)
         if r:
             user=tbl_SignUp.objects.get(id=r)
-            return render(request,"HomePage.html",{"user":user})
+            print(user,"jj")
+            cat = tbl_Category.objects.all()
+            coun = tbl_Country.objects.all()
+            brand = tbl_Brand.objects.all()
+            return render(request,"HomePage.html",{"user":user,"cat":cat,"coun":coun,"brand":brand})
         else:
             return redirect("/")
-    except:
-        return redirect("/")
 
+def add_to_wishlist(request,id):
+    d=tbl_Wishlist()
+    pass
+
+def add_vat_gst(request):
+    if request.method=="POST":
+        f=tbl_Tax()
+        f.country_id=request.POST.get("country")
+        f.rate=request.POST.get("rate")
+        f.save()
+        return redirect("/country/")
+    else:
+        coun=tbl_Country.objects.all()
+        return render(request,"add_vat_gst.html",{"coun":coun})
 
 

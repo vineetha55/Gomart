@@ -9,6 +9,10 @@
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
                 <form action="/add_product/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                      <div class="form-group">
+                        <label>Product Code</label>
+                        <input class="form-control" type="text" name="product_code" value="{{pdt_code}}" readonly>
+                    </div>
                     <div class="form-group">
                         <label>Product Name</label>
                         <input class="form-control" type="text" name="name">
@@ -17,19 +21,35 @@
                         <label>Description</label>
                         <textarea class="form-control" name="description"></textarea>
                     </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input class="form-control" type="text" name="price">
-                    </div>
+
                     <div class="form-group">
                         <label>Country</label>
-                        <select class="form-control" name="country">
+                        <select class="form-control" name="country" id="country">
                             <option value="{{i.id}}">Select Country</option>
                             <!-- Populate options dynamically from database -->
                             {% for country in cou %}
                                 <option value="{{ country.id }}">{{ country.name }}</option>
                             {% endfor %}
                         </select>
+                    </div>
+                      <div class="form-group">
+                        <label>Price</label>
+                        <input class="form-control" type="text" name="price" id="price">
+                    </div>
+                    <div class="form-group">
+                        <label>Tax Rate</label>
+                        <select class="form-control" name="tax_rate" id="tax_rate">
+                            <option value="">Select Rate</option>
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tax amount</label>
+                        <input class="form-control" type="text" name="tax_amount" id="tax_amount">
+                    </div>
+                    <div class="form-group">
+                        <label>Gross total</label>
+                        <input class="form-control" type="text" name="gross_total" id="gross_total">
                     </div>
                     <div class="form-group">
                         <label>Brand</label>
@@ -50,8 +70,15 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Product Code</label>
-                        <input class="form-control" type="text" name="product_code">
+                        <label>Weight / Product</label>
+                         <input class="form-control" type="text" name="weight">
+                         <select class="form-control" name="weight_measure">
+                             <option>Select</option>
+                             <option>Kg</option>
+                             <option>Nos</option>
+                             <option>gm</option>
+                             <option>Liter</option>
+                         </select>
                     </div>
                     <div class="form-group">
                         <label>Opening Stock</label>
@@ -61,6 +88,7 @@
                         <label>Current Stock</label>
                         <input class="form-control" type="text" name="current_stock">
                     </div>
+
                     <div class="form-group">
                         <label>Image</label>
                         <input class="form-control" type="file" name="image">
@@ -86,4 +114,17 @@
     <div class="notification-box">
         <!-- Message notifications list -->
     </div>
+
+    <script>
+        $('#country').change(function(){
+        c=$('#country').val();
+        $.ajax({
+        url:"/check_tax/",
+        data:{c:c},
+        success:function(data){
+
+        }
+        })
+        })
+    </script>
 </div>
