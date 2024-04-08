@@ -69,7 +69,23 @@ class tbl_Wishlist(models.Model):
     product = models.ForeignKey(tbl_Product, on_delete=models.CASCADE, null=True)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
+    quantity = models.IntegerField(null=True)
+    total_price = models.CharField(max_length=100, null=True)
 
+class tbl_Cart(models.Model):
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE,null=True)
+    sub_total=models.CharField(max_length=100,null=True)
+    total=models.CharField(max_length=100,null=True)
+
+
+class tbl_Cart_Products(models.Model):
+    cart=models.ForeignKey(tbl_Cart,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE,null=True)
+    product = models.ForeignKey(tbl_Product, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(null=True)
+    total_price = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
 

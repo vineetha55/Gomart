@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" data-bs-theme="light">
+
+<head>
+    <!--required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--meta-->
+    <meta name="description" content="Grostore Grocery  eCommerce html template. Multivendor responsive eCommerce template">
+    <meta name="author" content="ThemeTags">
+    <meta name="keywords" content="Grostore Grocery  ecommerce, admin template, online shop, e-commerce, ecommerce template, marketplace, modern, responsive,  business, mobile, bootstrap, html5, css3, js, gallery, slider, touch, creative, clean">
+    <!--favicon icon-->
+    <link rel="icon" href="{% static 'index/assets/img/logo_new.png' %}" type="image/png" sizes="16x16">
+
+    <!--title-->
+    <title>Grostore - Signup - Grostore Grocery eCommerce HTML Template</title>
+
+    <!--build:css-->
+    <link rel="stylesheet" href="{% static 'index/assets/css/main.css' %}">
+    <!-- endbuild -->
+</head>
+
+<body>
+
+    <!--preloader start-->
+    <div id="preloader">
+        <img src="{% static 'index/assets/img/preloader_new.gif' %}" alt="preloader" width="450" class="img-fluid">
+    </div>
+
+    <!--main content wrapper start-->
+    <div class="main-wrapper">
+
+
+        <!--login section start-->
+        <section class="login-section py-5">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 col-12 tt-login-img" data-background="{% static 'index/assets/img/shapes/login-banner.png' %}"></div>
+                    <div class="col-lg-5 col-12 bg-white d-flex p-0 tt-login-col shadow">
+                        <form class="tt-login-form-wrap p-3 p-md-6 p-lg-6 py-7 w-100" action="/save_signup/" method="POST">{% csrf_token %}
+                            <div class="text-center mb-7">
+                                <a href="index.html"><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo"></a>
+                            </div>
+                            <p class="fs-xs">Already have an account? <a href="/Login/" class="text-secondary">Sign in</a></p>
+                            <div class="row g-3">
+                               <div class="col-sm-12">
+                                    <div class="input-field">
+                                        <input type="text" placeholder="Fullname" class="theme-input" name="fullname">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="input-field">
+                                        <input type="email" placeholder="Email address" class="theme-input" name="email">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="input-field">
+                                        <input type="number" placeholder="Mobile Number" class="theme-input" name="mobile">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="input-field check-password">
+                                        <input type="password" placeholder="Password" class="theme-input" name="password">
+                                        <span class="eye eye-icon"><i class="fa-solid fa-eye"></i></span>
+                                        <span class="eye eye-slash"><i class="fa-solid fa-eye-slash"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-4 mt-4">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-primary w-100">Create account</button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="#" class="btn btn-outline google-btn w-100"><img src="assets/img/brands/google.png" alt="google" class="me-2">Sign with Google</a>
+                                </div>
+                            </div>
+                            <p class="mb-0 fs-xxs mt-4 text-center">By signing up, I agree to <a href="#" class="text-dark">Terms of Use and Privacy Policy</a></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--login section end-->
+
+    </div>
+    <!--main content wrapper end-->
+
+
+    <!--scroll bottom to top button start-->
+    <button class="scroll-top-btn">
+        <i class="fa-regular fa-hand-pointer"></i>
+    </button>
+    <!--scroll bottom to top button end-->
+    <!--build:js-->
+    <script src="{% static 'index/assets/js/vendors/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/simplebar.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/parallax-scroll.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/isotop.pkgd.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/countdown.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/range-slider.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/waypoints.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/counterup.min.js' %}"></script>
+    <script src="{% static 'index/assets/js/vendors/typer.js' %}"></script>
+    <script src="{% static 'index/assets/js/app.js' %}"></script>
+    <!--endbuild-->
+</body>
+
+</html>

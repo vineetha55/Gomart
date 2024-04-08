@@ -1,9 +1,13 @@
+import math
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
+
 from .models import *
 
 # Create your views here.
@@ -165,10 +169,7 @@ def contact(request):
     return render(request,"contact.html",{"cat":cat,"coun":coun,"brand":brand})
 
 def Login(request):
-    cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
-    brand = tbl_Brand.objects.all()
-    return render(request,"Login.html",{"cat":cat,"coun":coun,"brand":brand})
+    return render(request,"Login_new.html")
 
 
 def save_signup(request):
@@ -183,14 +184,15 @@ def save_signup(request):
 
         # If user does not exist, create a new user
         if not user:
-            user = User.objects.create_user(username=fullname, email=email, password=password)
+            user = User.objects.create_user(username=username, email=email, password=password)
 
         signup = tbl_SignUp.objects.create(
             user=user,
             mobile=mobile,
             fullname=fullname,
             email=email,
-            password=password
+            password=password,
+
 
         )
         return redirect("/Login/")
@@ -218,9 +220,9 @@ def check_login(request):
             return redirect("/Login/")
 
 def HomePage(request):
-        print("hii")
+
         r=request.session['userid']
-        print(r)
+
         if r:
             user=tbl_SignUp.objects.get(id=r)
             print(user,"jj")
@@ -247,3 +249,158 @@ def add_vat_gst(request):
         return render(request,"add_vat_gst.html",{"coun":coun})
 
 
+def view_product_single(request,id):
+    single=tbl_Product.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    return render(request,"view_product_single.html",{"single":single,"cat":cat})
+#
+# def add_to_cart(request):
+#     try:
+#         if request.session['userid']:
+#             p_id=request.GET.get("p_id")
+#             t_price = request.GET.get("t_price")
+#             quantity = request.GET.get("quantity")
+#             d = tbl_Product.objects.get(id=p_id)
+#             cart=tbl_Cart()
+#             cart.product_id=p_id
+#             cart.user_id=request.session['userid']
+#             cart.quantity=quantity
+#             cart.total_price=t_price
+#             cart.save()
+#             cart_total=tbl_Cart.objects.filter(user=request.session["userid"])
+#             c_total=0
+#             for i in cart_total:
+#                 c_total+=int(math.floor(float(i.total_price)))
+#
+#
+#             redirect_url = reverse('cart',kwargs={'c_total': c_total})
+#             return JsonResponse({'redirect_url': redirect_url})
+#         else:
+#
+#             redirect_url = reverse('Login')
+#             return JsonResponse({'redirect_url': redirect_url})
+#     except:
+#         redirect_url = reverse('Login')
+#         return JsonResponse({'redirect_url': redirect_url})
+def cart_user(request):
+    c=tbl_Cart.objects.get(user=request.session["userid"])
+    cart_details=tbl_Cart_Products.objects.filter(user=request.session["userid"],cart=c)
+    cat = tbl_Category.objects.all()
+
+    return render(request,"cart_user.html",{"cart_details":cart_details,"cat":cat,"c":c})
+
+#
+# def add_to_wishlist_single(request):
+#     try:
+#         if request.session['userid']:
+#             p_id=request.GET.get("p_id")
+#             t_price = request.GET.get("t_price")
+#             quantity = request.GET.get("quantity")
+#             d = tbl_Product.objects.get(id=p_id)
+#             cart=tbl_Wishlist()
+#             cart.product_id=p_id
+#             cart.user_id=request.session['userid']
+#             cart.quantity=quantity
+#             cart.total_price=t_price
+#             cart.save()
+#
+#
+#
+#             redirect_url = reverse('wishlist')
+#             return JsonResponse({'redirect_url': redirect_url})
+#         else:
+#
+#             redirect_url = reverse('Login')
+#             return JsonResponse({'redirect_url': redirect_url})
+#     except:
+#         redirect_url = reverse('Login')
+#         return JsonResponse({'redirect_url': redirect_url})
+
+
+def wishlist(request):
+    wish = tbl_Cart.objects.filter(user=request.session["userid"])
+    return render(request,"wishlist.html",{"wish":wish})
+
+
+def all_products(request):
+    d=tbl_Product.objects.all()
+    cat = tbl_Category.objects.all()
+    return render(request,"all_products.html",{"d":d,"cat":cat})
+
+
+def add_to_cart_products(request,id,price):
+    try:
+        if request.session['userid']:
+            if tbl_Cart.objects.filter(user=request.session['userid']).exists():
+                cart = tbl_Cart.objects.get(user=request.session['userid'])
+                cart.sub_total+= price
+                cart.total+= price
+                cart.save()
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
+                c.product_id = id
+                c.quantity = 1
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                return redirect("/cart_user/")
+            else:
+
+                cart=tbl_Cart()
+                cart.user_id = request.session['userid']
+                cart.sub_total=price
+                cart.total=price
+                cart.save()
+                c=tbl_Cart_Products()
+                c.cart_id=cart.id
+                c.product_id = id
+                c.quantity = 1
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                return redirect("/cart_user/")
+        else:
+            return redirect("/Login/")
+    except:
+        return redirect("/Login/")
+
+
+def signup(request):
+    return render(request,"signup.html")
+
+def shop_by_category_user(request,id):
+    d = tbl_Product.objects.filter(category=id)
+    cat = tbl_Category.objects.all()
+    coun = tbl_Country.objects.all()
+    brand = tbl_Brand.objects.all()
+    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
+
+def signout_user(request):
+    del request.session['userid']
+    return redirect("/")
+
+def update_cart_products(request):
+    q=request.GET.get("q")
+    tp=request.GET.get("tp")
+    id=request.GET.get("id")
+    c=tbl_Cart_Products.objects.get(id=id)
+    c.quantity=q
+    c.total_price=tp
+    c.save()
+    data={}
+    data['message']="success"
+    return JsonResponse(data)
+
+def update_cart_total(request):
+    ts = request.GET.get("ts")
+    id = request.GET.get("id")
+    c = tbl_Cart.objects.get(id=id)
+    c.sub_total = ts
+    c.total = ts
+    c.save()
+    data = {}
+    data['message'] = "success"
+    return JsonResponse(data)
+
+def checkout(request):
+    return render(request,"checkout.html")
