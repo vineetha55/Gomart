@@ -1,5 +1,7 @@
 import math
 
+import razorpay as razorpay
+import requests
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -333,8 +335,12 @@ def add_to_cart_products(request,id,price):
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
-                cart.sub_total+= price
-                cart.total+= price
+                s=int(cart.sub_total)
+                s+=int(price)
+                cart.sub_total= s
+                t=int(cart.total)
+                t += int(price)
+                cart.total= t
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -370,10 +376,12 @@ def signup(request):
 
 def shop_by_category_user(request,id):
     d = tbl_Product.objects.filter(category=id)
+    table_count= tbl_Product.objects.filter(category=id).count()
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
-    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
+    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                          "table_count":table_count})
 
 def signout_user(request):
     del request.session['userid']
@@ -401,6 +409,283 @@ def update_cart_total(request):
     data = {}
     data['message'] = "success"
     return JsonResponse(data)
+razorpay_client = razorpay.Client(auth=('rzp_test_a8iORttOoYuVYF', 'jTA4P5JVxitd8d4bGerNCFyp'))
 
 def checkout(request):
-    return render(request,"checkout.html")
+
+    ship = tbl_Shipment_Address.objects.filter(user=request.session['userid']).last()
+
+
+    bill = tbl_Billing_Address.objects.filter(user=request.session['userid']).last()
+    f=tbl_Cart.objects.get(user=request.session['userid'])
+    total_items=tbl_Cart_Products.objects.filter(cart=f).count()
+    item_price=f.sub_total
+    if int(f.total) >= 50:
+        ship_charge=0
+        total_after_ship=f.total
+    else:
+        if ship:
+            eircode=ship.Eircode
+            # Replace with the desired Eircode
+            latitude, longitude = get_location_from_eircode(eircode)
+            if latitude and longitude:
+                print("Latitude:", latitude)
+                print("Longitude:", longitude)
+            else:
+                print("Location not found or error occurred")
+            address = get_address_from_coordinates(latitude, longitude)
+            if address:
+                print("Address:", address)
+
+            else:
+                print("Address not found or error occurred")
+        else:
+            ship_charge = 0
+            total_after_ship = f.total
+    currency = 'EUR'
+    amount = int(total_after_ship) * 100
+
+    # Create a Razorpay Order
+    razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                       currency=currency,
+                                                       payment_capture='0'))
+
+    # order id of newly created order.
+    razorpay_order_id = razorpay_order['id']
+    callback_url = 'paymenthandler'
+
+    # we need to pass these details to frontend.
+    context = {}
+    context['razorpay_order_id'] = razorpay_order_id
+
+    context['razorpay_merchant_key'] = 'rzp_test_a8iORttOoYuVYF'
+    context['razorpay_amount'] = amount
+    context['currency'] = currency
+    context['callback_url'] = callback_url
+    context['total_items'] = total_items
+    context['item_price'] = item_price
+    context['ship_charge'] = ship_charge
+    context['total_after_ship'] = total_after_ship
+    context['d'] = ship
+    context['bill'] = bill
+
+
+    return render(request,"checkout.html",context)
+
+def get_address_from_coordinates(latitude, longitude):
+    url = f"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json"
+    headers = {'User-Agent': 'YourApp/1.0'}  # Replace 'YourApp/1.0' with your own user agent string
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        data = response.json()
+        if 'display_name' in data:
+            address = data['display_name']
+            return address
+        else:
+            return None
+    else:
+        print("Error:", response.status_code)
+        return None
+
+def get_location_from_eircode(eircode):
+    url = f"https://nominatim.openstreetmap.org/search?q={eircode}&format=json"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36'}  # Replace 'YourApp/1.0' with your own user agent string
+    response = requests.get(url, headers=headers)
+    if response.status_code == 200:
+        print("hii")
+        data = response.json()
+        print(data)
+        if data:
+            print("hello")
+            # Extracting latitude and longitude from the response
+            latitude = data[0]['lat']
+            longitude = data[0]['lon']
+            return latitude, longitude
+        else:
+            return None, None
+    else:
+        print("Error:", response.status_code)
+        return None, None
+
+def about(request):
+    return render(request,"about.html")
+
+
+def save_ship_address(request):
+    data=tbl_Shipment_Address()
+    data.first_name=request.POST.get("firstname")
+    data.last_name=request.POST.get("lastname")
+    data.email=request.POST.get("email")
+    data.mobile=request.POST.get("mobile")
+    data.state=request.POST.get("state")
+    data.street_address=request.POST.get("street")
+    data.user_id=request.session['userid']
+    data.Eircode=request.POST.get("eircode")
+    data.save()
+    return redirect("checkout1",id=data.id)
+
+def checkout1(request,id):
+    d=tbl_Shipment_Address.objects.get(id=id)
+    f = tbl_Cart.objects.get(user=request.session['userid'])
+    total_items = tbl_Cart_Products.objects.filter(cart=f).count()
+    item_price = f.sub_total
+    if int(f.total) >= 50:
+        ship_charge = 0
+        total_after_ship = f.total
+    else:
+
+            eircode = d.Eircode
+            # Replace with the desired Eircode
+            latitude, longitude = get_location_from_eircode(eircode)
+            if latitude and longitude:
+                print("Latitude:", latitude)
+                print("Longitude:", longitude)
+            else:
+                print("Location not found or error occurred")
+            address = get_address_from_coordinates(latitude, longitude)
+            if address:
+                print("Address:", address)
+
+            else:
+                print("Address not found or error occurred")
+            ship_charge = 4.95
+            total_after_ship = int(f.total)+ship_charge
+
+    currency = 'EUR'
+    amount = int(total_after_ship) * 100
+
+    # Create a Razorpay Order
+    razorpay_order = razorpay_client.order.create(dict(amount=amount,
+                                                       currency=currency,
+                                                       payment_capture='0'))
+
+    # order id of newly created order.
+    razorpay_order_id = razorpay_order['id']
+    callback_url = 'paymenthandler'
+
+    # we need to pass these details to frontend.
+    context = {}
+    context['razorpay_order_id'] = razorpay_order_id
+
+    context['razorpay_merchant_key'] = 'rzp_test_a8iORttOoYuVYF'
+    context['razorpay_amount'] = amount
+    context['currency'] = currency
+    context['callback_url'] = callback_url
+    context['total_items'] = total_items
+    context['item_price'] = item_price
+    context['ship_charge'] = ship_charge
+    context['total_after_ship'] = total_after_ship
+    context['d'] = d
+
+    return render(request,"checkout.html",context)
+def save_bill_address(request):
+    if request.method=="POST":
+        data=tbl_Billing_Address()
+        data.first_name=request.POST.get("firstname")
+        data.last_name=request.POST.get("lastname")
+        data.email=request.POST.get("email")
+        data.mobile=request.POST.get("mobile")
+        data.state=request.POST.get("state")
+        data.street_address=request.POST.get("street")
+        data.user_id=request.session['userid']
+        data.Eircode=request.POST.get("eircode")
+        data.save()
+        return redirect("/checkout/")
+    else:
+        data = tbl_Billing_Address()
+        data.first_name = request.GET.get("fname")
+        data.last_name = request.GET.get("lname")
+        data.email = request.GET.get("email")
+        data.mobile = request.GET.get("mobile")
+        data.state = request.GET.get("state")
+        data.street_address = request.GET.get("s_address")
+        data.user_id = request.session['userid']
+        data.Eircode = request.GET.get("eircode")
+        data.save()
+        return JsonResponse(data={"msg":"success"})
+
+def paymenthandler(request):
+    price=request.POST.get("total_after_ship")
+
+    razorpay_order_id = request.POST.get('order_id')
+
+    payment_id = request.POST.get('payment_id', '')
+    print('paymentid:', str(payment_id))
+
+    signature = request.POST.get('razorpay_signature', '')
+
+    params_dict = {
+        'razorpay_order_id': razorpay_order_id,
+        'razorpay_payment_id': payment_id,
+        'razorpay_signature': signature
+    }
+
+    # verify the payment signature.
+
+    print("res:")
+    amount = int(price) * 100  # Rs. 200
+    razorpay_client.payment.capture(payment_id, amount)
+
+    #checkout saving and stock reduce
+    ca=tbl_Cart.objects.get(user=request.session['userid'])
+    ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
+    data=tbl_Checkout()
+    data.user_id=request.session['userid']
+    data.item_price=request.POST.get("item_price")
+    data.total_items=request.POST.get("total_items")
+    data.ship_charge=request.POST.get("ship_charge")
+    data.total_after_ship=request.POST.get("total_after_ship")
+    data.discount=request.POST.get("discount")
+    data.save()
+    for i in ca_pd:
+        data1=tbl_checkout_products()
+        data1.user_id=request.session['userid']
+        data1.checkout_id=data.id
+        data1.product_id=i.product.id
+        data1.quantity=i.quantity
+        data1.total=i.total
+        data1.sub_total=i.sub_total
+        data1.save()
+    for j in ca_pd:
+        product=j.product.id
+        quantity=j.quantity
+        table=tbl_Product.objects.get(id=product)
+        stock=table.opening_stock - int(quantity)
+        table.current_stock=stock
+        table.save()
+
+
+    tbl_Cart.objects.get(user=request.session['userid']).delete()
+
+    return redirect("/payment_success/")
+
+
+
+
+
+
+def all_products_user(request):
+    d=tbl_Product.objects.all()
+    cat = tbl_Category.objects.all()
+    return render(request,"all_products_user.html",{"d":d,"cat":cat})
+
+
+def my_account(request):
+    return render(request,"my_account.html")
+
+
+def remove_product(request):
+    pid=request.GET.get("product_id")
+    try:
+        product = tbl_Cart_Products.objects.get(id=pid)
+        product.delete()
+        c=tbl_Cart.objects.get(user=request.session['userid'])
+        c.total=int(c.total)-int(product.total_price)
+        c.sub_total = int(c.sub_total) - int(product.total_price)
+        c.save()
+        return JsonResponse({'success': True, 'message': 'Product removed successfully'})
+    except tbl_Cart_Products.DoesNotExist:
+        return JsonResponse({'success': False, 'message': 'Product does not exist'})
+    else:
+        return JsonResponse({'success': False, 'message': 'Invalid request method'})

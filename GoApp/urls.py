@@ -37,7 +37,16 @@ urlpatterns = [
     path("signout_user/",views.signout_user,name="signout_user"),
     path("update_cart_products/",views.update_cart_products,name="update_cart_products"),
     path("update_cart_total/",views.update_cart_total,name="update_cart_total"),
-    path("checkout/",views.checkout,name="checkout")
+    path("checkout/",views.checkout,name="checkout"),
+    path("about/",views.about,name="about"),
+    path("save_ship_address/",views.save_ship_address,name="save_ship_address"),
+    path("save_bill_address/",views.save_bill_address,name="save_bill_address"),
+    path("checkout1/<id>",views.checkout1,name="checkout1"),
+
+    path("paymenthandler/",views.paymenthandler,name="paymenthandler"),
+    path("all_products_user/",views.all_products_user,name="all_products_user"),
+    path("my_account/",views.my_account,name="my_account"),
+    path("remove_product/",views.remove_product,name="remove_product")
 
 
 ]

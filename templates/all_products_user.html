@@ -1,6 +1,5 @@
-
 {% load static %}
-{% include 'indexnavbar.html' %}
+{% include 'loggedin_nav.html' %}
         <!--offcanvas menu end-->
 
         <!--breadcrumb section start-->
@@ -18,16 +17,16 @@
             <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato-slice vector-shape">
             <img src="{% static 'index/assets/img/shapes/cauliflower_new.png' %}" alt="tomato" class="position-absolute z--1 cauliflower vector-shape">
             <img src="{% static 'index/assets/img/shapes/leaf-gray_new.png' %}" alt="tomato" class="position-absolute z--1 leaf-gray vector-shape">
-         <div class="container">
+            <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-content">
-                            <h2 class="mb-2 text-center">Shop By Category</h2>
+                            <h2 class="mb-2 text-center">All Products</h2>
                             <nav>
                                 <ol class="breadcrumb justify-content-center">
                                     <li class="breadcrumb-item fw-bold" aria-current="page"><a href="index.html">Home</a></li>
                                     <li class="breadcrumb-item fw-bold" aria-current="page">Page</li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">Category</li>
+                                    <li class="breadcrumb-item fw-bold" aria-current="page">products</li>
                                 </ol>
                             </nav>
                         </div>
@@ -183,7 +182,7 @@
                                 <div class="sidebar-products-list">
                                     <div class="horizontal-product-card d-sm-flex align-items-center bg-white rounded-2 mt-4 gap-3 card-md">
                                         <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="assets/img/products/p-sm-1.png" alt="product" class="img-fluid"></a>
+                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-1.png' %}" alt="product" class="img-fluid"></a>
                                             <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
                                                 <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
                                             </div>
@@ -206,7 +205,7 @@
                                     </div>
                                     <div class="horizontal-product-card d-sm-flex align-items-center bg-white rounded-2 mt-4 gap-3 card-md">
                                         <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="assets/img/products/p-sm-2.png" alt="product" class="img-fluid"></a>
+                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-2.png' %}" alt="product" class="img-fluid"></a>
                                             <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
                                                 <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
                                             </div>
@@ -229,7 +228,7 @@
                                     </div>
                                     <div class="horizontal-product-card d-sm-flex align-items-center bg-white rounded-2 mt-4 gap-3 card-md">
                                         <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="assets/img/products/p-sm-3.png" alt="product" class="img-fluid"></a>
+                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-3.png' %}" alt="product" class="img-fluid"></a>
                                             <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
                                                 <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
                                             </div>
@@ -252,7 +251,7 @@
                                     </div>
                                     <div class="horizontal-product-card d-sm-flex align-items-center bg-white rounded-2 mt-4 gap-3 card-md">
                                         <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="assets/img/products/p-sm-4.png" alt="product" class="img-fluid"></a>
+                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-4.png' %}" alt="product" class="img-fluid"></a>
                                             <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
                                                 <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
                                             </div>
@@ -343,7 +342,7 @@
                                                 <span class="flex-shrink-0">(5.2k Reviews)</span>
                                             </div>
                                             <h6 class="price text-danger mb-4">€{{i.price}}</h6>
-                                            <a href="/add_to_cart_products/{{i.id}}/{{i.price}}" class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
+                                            <a href="#" class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -367,10 +366,10 @@
 
         <!--footer section start-->
         <div class="footer-curve position-relative overflow-hidden">
-            <span class="position-absolute section-curve-wrapper top-0 h-100" data-background="assets/img/shapes/section-curve.png"></span>
+            <span class="position-absolute section-curve-wrapper top-0 h-100" data-background="{% static 'index/assets/img/shapes/section-curve.png' %}"></span>
         </div>
         <footer class="gshop-footer position-relative pt-8 bg-dark z-1 overflow-hidden">
-            <img src="{% static 'index/assets/img/shapes/tomato_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato vector-shape">
+             <img src="{% static 'index/assets/img/shapes/tomato_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato vector-shape">
             <img src="{% static 'index/assets/img/shapes/pata-lg_new.svg' %}" alt="pata" class="position-absolute z--1 pata-lg vector-shape">
             <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute z--1 pata-xs vector-shape">
             <img src="{% static 'index/assets/img/shapes/frame-circle_new.svg' %}" alt="frame" class="position-absolute z--1 frame-circle vector-shape">
@@ -380,11 +379,11 @@
             <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
             <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
             <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
-              <div class="container">
+         <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
-                            <h4 class="text-white gshop-title">Subscribe to the G-Shop <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img src="assets/img/shapes/border-line.svg" alt="border line" class="position-absolute border-line"></mark><br class="d-none d-sm-block">& Other Information.</h4>
+                            <h4 class="text-white gshop-title">Subscribe to the G-Shop <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img src="{% static 'index/assets/img/shapes/border-line.svg" alt="border line" class="position-absolute border-line"></mark><br class="d-none d-sm-block">& Other Information.</h4>
                             <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
                                 <input type="email" class="form-control" placeholder="Enter Email Address">
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
@@ -459,22 +458,22 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="index.html" class="logo"><img src="assets/img/logo-white.png" alt="logo" class="img-fluid"></a>
+                                <a href="index.html" class="logo"><img src="{% static 'index/assets/img/logo-white.png' %}" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="footer-payments-info d-flex align-items-center justify-content-lg-end gap-2">
                                 <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="assets/img/brands/visa.png" alt="visa" class="img-fluid">
+                                    <img src="{% static 'index/assets/img/brands/visa.png' %}" alt="visa" class="img-fluid">
                                 </div>
                                 <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="assets/img/brands/mastercard.png" alt="visa" class="img-fluid">
+                                    <img src="{% static 'index/assets/img/brands/mastercard.png' %}" alt="visa" class="img-fluid">
                                 </div>
                                 <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="assets/img/brands/payoneer.png" alt="visa" class="img-fluid">
+                                    <img src="{% static 'index/assets/img/brands/payoneer.png' %}" alt="visa" class="img-fluid">
                                 </div>
                                 <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="assets/img/brands/paypal.png" alt="visa" class="img-fluid">
+                                    <img src="{% static 'index/assets/img/brands/paypal.png' %}" alt="visa" class="img-fluid">
                                 </div>
                             </div>
                         </div>
@@ -533,13 +532,13 @@
         <div class="offcanvas-left-menu position-fixed">
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="assets/img/logo.png" alt="logo"></a>
+                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo.png' %}" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/baby-care.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/baby-care.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Baby Care</span>
                             </a>
@@ -547,7 +546,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/cleaning.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/cleaning.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Cleaning</span>
                             </a>
@@ -555,7 +554,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/bakery-biscuits.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/bakery-biscuits.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Bakery & Biscuits</span>
                             </a>
@@ -563,7 +562,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/coffee-drinks.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/coffee-drinks.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Coffee & Drinks</span>
                             </a>
@@ -571,7 +570,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/beauty-health.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/beauty-health.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Beauty & Health</span>
                             </a>
@@ -579,7 +578,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/breakfast.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/breakfast.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Breakfast</span>
                             </a>
@@ -587,7 +586,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/cold-drinks.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/cold-drinks.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Cold Drinks</span>
                             </a>
@@ -595,7 +594,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/fresh-fruits.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/fresh-fruits.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Fresh Fruits</span>
                             </a>
@@ -603,7 +602,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/honey.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/honey.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Honey</span>
                             </a>
@@ -611,7 +610,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/fresh-organic.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/fresh-organic.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Fresh & Organic</span>
                             </a>
@@ -619,7 +618,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/jam-jelly.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/jam-jelly.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Jam & Jelly</span>
                             </a>
@@ -627,7 +626,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/sports-fitness.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/sports-fitness.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Sports & Fitness</span>
                             </a>
@@ -635,7 +634,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/sea-fish.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/sea-fish.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Sea Fish</span>
                             </a>
@@ -643,7 +642,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/pet-care.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/pet-care.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Pet Care</span>
                             </a>
@@ -651,7 +650,7 @@
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="assets/img/category/meat.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{% static 'index/assets/img/category/meat.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>Meat</span>
                             </a>
@@ -675,32 +674,32 @@
                                         <div class="quickview-product-slider swiper">
                                             <div class="swiper-wrapper">
                                                 <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-1.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/p-lg-1.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-2.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/p-lg-2.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-3.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/p-lg-3.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-4.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/p-lg-4.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="product-thumbnail-slider swiper mt-80">
                                             <div class="swiper-wrapper">
                                                 <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-1.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/thumb-sm-1.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-2.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/thumb-sm-2.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-3.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/thumb-sm-3.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                                 <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-4.png" alt="jam" class="img-fluid">
+                                                    <img src="{% static 'index/assets/img/products/thumb-sm-4.png' %}" alt="jam" class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
@@ -779,8 +778,3 @@
     <button class="scroll-top-btn">
         <i class="fa-regular fa-hand-pointer"></i>
     </button>
-
-    <!--endbuild-->
-</body>
-
-</html>

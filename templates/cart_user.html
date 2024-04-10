@@ -44,7 +44,6 @@
 
                     </div>
                 </div>
-                <form action="/checkout/" method="post" enctype="multipart/form-data">{% csrf_token %}
                 <div class="rounded-2 overflow-hidden">
                     <table class="cart-table w-100 mt-4 bg-white">
                         <thead>
@@ -80,6 +79,9 @@
                                     <span class="text-dark fw-bold total-price">{{i.total_price}}</span>
 
                                 </td>
+                                <td> <!-- New column for remove icon -->
+                    <button class="remove-product" onclick="removeProduct('{{i.id}}')">Remove</button>
+                </td>
                             </tr>
                             {% endfor %}
                         </tbody>
@@ -102,7 +104,7 @@
                             <table class="w-100">
                                 <tr>
                                     <td class="py-3">
-                                        <h5 class="mb-0 fw-medium" id="totalSumValue">Subtotal</h5>
+                                        <h5 class="mb-0 fw-medium" >Subtotal</h5>
                                     </td>
                                     <td class="py-3">
                                         <h5 class="mb-0 fw-semibold text-end" id="totalSumValue1">{{c.sub_total}}</h5>
@@ -110,16 +112,16 @@
                                 </tr>
                                 <tr class="border-top">
                                     <td class="py-3">
-                                        <h5 class="mb-0">Total</h5>
+                                        <h5 class="mb-0" >Total</h5>
                                     </td>
                                     <td class="text-end py-3">
-                                        <h5 class="mb-0">{{c.total}}</h5>
+                                        <h5 class="mb-0" id="totalSumValue">{{c.total}}</h5>
                                     </td>
                                 </tr>
                             </table>
                             <p class="mb-5 mt-2">Shipping options will be updated during checkout.</p>
                             <div class="btns-group d-flex gap-3">
-                                <button type="submit" class="btn btn-primary btn-md rounded-1">Confirm Order</button>
+                                <a href="/checkout/" class="btn btn-primary btn-md rounded-1">Confirm Order</a>
                                 <button type="button" class="btn btn-outline-secondary border-secondary btn-md rounded-1">Continue Shopping</button>
                             </div>
                         </div>
@@ -294,7 +296,7 @@
               </svg>
               <small class="badge bg-primary">12</small>
             </span>
-                    <span class="mobile-toolbar-label">$265</span>
+                    <span class="mobile-toolbar-label">€265</span>
                 </a>
             </div>
         </div>
@@ -488,8 +490,8 @@
                                             <span class="flex-shrink-0">(5.2k Reviews)</span>
                                         </div>
                                         <div class="pricing mt-2">
-                                            <span class="fw-bold fs-xs text-danger">$140.00</span>
-                                            <span class="fw-bold fs-xs deleted ms-1">$240.00</span>
+                                            <span class="fw-bold fs-xs text-danger">€140.00</span>
+                                            <span class="fw-bold fs-xs deleted ms-1">€240.00</span>
                                         </div>
                                         <div class="widget-title d-flex mt-4">
                                             <h6 class="mb-1 flex-shrink-0">Description</h6>
@@ -630,4 +632,25 @@ function decrease(button) {
         updateTotalPrice(button);
     }
 }
+</script>
+<script>
+    function removeProduct(productId) {
+        $.ajax({
+            type: 'GET',
+            url: '/remove_product/', // Replace with your backend endpoint to remove product
+            data: {
+                'product_id': productId,
+            },
+            success: function(response) {
+                // If the removal was successful, you can update the UI accordingly
+                alert('Product removed successfully');
+                // For example, you can reload the page to reflect the changes
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                // Handle errors
+                console.error(xhr.responseText);
+            }
+        });
+    }
 </script>

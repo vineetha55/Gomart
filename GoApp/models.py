@@ -33,7 +33,7 @@ class tbl_Category(models.Model):
 class tbl_Product(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField(null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    price = models.IntegerField(null=True)
     country = models.ForeignKey(tbl_Country, on_delete=models.CASCADE, null=True)
     brand = models.ForeignKey(tbl_Brand, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(tbl_Category, on_delete=models.CASCADE, null=True)
@@ -87,6 +87,43 @@ class tbl_Cart_Products(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+class tbl_Shipment_Address(models.Model):
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=255)
+    mobile = models.CharField(max_length=20)
+    email = models.EmailField()
+    state = models.CharField(max_length=100)
+    Eircode = models.CharField(max_length=20)
 
+
+class tbl_Billing_Address(models.Model):
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    street_address = models.CharField(max_length=255)
+    mobile = models.CharField(max_length=20)
+    email = models.EmailField()
+    state = models.CharField(max_length=100)
+    Eircode = models.CharField(max_length=20)
+
+class tbl_Checkout(models.Model):
+    user=models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    total_items=models.CharField(max_length=100,null=True)
+    item_price=models.IntegerField(null=True)
+    ship_charge=models.IntegerField(null=True)
+    total_after_ship=models.IntegerField(null=True)
+    discount=models.CharField(max_length=100,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+
+class tbl_checkout_products(models.Model):
+    checkout=models.ForeignKey(tbl_Checkout,on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(tbl_Product, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField(null=True)
+    total_price = models.CharField(max_length=100, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
 
