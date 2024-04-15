@@ -283,14 +283,14 @@
                                         <div class="thumbnail position-relative text-center p-4">
                                             <img src="{{i.image}}" alt="apple" width="206"  height="250">
                                             <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                                <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
+                                                <a href="/add_to_wishlist/{{i.id}}" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
 
                                                 <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
                                             </div>
                                         </div>
                                         <div class="card-content">
 
-                                            <a href="/view_product_single/{{i.id}}" class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}
+                                            <a href="/view_product_single_user/{{i.id}}" class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}
                                                 </a>
                                             <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
                                                 <ul class="d-flex align-items-center me-2">

@@ -1,163 +1,141 @@
 {% load static %}
 {% include 'loggedin_nav.html' %}
-        <!--offcanvas menu end-->
 
-        <!--breadcrumb section start-->
-        <div class="gstore-breadcrumb position-relative z-1 overflow-hidden mt--50">
-            <img src="{% static 'index/assets/img/shapes/bg-shape-6_new.png' %}" alt="bg-shape" class="position-absolute start-0 z--1 w-100 bg-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs z--1 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/onion_new.png' %}" alt="onion" class="position-absolute z--1 onion start-0 top-0 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/frame-circle_new.svg' %}" alt="frame circle" class="position-absolute z--1 frame-circle vector-shape">
-            <img src="{% static 'index/assets/img/shapes/leaf_new.svg' %}" alt="leaf" class="position-absolute z--1 leaf vector-shape">
-            <img src="{% static 'index/assets/img/shapes/garlic-white_new.png' %}" alt="garlic" class="position-absolute z--1 garlic vector-shape">
-            <img src="{% static 'index/assets/img/shapes/roll-1_new.png' %}" alt="roll" class="position-absolute z--1 roll vector-shape">
-            <img src="{% static 'index/assets/img/shapes/roll-2_new.png' %}" alt="roll" class="position-absolute z--1 roll-2 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="roll" class="position-absolute z--1 pata-xs-2 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato-half vector-shape">
-            <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato-slice vector-shape">
-            <img src="{% static 'index/assets/img/shapes/cauliflower_new.png' %}" alt="tomato" class="position-absolute z--1 cauliflower vector-shape">
-            <img src="{% static 'index/assets/img/shapes/leaf-gray_new.png' %}" alt="tomato" class="position-absolute z--1 leaf-gray vector-shape">
-       <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-content">
-                            <h2 class="mb-2 text-center">Shopping Cart</h2>
-                            <nav>
-                                <ol class="breadcrumb justify-content-center">
-                                    <li class="breadcrumb-item fw-bold" aria-current="page"><a href="index.html">Home</a></li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">Page</li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">Cart Page</li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--breadcrumb section end-->
-
-        <!--cart section start-->
-        <section class="cart-section ptb-120">
+        <!--invoice section start-->
+        <section class="invoice-section pt-6 pb-120">
             <div class="container">
-                <div class="select-all d-flex align-items-center justify-content-between bg-white rounded p-4">
-                    <div class="d-inline-flex gap-2 align-items-center">
-
-                    </div>
-                </div>
-                <div class="rounded-2 overflow-hidden">
-                    <table class="cart-table w-100 mt-4 bg-white">
-                        <thead>
-                            <th>Image</th>
-                            <th>Product Name</th>
-                            <th>Quantity</th>
-                            <th>Unit Price</th>
-                            <th>Price</th>
-                        </thead>
-                        <tbody>
-                        {% for i in cart_details %}
-                            <tr>
-                                <td>
-                                    <img src="{{i.product.image}}" alt="product-thumb" class="img-fluid" width="200" height="150">
-                                </td>
-                                <td class="text-start product-title">
-                                    <h6 class="mb-0">{{i.product.name}}</h6>
-                                </td>
-                                <td>
-                                    <div class="product-qty d-inline-flex align-items-center">
-                                        <button class="decrese" onclick="decrease(this)">-</button>
-                                        <input type="text" value="{{i.quantity}}">
-                                        <button class="increase" onclick="increase(this)">+</button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <input type="hidden" class="pid" value="{{i.id}}">
-                                    <span class="text-dark fw-bold me-2 d-lg-none">Unit Price:</span>
-                                    <span class="text-dark fw-bold unit-price">{{i.product.price}}</span>
-                                </td>
-                                <td>
-                                    <span class="text-dark fw-bold me-2 d-lg-none">Total Price:</span>
-                                    <span class="text-dark fw-bold total-price">{{i.total_price}}</span>
-
-                                </td>
-                                <td> <!-- New column for remove icon -->
-                    <button class="remove-product" onclick="removeProduct('{{i.id}}')">Remove</button>
-                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row g-4">
-                    <div class="col-xl-7">
-<!--                        <div class="voucher-box py-7 px-5 position-relative z-1 overflow-hidden bg-white rounded mt-4">-->
-<!--                            <img src="{% static 'index/assets/img/shapes/circle-half_new.png' %}" alt="circle shape" class="position-absolute end-0 top-0 z&#45;&#45;1">-->
-<!--                            <h4 class="mb-3">What would you like to do next?</h4>-->
-<!--                            <p class="mb-7">Choose if you have a discount code or reward points you want to use<br> or would like to estimate your delivery cost.</p>-->
-<!--                            <form class="d-flex align-items-center" action="#">-->
-<!--                                <input type="text" placeholder="Enter Your Voucher Cod" class="theme-input w-100">-->
-<!--                                <button type="submit" class="btn btn-secondary flex-shrink-0">Apply Voucher</button>-->
-<!--                            </form>-->
-<!--                        </div>-->
-                    </div>
-                    <div class="col-xl-5">
-                        <div class="cart-summery bg-white rounded-2 pt-4 pb-6 px-5 mt-4">
-                            <table class="w-100">
+                <div class="invoice-box bg-white rounded p-4 p-sm-6">
+                    <div class="row g-5 justify-content-between">
+                        <div class="col-lg-6">
+                            <div class="invoice-title d-flex align-items-center">
+                                <h3>Invoice</h3>
+                                <span class="badge rounded-pill bg-primary-light text-primary fw-medium ms-3">Placed Order</span>
+                            </div>
+                            <table class="invoice-table-sm">
                                 <tr>
-                                    <td class="py-3">
-                                        <h5 class="mb-0 fw-medium" >Subtotal</h5>
-                                    </td>
-                                    <td class="py-3">
-                                        <h5 class="mb-0 fw-semibold text-end" id="totalSumValue1">{{c.sub_total}}</h5>
-                                    </td>
+                                    <td><strong>Invoice No</strong></td>
+                                    <td>#INV-000414</td>
                                 </tr>
-                                <tr class="border-top">
-                                    <td class="py-3">
-                                        <h5 class="mb-0" >Total</h5>
-                                    </td>
-                                    <td class="text-end py-3">
-                                        <h5 class="mb-0" id="totalSumValue">{{c.total}}</h5>
-                                    </td>
+                                <tr>
+                                    <td><strong>Shipment ID</strong></td>
+                                    <td>#INV-000414</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Date</strong></td>
+                                    <td>{{d}}</td>
                                 </tr>
                             </table>
-                            <p class="mb-5 mt-2">Shipping options will be updated during checkout.</p>
-                            <div class="btns-group d-flex gap-3">
-                                {% if cart_details %}
-                                <a href="/checkout/" class="btn btn-primary btn-md rounded-1">Confirm Order</a>
-                                {% endif %}
-                                <a href="/all_products_user/" class="btn btn-outline-secondary border-secondary btn-md rounded-1">Continue Shopping</a>
+                        </div>
+                        <div class="col-lg-5 col-md-8">
+                            <div class="text-lg-end">
+                                <a href="#"><img src="{% static 'index/assets/img/logo_new.png' %}" alt="logo" class="img-fluid"></a>
+                                <h6 class="mb-0 text-gray mt-4">Cecilia Chapman, 711-2880 Nulla St, Mankato Mississippi 96522</h6>
                             </div>
                         </div>
                     </div>
+                    <span class="my-6 w-100 d-block border-top"></span>
+                    <div class="row justify-content-between g-5">
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="welcome-message">
+                                <h4 class="mb-2">{{ch.user.first_name}}</h4>
+                                <p class="mb-0">Here are your order details. We thank you for your purchase.</p>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="shipping-address">
+                                <h6 class="mb-2">Shipping Address</h6>
+                                <p class="mb-0">Unit 1/23 Hastings Road, Melbourne 3000, Victoria, Australia.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-6">
+                        <table class="table invoice-table">
+                            <tr>
+                                <th>SR.</th>
+                                <th>Products</th>
+                                <th>SKU</th>
+                                <th>QTY</th>
+                                <th>Item Price</th>
+                                <th>Amount</th>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td class="text-nowrap">
+                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" class="img-fluid product-item">
+                                    <span class="ms-2">Strawberry Green Magnetic </span>
+                                </td>
+                                <td>04928001</td>
+                                <td>02</td>
+                                <td>$240.00</td>
+                                <td>$480.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td class="text-nowrap">
+                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" class="img-fluid product-item">
+                                    <span class="ms-2">Strawberry Green Magnetic </span>
+                                </td>
+                                <td>04928001</td>
+                                <td>02</td>
+                                <td>$240.00</td>
+                                <td>$480.00</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="mt-4 table-responsive">
+                        <table class="table footer-table">
+                            <tr>
+                                <td>
+                                    <strong class="text-dark d-block text-nowrap">Payment Method</strong>
+                                    <span>Paypal</span>
+                                </td>
+                                <td>
+                                    <strong class="text-dark d-block text-nowrap">Shipping Cost</strong>
+                                    <span>$60.00</span>
+                                </td>
+                                <td>
+                                    <strong class="text-dark d-block text-nowrap">Discount</strong>
+                                    <span>00.00</span>
+                                </td>
+                                <td>
+                                    <strong class="text-dark d-block text-nowrap">Total Price</strong>
+                                    <span>$580.00</span>
+                                </td>
+                                <td>
+                                    <strong class="text-dark d-block text-nowrap">Total Amount</strong>
+                                    <span class="text-primary fw-bold">$580.00</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mt-7">
+                        <button  class="btn btn-primary-light btn-md" id="download-btn" onclick="print()">Download Invoice</button>
+                    </div>
                 </div>
-                </form>
             </div>
-        </section>
-        <!--cart section end-->
-
-
-
+        </section> <!--invoice section end-->
 
         <!--footer section start-->
         <div class="footer-curve position-relative overflow-hidden">
             <span class="position-absolute section-curve-wrapper top-0 h-100" data-background="assets/img/shapes/section-curve.png"></span>
         </div>
         <footer class="gshop-footer position-relative pt-8 bg-dark z-1 overflow-hidden">
-          <img src="{% static 'index/assets/img/shapes/tomato_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato vector-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-lg_new.svg' %}" alt="pata" class="position-absolute z--1 pata-lg vector-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute z--1 pata-xs vector-shape">
-            <img src="{% static 'index/assets/img/shapes/frame-circle_new.svg' %}" alt="frame" class="position-absolute z--1 frame-circle vector-shape">
-            <img src="{% static 'index/assets/img/shapes/leaf_new.svg' %}" alt="leaf" class="position-absolute z--1 leaf vector-shape">
+            <img src="assets/img/shapes/tomato.svg" alt="tomato" class="position-absolute z--1 tomato vector-shape">
+            <img src="assets/img/shapes/pata-lg.svg" alt="pata" class="position-absolute z--1 pata-lg vector-shape">
+            <img src="assets/img/shapes/pata-xs.svg" alt="pata" class="position-absolute z--1 pata-xs vector-shape">
+            <img src="assets/img/shapes/frame-circle.svg" alt="frame" class="position-absolute z--1 frame-circle vector-shape">
+            <img src="assets/img/shapes/leaf.svg" alt="leaf" class="position-absolute z--1 leaf vector-shape">
             <!--shape right -->
-            <img src="{% static 'index/assets/img/shapes/leaf_new.svg' %}" alt="pata" class="position-absolute leaf-2 z--1 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
-            <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
-                      <div class="container">
+            <img src="assets/img/shapes/leaf.svg" alt="pata" class="position-absolute leaf-2 z--1 vector-shape">
+            <img src="assets/img/shapes/pata-xs.svg" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
+            <img src="assets/img/shapes/tomato-slice.svg" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
+            <img src="assets/img/shapes/tomato-half.svg" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
+            <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
                             <h4 class="text-white gshop-title">Subscribe to the G-Shop <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img src="assets/img/shapes/border-line.svg" alt="border line" class="position-absolute border-line"></mark><br class="d-none d-sm-block">& Other Information.</h4>
-                            <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" >
+                            <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
                                 <input type="email" class="form-control" placeholder="Enter Email Address">
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
                             </form>
@@ -298,7 +276,7 @@
               </svg>
               <small class="badge bg-primary">12</small>
             </span>
-                    <span class="mobile-toolbar-label">€265</span>
+                    <span class="mobile-toolbar-label">$265</span>
                 </a>
             </div>
         </div>
@@ -433,226 +411,11 @@
             </div>
         </div> <!--footer section end-->
 
-        <!--modal box-->
-
-        <div class="modal fade" id="quickview_modal">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <button type="button" class="btn-close float-end" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="gstore-product-quick-view bg-white rounded-3 py-6 px-4">
-                            <div class="row align-items-center g-4">
-                                <div class="col-xl-6 align-self-end">
-                                    <div class="quickview-double-slider">
-                                        <div class="quickview-product-slider swiper">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-1.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-2.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-3.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide text-center">
-                                                    <img src="assets/img/products/p-lg-4.png" alt="jam" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-thumbnail-slider swiper mt-80">
-                                            <div class="swiper-wrapper">
-                                                <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-1.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-2.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-3.png" alt="jam" class="img-fluid">
-                                                </div>
-                                                <div class="swiper-slide product-thumb-single rounded-2 d-flex align-items-center justify-content-center">
-                                                    <img src="assets/img/products/thumb-sm-4.png" alt="jam" class="img-fluid">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-6">
-                                    <div class="product-info">
-                                        <h4 class="mt-1 mb-3">Three Carrot Vegetables <br> Peruvian Cuisine</h4>
-                                        <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                            <ul class="d-flex align-items-center me-2">
-                                                <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            </ul>
-                                            <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                        </div>
-                                        <div class="pricing mt-2">
-                                            <span class="fw-bold fs-xs text-danger">€140.00</span>
-                                            <span class="fw-bold fs-xs deleted ms-1">€240.00</span>
-                                        </div>
-                                        <div class="widget-title d-flex mt-4">
-                                            <h6 class="mb-1 flex-shrink-0">Description</h6>
-                                            <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                        </div>
-                                        <p class="mb-3">Clicks-and-mortar "outside the bethinking. Interactively disseminate innovative intellectual relationships. </p>
-                                        <ul class="d-flex flex-column gap-2">
-                                            <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Natural ingredients</li>
-                                            <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Tastes better with milk</li>
-                                            <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Vitamins B2, B3, B5 and B6</li>
-                                            <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Refrigerate for freshness</li>
-                                        </ul>
-                                        <h6 class="fs-md mb-2 mt-3">Weight:</h6>
-                                        <ul class="product-radio-btn mb-4 d-flex align-items-center gap-2">
-                                            <li>
-                                                <input type="radio" name="weight" value="250g" checked>
-                                                <label>150g</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="weight" value="250g">
-                                                <label>500g</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" name="weight" value="250g">
-                                                <label>1kg</label>
-                                            </li>
-                                        </ul>
-                                        <div class="d-flex align-items-center gap-4 flex-wrap">
-                                            <div class="product-qty d-flex align-items-center">
-                                                <button class="decrese">-</button>
-                                                <input type="text" value="01">
-                                                <button class="increase">+</button>
-                                            </div>
-                                            <a href="#" class="btn btn-secondary btn-md"><span class="me-2"><i class="fa-solid fa-cart-plus"></i></span>Add to Cart</a>
-                                        </div>
-                                        <div class="categories mt-4">
-                                            <a href="#" class="btn btn-outline btn-sm">Vegetable</a>
-                                            <a href="#" class="btn btn-outline btn-sm">Healthy</a>
-                                            <a href="#" class="btn btn-outline btn-sm">Organic</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> <!--modal box end-->
-
     </div>
 
     <!--scroll bottom to top button start-->
     <button class="scroll-top-btn">
         <i class="fa-regular fa-hand-pointer"></i>
     </button>
-<script>
-function updateTotalPrice(button) {
-    var quantityInput = button.parentNode.querySelector('input[type="text"]');
-    if (!quantityInput) {
-        console.error("Quantity input not found");
-        return;
-    }
-    var unitPriceElement = button.closest('tr').querySelector('.unit-price');
-    if (!unitPriceElement) {
-        console.error("Unit price element not found");
-        return;
-    }
-    var totalElement = button.closest('tr').querySelector('.total-price');
-    if (!totalElement) {
-        console.error("Total price element not found");
-        return;
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 
-    var unitPrice = parseFloat(unitPriceElement.innerText);
-    var currentQuantity = parseInt(quantityInput.value);
-    var totalPrice = unitPrice * currentQuantity;
-    totalElement.innerText = totalPrice.toFixed(2);
-
-    p_id = button.closest('tr').querySelector('.pid').value;
-    $.ajax({
-    url: "/update_cart_products/",
-    method: "GET", // Specify the HTTP method
-    data: {
-        "q": currentQuantity,
-        "tp": totalPrice,
-        "id": p_id
-    },
-    success: function(data) {
-        if (data.message == "success") {
-            return true;
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-});
-updateTotalSum();
-}
-function updateTotalSum() {
-    var totalSum = 0;
-    var totalElements = document.querySelectorAll('.total-price');
-    totalElements.forEach(function(element) {
-        totalSum += parseFloat(element.innerText);
-    });
-    document.getElementById('totalSumValue').innerText = totalSum.toFixed(2);
-    document.getElementById('totalSumValue1').innerText = totalSum.toFixed(2);
-    $.ajax({
-    url: "/update_cart_total/",
-    method: "GET", // Specify the HTTP method
-    data: {
-        "ts": totalSum,
-        "id": {{c.id}},
-
-    },
-    success: function(data) {
-        if (data.message == "success") {
-            return true;
-        }
-    },
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-});
-}
-
-function increase(button) {
-    var quantityInput = button.parentNode.querySelector('input[type="text"]');
-    var currentQuantity = parseInt(quantityInput.value);
-    quantityInput.value = currentQuantity + 1;
-    updateTotalPrice(button);
-}
-
-function decrease(button) {
-    var quantityInput = button.parentNode.querySelector('input[type="text"]');
-    var currentQuantity = parseInt(quantityInput.value);
-    if (currentQuantity > 1) {
-        quantityInput.value = currentQuantity - 1;
-        updateTotalPrice(button);
-    }
-}
-</script>
-<script>
-    function removeProduct(productId) {
-        $.ajax({
-            type: 'GET',
-            url: '/remove_product/', // Replace with your backend endpoint to remove product
-            data: {
-                'product_id': productId,
-            },
-            success: function(response) {
-                // If the removal was successful, you can update the UI accordingly
-                alert('Product removed successfully');
-                // For example, you can reload the page to reflect the changes
-                location.reload();
-            },
-            error: function(xhr, status, error) {
-                // Handle errors
-                console.error(xhr.responseText);
-            }
-        });
-    }
-</script>

@@ -1,11 +1,14 @@
 import math
+from datetime import date
 
 import razorpay as razorpay
 import requests
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
+from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -235,9 +238,24 @@ def HomePage(request):
         else:
             return redirect("/")
 
+
 def add_to_wishlist(request,id):
-    d=tbl_Wishlist()
-    pass
+    try:
+        if request.session['userid']:
+            print("hi")
+            d = tbl_Product.objects.get(id=id)
+            wish=tbl_Wishlist()
+            wish.product_id=id
+            wish.user_id=request.session['userid']
+            wish.save()
+            return redirect("/wishlist/")
+        else:
+            print("hii")
+
+            return redirect("/Login/")
+    except:
+        print("hiii")
+        return redirect("/Login/")
 
 def add_vat_gst(request):
     if request.method=="POST":
@@ -255,72 +273,25 @@ def view_product_single(request,id):
     single=tbl_Product.objects.get(id=id)
     cat = tbl_Category.objects.all()
     return render(request,"view_product_single.html",{"single":single,"cat":cat})
-#
-# def add_to_cart(request):
-#     try:
-#         if request.session['userid']:
-#             p_id=request.GET.get("p_id")
-#             t_price = request.GET.get("t_price")
-#             quantity = request.GET.get("quantity")
-#             d = tbl_Product.objects.get(id=p_id)
-#             cart=tbl_Cart()
-#             cart.product_id=p_id
-#             cart.user_id=request.session['userid']
-#             cart.quantity=quantity
-#             cart.total_price=t_price
-#             cart.save()
-#             cart_total=tbl_Cart.objects.filter(user=request.session["userid"])
-#             c_total=0
-#             for i in cart_total:
-#                 c_total+=int(math.floor(float(i.total_price)))
-#
-#
-#             redirect_url = reverse('cart',kwargs={'c_total': c_total})
-#             return JsonResponse({'redirect_url': redirect_url})
-#         else:
-#
-#             redirect_url = reverse('Login')
-#             return JsonResponse({'redirect_url': redirect_url})
-#     except:
-#         redirect_url = reverse('Login')
-#         return JsonResponse({'redirect_url': redirect_url})
+
 def cart_user(request):
-    c=tbl_Cart.objects.get(user=request.session["userid"])
-    cart_details=tbl_Cart_Products.objects.filter(user=request.session["userid"],cart=c)
-    cat = tbl_Category.objects.all()
+    try:
+        c=tbl_Cart.objects.get(user=request.session["userid"])
+        cart_details=tbl_Cart_Products.objects.filter(user=request.session["userid"],cart=c)
+        cat = tbl_Category.objects.all()
 
-    return render(request,"cart_user.html",{"cart_details":cart_details,"cat":cat,"c":c})
+        return render(request,"cart_user.html",{"cart_details":cart_details,"cat":cat,"c":c})
+    except:
+        cat = tbl_Category.objects.all()
+        return render(request,"cart_user.html",{"cat":cat})
 
-#
-# def add_to_wishlist_single(request):
-#     try:
-#         if request.session['userid']:
-#             p_id=request.GET.get("p_id")
-#             t_price = request.GET.get("t_price")
-#             quantity = request.GET.get("quantity")
-#             d = tbl_Product.objects.get(id=p_id)
-#             cart=tbl_Wishlist()
-#             cart.product_id=p_id
-#             cart.user_id=request.session['userid']
-#             cart.quantity=quantity
-#             cart.total_price=t_price
-#             cart.save()
-#
-#
-#
-#             redirect_url = reverse('wishlist')
-#             return JsonResponse({'redirect_url': redirect_url})
-#         else:
-#
-#             redirect_url = reverse('Login')
-#             return JsonResponse({'redirect_url': redirect_url})
-#     except:
-#         redirect_url = reverse('Login')
-#         return JsonResponse({'redirect_url': redirect_url})
+
+
+
 
 
 def wishlist(request):
-    wish = tbl_Cart.objects.filter(user=request.session["userid"])
+    wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
     return render(request,"wishlist.html",{"wish":wish})
 
 
@@ -409,7 +380,7 @@ def update_cart_total(request):
     data = {}
     data['message'] = "success"
     return JsonResponse(data)
-razorpay_client = razorpay.Client(auth=('rzp_test_a8iORttOoYuVYF', 'jTA4P5JVxitd8d4bGerNCFyp'))
+razorpay_client = razorpay.Client(auth=('rzp_test_sEU3RKHFgCx23a','YYzkNd8erSik7IK1tnPZL5nY'))
 
 def checkout(request):
 
@@ -442,7 +413,7 @@ def checkout(request):
         else:
             ship_charge = 0
             total_after_ship = f.total
-    currency = 'EUR'
+    currency = 'INR'
     amount = int(total_after_ship) * 100
 
     # Create a Razorpay Order
@@ -458,7 +429,7 @@ def checkout(request):
     context = {}
     context['razorpay_order_id'] = razorpay_order_id
 
-    context['razorpay_merchant_key'] = 'rzp_test_a8iORttOoYuVYF'
+    context['razorpay_merchant_key'] = 'rzp_test_sEU3RKHFgCx23a'
     context['razorpay_amount'] = amount
     context['currency'] = currency
     context['callback_url'] = callback_url
@@ -552,7 +523,7 @@ def checkout1(request,id):
             ship_charge = 4.95
             total_after_ship = int(f.total)+ship_charge
 
-    currency = 'EUR'
+    currency = 'INR'
     amount = int(total_after_ship) * 100
 
     # Create a Razorpay Order
@@ -606,6 +577,7 @@ def save_bill_address(request):
         return JsonResponse(data={"msg":"success"})
 
 def paymenthandler(request):
+    print("jiii")
     price=request.POST.get("total_after_ship")
 
     razorpay_order_id = request.POST.get('order_id')
@@ -637,6 +609,11 @@ def paymenthandler(request):
     data.ship_charge=request.POST.get("ship_charge")
     data.total_after_ship=request.POST.get("total_after_ship")
     data.discount=request.POST.get("discount")
+    d = request.POST.get("d")
+    d1 = tbl_Shipment_Address.objects.get(id=d.id)
+    data.ship_address_id = d1.id
+    data.status="Pending"
+    data.payment_method = "Online"
     data.save()
     for i in ca_pd:
         data1=tbl_checkout_products()
@@ -644,8 +621,7 @@ def paymenthandler(request):
         data1.checkout_id=data.id
         data1.product_id=i.product.id
         data1.quantity=i.quantity
-        data1.total=i.total
-        data1.sub_total=i.sub_total
+        data1.total_price=i.total_price
         data1.save()
     for j in ca_pd:
         product=j.product.id
@@ -657,8 +633,8 @@ def paymenthandler(request):
 
 
     tbl_Cart.objects.get(user=request.session['userid']).delete()
-
-    return redirect("/payment_success/")
+    print("hiii")
+    return redirect("payment_success",id=data.id)
 
 
 
@@ -672,7 +648,9 @@ def all_products_user(request):
 
 
 def my_account(request):
-    return render(request,"my_account.html")
+    cat = tbl_Category.objects.all()
+
+    return render(request,"my_account.html",{"cat":cat})
 
 
 def remove_product(request):
@@ -689,3 +667,95 @@ def remove_product(request):
         return JsonResponse({'success': False, 'message': 'Product does not exist'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+def forgot_password(request):
+    return render(request,"forgot_password.html")
+
+
+def password_send(request):
+    email=request.POST.get("email")
+    if tbl_SignUp.objects.filter(email=email).exists():
+        e=tbl_SignUp.objects.get(email=email)
+        password=e.password
+        subject="Password"
+        Message="Your Password is "+password
+        send_mail(subject,Message,settings.EMAIL_HOST_USER,[email])
+        messages.success(request,"Password sent to your email ,Please check ")
+        return redirect("/forgot_password/")
+
+
+def view_product_single_user(request,id):
+    single=tbl_Product.objects.get(id=id)
+    return render(request,"view_product_single_user.html",{"single":single})
+
+def remove_from_wishlist(request,id):
+    d=tbl_Wishlist.objects.get(id=id)
+    d.delete()
+    return redirect("/wishlist/")
+
+
+def payment_success(request,id):
+    ch=tbl_Checkout.objects.get(id=id)
+    ch_products=tbl_checkout_products.objects.filter(checkout=ch)
+    d=date.today()
+
+    return render(request,"payment_success.html",{"ch":ch,"ch_products":ch_products,"d":d})
+
+
+def cod_invoice(request):
+
+    #checkout saving and stock reduce
+    ca=tbl_Cart.objects.get(user=request.session['userid'])
+    ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
+    data=tbl_Checkout()
+    data.user_id=request.session['userid']
+    data.item_price=request.POST.get("item_price")
+    data.total_items=request.POST.get("total_items")
+    data.ship_charge=request.POST.get("ship_charge")
+    data.total_after_ship=request.POST.get("total_after_ship")
+    data.discount=request.POST.get("discount")
+    d=request.POST.get("d")
+    d1 = tbl_Shipment_Address.objects.get(id=d.id)
+    data.ship_address_id=d1.id
+    data.status="Pending"
+    data.payment_method="COD"
+    data.save()
+    for i in ca_pd:
+        data1=tbl_checkout_products()
+        data1.user_id=request.session['userid']
+        data1.checkout_id=data.id
+        data1.product_id=i.product.id
+        data1.quantity=i.quantity
+        data1.total_price=i.total_price
+        data1.save()
+    for j in ca_pd:
+        product=j.product.id
+        quantity=j.quantity
+        table=tbl_Product.objects.get(id=product)
+        stock=table.opening_stock - int(quantity)
+        table.current_stock=stock
+        table.save()
+
+
+    tbl_Cart.objects.get(user=request.session['userid']).delete()
+    return redirect("cod_invoice_view",id=data.id)
+
+def cod_invoice_view(request,id):
+    inv=tbl_Checkout.objects.get(id=id)
+    inv_pdt=tbl_checkout_products.objects.filter(checkout=id)
+    d=date.today()
+    return render(request,"cod_invoice_view.html",{"inv":inv,"inv_pdt":inv_pdt,"d":d})
+
+def pending_orders(request):
+    pend=tbl_Checkout.objects.filter(status="Pending")
+    return render(request,"pending_orders.html",{"pend":pend})
+
+def view_check_products_invoice(request,id):
+    inv = tbl_Checkout.objects.get(id=id)
+    inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
+    d = date.today()
+    return render(request, "view_check_products_invoice.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
+
+def completed_orders(request):
+    pend = tbl_Checkout.objects.filter(status="Complete")
+    return render(request, "pending_orders.html", {"pend": pend})

@@ -1,7 +1,5 @@
 {% load static %}
 {% include 'loggedin_nav.html' %}
-        <!--offcanvas menu end-->
-
         <!--breadcrumb section start-->
         <div class="gstore-breadcrumb position-relative z-1 overflow-hidden mt--50">
            <img src="{% static 'index/assets/img/shapes/bg-shape-6_new.png' %}" alt="bg-shape" class="position-absolute start-0 z--1 w-100 bg-shape">
@@ -21,12 +19,12 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="breadcrumb-content">
-                            <h2 class="mb-2 text-center">Check Out Page</h2>
+                            <h2 class="mb-2 text-center">Wishlist Page</h2>
                             <nav>
                                 <ol class="breadcrumb justify-content-center">
                                     <li class="breadcrumb-item fw-bold" aria-current="page"><a href="index.html">Home</a></li>
                                     <li class="breadcrumb-item fw-bold" aria-current="page">Page</li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">Check Out</li>
+                                    <li class="breadcrumb-item fw-bold" aria-current="page">Wishlist Page</li>
                                 </ol>
                             </nav>
                         </div>
@@ -36,223 +34,52 @@
         </div>
         <!--breadcrumb section end-->
 
-        <!--checkout section start-->
-        <div class="checkout-section ptb-120">
+
+        <!--wishlist section start-->
+        <section class="wishlist-section ptb-120">
             <div class="container">
-                <div class="row g-4">
-                    <div class="col-xl-8">
-                        <div class="checkout-steps">
-                            <div class="d-flex justify-content-between">
-
-                                <h4 class="mb-5">Shipment Address</h4>
-                            </div>
-                            <div class="row g-4">
-
-                                                                               <form action="/save_ship_address/" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                                    <div class="row g-4">
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>First Name</label>
-                                                                <input type="text" placeholder="Saiful" name="firstname" id="fname" value="{{d.first_name}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Last Name</label>
-                                                                <input type="text" placeholder="Talukdar" name="lastname" id="lname" value="{{d.last_name}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <div class="label-input-field">
-                                                                <label>Street Address</label>
-                                                                <input type="text" placeholder="Mountain View, California, United States" name="street" id="s_address" value="{{d.street_address}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Mobile</label>
-                                                                <input type="tel" placeholder="Phone Number" name="mobile" id="mobile" value="{{d.mobile}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Email</label>
-                                                                <input type="email" placeholder="Your Email" name="email" id="email" value="{{d.email}}">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-sm-4">
-                                                            <div class="label-input-field">
-                                                                <label>State</label>
-                                                                <input type="text" placeholder="Dhaka" name="state" id="state" value="{{d.state}}">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="label-input-field">
-                                                                <label>EirCode</label>
-                                                                <input type="text" placeholder="123456" name="eircode" id="eircode" value="{{d.Eircode}}">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-6 d-flex">
-                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Use this Address</button>
-                                                    </div>
-                                                </form>
-
-
-                            </div>
-
-
-                                            <div class="checkbox d-flex align-items-center gap-2">
-                                            <div class="theme-checkbox flex-shrink-0">
-                                                <input type="checkbox" id="billing-info" onclick="bill_same_ship()">
-                                                <span class="checkbox-field"><i class="fa-solid fa-check"></i></span>
-                                            </div>
-                                            <label for="billing-info">Billing same as Shipping address</label>
-                                        </div>
-                            <div class="checkbox d-flex align-items-center gap-2">
-                                            <div class="theme-checkbox flex-shrink-0">
-                                                <input type="checkbox" id="billing-info" onclick="bill_new_address()">
-                                                <span class="checkbox-field"><i class="fa-solid fa-check"></i></span>
-                                            </div>
-                                            <label for="billing-info">Use Another Address for Billing</label>
-                                        </div>
-                            <form  style="display:none;" id="billing" action="/save_bill_address/" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                                                    <div class="row g-4">
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>First Name</label>
-                                                                <input type="text" placeholder="Saiful" name="firstname">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Last Name</label>
-                                                                <input type="text" placeholder="Talukdar" name="lastname">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-12">
-                                                            <div class="label-input-field">
-                                                                <label>Street Address</label>
-                                                                <input type="text" placeholder="Mountain View, California, United States" name="street">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Mobile</label>
-                                                                <input type="tel" placeholder="Phone Number" name="mobile">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-6">
-                                                            <div class="label-input-field">
-                                                                <label>Email</label>
-                                                                <input type="email" placeholder="Your Email" name="email">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="col-sm-4">
-                                                            <div class="label-input-field">
-                                                                <label>State</label>
-                                                                <input type="text" placeholder="Dhaka" name="state">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-sm-4">
-                                                            <div class="label-input-field">
-                                                                <label>EirCode</label>
-                                                                <input type="text" placeholder="123456" name="eircode">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mt-6 d-flex">
-                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Use this Address</button>
-                                                    </div>
-                                                </form>
-                                                  </div>
-
-
-                        <!--add address modal start-->
-                        <!-- Modal -->
-
-                    </div>
-                    <div class="col-xl-4">
-                        <div class="checkout-sidebar">
-                            <div class="sidebar-widget checkout-sidebar py-6 px-4 bg-white rounded-2">
-                                <div class="widget-title d-flex">
-                                    <h5 class="mb-0 flex-shrink-0">Order Summery</h5>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <table class="sidebar-table w-100 mt-5">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="wishlist-table bg-white">
+                            <table class="w-100">
+                                <thead>
                                     <tr>
-                                        <td>Items({{total_items}}):</td>
-                                        <td class="text-end">€{{item_price}}</td>
+                                        <th class="text-center">Image</th>
+                                        <th class="text-center">Product Name</th>
+                                        <th class="text-center">Stock Status</th>
+                                        <th class="text-center">Unit Price</th>
                                     </tr>
-<!--                                     <tr>-->
-<!--                                        <td>Voucher Discount:</td>-->
-<!--                                        <td class="text-end">€{{voucher_discount}}</td>-->
-<!--                                    </tr>-->
+                                </thead>
+                                <tbody>
+                                {% for i in wish %}
                                     <tr>
-                                        <td>Shipping & handling:</td>
-                                        <td class="text-end">€{{ship_charge}}</td>
+                                        <td class="text-center thumbnail">
+                                            <img src="{{i.product.image}}" alt="product-thumb" class="img-fluid">
+                                        </td>
+                                        <td>
+                                            <span class="fw-bold text-secondary fs-xs">{{i.product.category.name}}</span>
+                                            <h6 class="mb-1 mt-1">{{i.product.name}}</h6>
+
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="stock-btn text-dark fw-bold fs-xxs d-inline-block rounded-pill">In Stock</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="price fw-bold text-dark">{{i.product.price}}</span>
+                                            <a href="/add_to_cart_products/{{i.product.id}}/{{i.product.price}}" class="btn btn-secondary btn-sm ms-5 rounded-1">Add to Cart</a>
+                                            <a href="/remove_from_wishlist/{{i.id}}" class="close-btn ms-3"><i class="fas fa-close"></i></a>
+                                        </td>
                                     </tr>
-
-                                </table>
-                                <span class="sidebar-spacer d-block my-4 opacity-50"></span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <h6 class="mb-0 fs-md">Total</h6>
-                                    <h6 class="mb-0 fs-md">€{{total_after_ship}}</h6>
-                                </div>
-
-                                <a class="btn btn-primary btn-md rounded mt-6 w-100" data-bs-toggle="modal" data-bs-target="#delete_product">Place Order</a>
-                                    <p class="mt-3 mb-0 fs-xs">By Placing your order your agree to our company <a href="#">Privacy-policy</a></p>
-                            </div>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!--checkout section end-->
+        </section>
+        <!--wishlist section end-->
 
-<div id="delete_product" class="modal fade delete-modal" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-body text-center">
-                <h3>Please choose any Payment Method</h3>
-                <div class="m-t-20">
-                    <form action="/cod_invoice/" method="post" enctype="multipart/form-data" class="mb-2">{% csrf_token %}
-                         <input type="hidden" value="{{razorpay_order_id}}" name="razorpay_order_id">
-                                    <input type="hidden" value="{{razorpay_amount}}" name="razorpay_amount">
-                                    <input type="hidden" value="{{currency}}" name="currency">
-                                    <input type="hidden" value="{{total_items}}" name="total_items">
-                                    <input type="hidden" value="{{item_price}}" name="item_price">
-                                    <input type="hidden" value="{{ship_charge}}" name="ship_charge">
-                                    <input type="hidden" value="{{total_after_ship}}" name="total_after_ship">
-                                    <input type="hidden" value="{{discount}}" name="discount">
-                                    <input type="hidden" value="{{d}}" name="ship">
-
-                                    <input type="hidden" name="payment_id" value="{{payment_id}}">
-
-                    <button type="submit" class="btn btn-info ">Cash On Delivery</button>
-                    </form>
-                    <form action="/paymenthandler/" id="pay" method="POST" enctype="multipart/form-data">{% csrf_token %}
-                         <input type="hidden" value="{{razorpay_order_id}}" name="razorpay_order_id">
-                                    <input type="hidden" value="{{razorpay_amount}}" name="razorpay_amount">
-                        <input type="hidden" value="{{d}}" name="ship">
-
-                                    <input type="hidden" value="{{currency}}" name="currency">
-                                    <input type="hidden" value="{{total_items}}" name="total_items">
-                                    <input type="hidden" value="{{item_price}}" name="item_price">
-                                    <input type="hidden" value="{{ship_charge}}" name="ship_charge">
-                                    <input type="hidden" value="{{total_after_ship}}" name="total_after_ship">
-                                    <input type="hidden" value="{{discount}}" name="discount">
-                                    <input type="hidden" name="payment_id" value="{{payment_id}}">
-
-                    <button type="button" class="btn btn-info" id="rzp-button1">Online Payment</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
         <!--footer section start-->
         <div class="footer-curve position-relative overflow-hidden">
@@ -269,7 +96,7 @@
             <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
             <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
             <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
-              <div class="container">
+                  <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
@@ -415,7 +242,7 @@
               </svg>
               <small class="badge bg-primary">12</small>
             </span>
-                    <span class="mobile-toolbar-label">€265</span>
+                    <span class="mobile-toolbar-label">$265</span>
                 </a>
             </div>
         </div>
@@ -556,111 +383,3 @@
     <button class="scroll-top-btn">
         <i class="fa-regular fa-hand-pointer"></i>
     </button>
-
-
-<script>
-    function bill_new_address(){
-    document.getElementById('billing').style.display="block";
-
-
-    }
-    function bill_same_ship(){
-    var fname=document.getElementById("fname").value;
-    var lname=document.getElementById("lname").value;
-    var email=document.getElementById("email").value;
-    var mobile=document.getElementById("mobile").value;
-    var s_address=document.getElementById("s_address").value;
-    var eircode=document.getElementById("eircode").value;
-    var state=document.getElementById("state").value;
-    $.ajax({
-    url:/save_bill_address/,
-    data:{
-    "fname":fname,"lname":lname,"email":email,"mobile":mobile,"s_address":s_address,"eircode":eircode,"state":state
-    },
-    success:function(){
-    if(data.msg == "success"){
-    return true;
-    }
-
-    },
-
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-    })
-    }
-</script>
-<!--<script>-->
-<!--    function place_order(){-->
-<!--    var ship_id={{d.id}};-->
-<!--    var total_items=document.getElementById("lname").value;-->
-<!--    var total_price=document.getElementById("email").value;-->
-<!--    var ship_charge=document.getElementById("mobile").value;-->
-<!--    var price_after_ship=document.getElementById("s_address").value;-->
-<!--    var discount=document.getElementById("eircode").value;-->
-<!--    var bill_id={{d.id}};-->
-<!--     $.ajax({-->
-<!--    url:/place_order/,-->
-<!--    data:{-->
-<!--    "ship_id":ship_id,"total_items":total_items,"total_price":total_price,"ship_charge":ship_charge,-->
-<!--    "price_after_ship":price_after_ship,"discount":discount,"bill_id":bill_id-->
-<!--    },-->
-<!--    success:function(){-->
-<!--    if(data.msg == "success"){-->
-<!--    return true;-->
-<!--    }-->
-
-<!--    },-->
-
-<!--    error: function(xhr, status, error) {-->
-<!--        console.error(error);-->
-<!--    }-->
-<!--    })-->
-<!--    }-->
-<!--</script>-->
-
-<!-- Razorpay's Javascript code. -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-
-
-<script>
-    var options = {
-        "key": "{{ razorpay_merchant_key }}", // Enter the Key ID generated from the Dashboard
-        "amount": "{{ razorpay_amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-        "currency": "{{ currency }}",
-        "name": "test",
-        "description": "Test Transaction",
-        "image": "https://example.com/your_logo",
-        "order_id": "{{razorpay_order_id}}", //This is a sample Order ID. Pass the id obtained in the response of Step 1
-        "handler": function (response){
-            $('#pay input[name=payment_id]').val(response.razorpay_payment_id)
-            document.getElementById('pay').submit();
-        },
-        "prefill": {
-            "name": "",
-            "email": "",
-            "contact": ""
-        },
-        "notes": {
-            "address": "Razorpay Corporate Office"
-        },
-        "theme": {
-            "color": "rgb(104,222,238)"
-        }
-    };
-    var rzp1 = new Razorpay(options);
-    rzp1.on('payment.failed', function (response){
-        $('#myModal').modal();
-    });
-    document.getElementById('rzp-button1').onclick = function(e){
-
-        rzp1.open();
-        e.preventDefault();
-    }
-</script>
