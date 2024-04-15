@@ -227,7 +227,7 @@
                                     <input type="hidden" value="{{ship_charge}}" name="ship_charge">
                                     <input type="hidden" value="{{total_after_ship}}" name="total_after_ship">
                                     <input type="hidden" value="{{discount}}" name="discount">
-                                    <input type="hidden" value="{{d}}" name="ship">
+                                    <input type="hidden" value="{{d.id}}" name="ship">
 
                                     <input type="hidden" name="payment_id" value="{{payment_id}}">
 
@@ -236,7 +236,7 @@
                     <form action="/paymenthandler/" id="pay" method="POST" enctype="multipart/form-data">{% csrf_token %}
                          <input type="hidden" value="{{razorpay_order_id}}" name="razorpay_order_id">
                                     <input type="hidden" value="{{razorpay_amount}}" name="razorpay_amount">
-                        <input type="hidden" value="{{d}}" name="ship">
+                        <input type="hidden" value="{{d.id}}" name="ship">
 
                                     <input type="hidden" value="{{currency}}" name="currency">
                                     <input type="hidden" value="{{total_items}}" name="total_items">

@@ -609,8 +609,8 @@ def paymenthandler(request):
     data.ship_charge=request.POST.get("ship_charge")
     data.total_after_ship=request.POST.get("total_after_ship")
     data.discount=request.POST.get("discount")
-    d = request.POST.get("d")
-    d1 = tbl_Shipment_Address.objects.get(id=d.id)
+    d = request.POST.get("ship")
+    d1 = tbl_Shipment_Address.objects.get(id=d)
     data.ship_address_id = d1.id
     data.status="Pending"
     data.payment_method = "Online"
@@ -714,8 +714,8 @@ def cod_invoice(request):
     data.ship_charge=request.POST.get("ship_charge")
     data.total_after_ship=request.POST.get("total_after_ship")
     data.discount=request.POST.get("discount")
-    d=request.POST.get("d")
-    d1 = tbl_Shipment_Address.objects.get(id=d.id)
+    d=request.POST.get("ship")
+    d1 = tbl_Shipment_Address.objects.get(id=d)
     data.ship_address_id=d1.id
     data.status="Pending"
     data.payment_method="COD"
