@@ -390,29 +390,33 @@ def checkout(request):
     bill = tbl_Billing_Address.objects.filter(user=request.session['userid']).last()
     f=tbl_Cart.objects.get(user=request.session['userid'])
     total_items=tbl_Cart_Products.objects.filter(cart=f).count()
+
     item_price=f.sub_total
     if int(f.total) >= 50:
         ship_charge=0
         total_after_ship=f.total
     else:
-        if ship:
-            eircode=ship.Eircode
-            # Replace with the desired Eircode
-            latitude, longitude = get_location_from_eircode(eircode)
-            if latitude and longitude:
-                print("Latitude:", latitude)
-                print("Longitude:", longitude)
-            else:
-                print("Location not found or error occurred")
-            address = get_address_from_coordinates(latitude, longitude)
-            if address:
-                print("Address:", address)
+        # if ship:
+        #     eircode=ship.Eircode
+        #     # Replace with the desired Eircode
+        #     latitude, longitude = get_location_from_eircode(eircode)
+        #     if latitude and longitude:
+        #         print("Latitude:", latitude)
+        #         print("Longitude:", longitude)
+        #     else:
+        #         print("Location not found or error occurred")
+        #     address = get_address_from_coordinates(latitude, longitude)
+        #     if address:
+        #         print("Address:", address)
+        #         ship_charge = 4.95
+        #         total_after_ship = f.total
+        #
+        #     else:
+        #         print("Address not found or error occurred")
 
-            else:
-                print("Address not found or error occurred")
-        else:
-            ship_charge = 0
-            total_after_ship = f.total
+
+            ship_charge = 4.95
+            total_after_ship = int(f.total)+ship_charge
     currency = 'INR'
     amount = int(total_after_ship) * 100
 
@@ -575,7 +579,24 @@ def save_bill_address(request):
         data.Eircode = request.GET.get("eircode")
         data.save()
         return JsonResponse(data={"msg":"success"})
+import random
+import string
 
+# Function to generate a random order ID
+def generate_order_id(length):
+    return ''.join(random.choices(string.digits, k=length))
+
+# Function to generate a random invoice number
+def generate_invoice_number(length):
+    return ''.join(random.choices(string.digits, k=length))
+
+# Function to check if order ID already exists
+def order_id_exists(order_id):
+    return tbl_Checkout.objects.filter(orderid=order_id).exists()
+
+# Function to check if invoice number already exists
+def invoice_number_exists(invoice_number):
+    return tbl_Checkout.objects.filter(invoice_number=invoice_number).exists()
 def paymenthandler(request):
     print("jiii")
     price=request.POST.get("total_after_ship")
@@ -602,6 +623,16 @@ def paymenthandler(request):
     #checkout saving and stock reduce
     ca=tbl_Cart.objects.get(user=request.session['userid'])
     ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
+    order_id = generate_order_id(6)
+    invoice_number = generate_invoice_number(6)
+
+    # Check if order ID and invoice number already exist
+    while order_id_exists(order_id):
+        order_id = generate_order_id(6)
+
+    while invoice_number_exists(invoice_number):
+        invoice_number = generate_invoice_number(6)
+
     data=tbl_Checkout()
     data.user_id=request.session['userid']
     data.item_price=request.POST.get("item_price")
@@ -614,6 +645,8 @@ def paymenthandler(request):
     data.ship_address_id = d1.id
     data.status="Pending"
     data.payment_method = "Online"
+    data.orderid=order_id
+    data.invoice_number=invoice_number
     data.save()
     for i in ca_pd:
         data1=tbl_checkout_products()
@@ -703,6 +736,15 @@ def payment_success(request,id):
 
 
 def cod_invoice(request):
+    order_id = generate_order_id(6)
+    invoice_number = generate_invoice_number(6)
+
+    # Check if order ID and invoice number already exist
+    while order_id_exists(order_id):
+        order_id = generate_order_id(6)
+
+    while invoice_number_exists(invoice_number):
+        invoice_number = generate_invoice_number(6)
 
     #checkout saving and stock reduce
     ca=tbl_Cart.objects.get(user=request.session['userid'])
@@ -719,6 +761,8 @@ def cod_invoice(request):
     data.ship_address_id=d1.id
     data.status="Pending"
     data.payment_method="COD"
+    data.orderid=order_id
+    data.invoice_number=invoice_number
     data.save()
     for i in ca_pd:
         data1=tbl_checkout_products()

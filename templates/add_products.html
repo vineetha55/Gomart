@@ -40,6 +40,7 @@
                         <label>Tax Rate</label>
                         <select class="form-control" name="tax_rate" id="tax_rate">
                             <option value="">Select Rate</option>
+                            <option value="23%">23%</option>
 
                         </select>
                     </div>
@@ -71,7 +72,7 @@
                     </div>
                     <div class="form-group">
                         <label>Weight / Product</label>
-                         <input class="form-control" type="text" name="weight">
+                         <input class="form-control" type="number" name="weight">
                          <select class="form-control" name="weight_measure">
                              <option>Select</option>
                              <option>Kg</option>
@@ -115,16 +116,14 @@
         <!-- Message notifications list -->
     </div>
 
-    <script>
-        $('#country').change(function(){
-        c=$('#country').val();
-        $.ajax({
-        url:"/check_tax/",
-        data:{c:c},
-        success:function(data){
-
-        }
-        })
-        })
-    </script>
 </div>
+<script>
+    $("#tax_rate").change(function(){
+    var price= $("#price").val();
+    vatAmount = (23 / 100) * price;
+    formattedVatAmount = vatAmount.toFixed(2);
+
+    $("#tax_amount").val(formattedVatAmount);
+    $("#gross_total").val(parseFloat(formattedVatAmount) + parseInt(price));
+    })
+</script>

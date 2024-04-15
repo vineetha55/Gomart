@@ -109,13 +109,15 @@ class tbl_Billing_Address(models.Model):
 
 class tbl_Checkout(models.Model):
     user=models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    orderid=models.IntegerField(null=True)
+    invoice_number=models.IntegerField(null=True)
     total_items=models.CharField(max_length=100,null=True)
     item_price=models.IntegerField(null=True)
-    ship_charge=models.IntegerField(null=True)
-    total_after_ship=models.IntegerField(null=True)
+    ship_charge=models.FloatField(null=True)
+    total_after_ship=models.FloatField(null=True)
     discount=models.CharField(max_length=100,null=True)
     created_at=models.DateTimeField(auto_now_add=True)
-    ship_address=models.ForeignKey(tbl_Shipment_Address,on_delete=models.CASCADE,null=True),
+    ship_address=models.ForeignKey(tbl_Shipment_Address,on_delete=models.CASCADE,null=True)
     status=models.CharField(max_length=100,null=True)
     payment_method=models.CharField(max_length=100,null=True)
 
