@@ -6,22 +6,19 @@
             <div class="container">
                 <div class="account-info d-flex align-items-center gap-6 p-4 p-sm-6 bg-white rounded mb-4 flex-wrap flex-lg-nowrap">
                     <div class="profile-pic bg-shade rounded">
-                        <img src="assets/img/authors/avatar.jpg" alt="avatar" class="img-fluid" />
+                        <img src="{{my.dp}}" alt="avatar" class="img-fluid" />
                     </div>
                     <div class="profile-inf-right">
-                        <h4 class="mb-2">Fethawi Tesfalem</h4>
+                        <h4 class="mb-2">{{my.fullname}}</h4>
                         <div class="info-meta d-flex align-items-center gap-2 gap-md-4 fs-xs flex-wrap">
-                            <span>
-                  <i class="fa-solid fa-location-pin me-2"></i>
-                  Ghunshe, Muksudpur Dhaka - Gopalganj
-                </span>
+
                             <span>
                   <i class="fa-solid fa-phone me-2"></i>
-                  +880 123456879
+                  {{my.mobile}}
                 </span>
                             <span>
                   <i class="fa-solid fa-envelope me-2"></i>
-                  saiful@gshop.com
+                  {{my.email}}
                 </span>
                         </div>
                         <div class="profile-achievements d-flex align-items-center flex-wrap mt-4">
@@ -47,7 +44,7 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">4k+</h4>
+                                    <h4 class="mb-1">{{total}}</h4>
                                     <span>Total Order</span>
                                 </div>
                             </div>
@@ -81,7 +78,7 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">10+</h4>
+                                    <h4 class="mb-1">{{process}}</h4>
                                     <span>Order Processing</span>
                                 </div>
                             </div>
@@ -134,38 +131,8 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">3.5k+</h4>
+                                    <h4 class="mb-1">{{delivery}}</h4>
                                     <span>Total Delivered</span>
-                                </div>
-                            </div>
-                            <div class="achievement-box d-flex align-items-center gap-3">
-                                <span
-                    class="icon bg-color-4 d-inline-flex align-items-center justify-content-center flex-shrink-0 bg-color-1 rounded-3"
-                  >
-                    <svg
-                      width="32"
-                      height="32"
-                      viewBox="0 0 32 32"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M29.3988 26.2549H8.4524C8.19484 26.2549 8.08449 25.9166 8.28619 25.7611L11.202 23.5201H27.8625C29.047 23.5201 30.0295 22.5464 30.0524 21.3637L30.2391 11.7551C30.2605 10.6597 29.4583 9.70857 28.3734 9.54639C27.8514 9.46831 27.3626 9.8272 27.2844 10.3499C27.2062 10.8726 27.5669 11.359 28.09 11.4372C28.226 11.4575 28.3265 11.5757 28.3239 11.7125L28.1371 21.3265C28.1343 21.4743 28.0111 21.6057 27.8626 21.6057H11.6372L8.61464 8.53751L10.1488 8.76115C10.6718 8.83909 11.1595 8.47611 11.2378 7.95341C11.316 7.43071 10.9553 6.9422 10.4321 6.86398L8.1342 6.51987L7.25576 3.10519C7.14712 2.68191 6.76533 2.39331 6.32796 2.39331H2.59851C2.06952 2.39331 1.64062 2.822 1.64062 3.35051C1.64062 3.87902 2.06945 4.30771 2.59851 4.30771H5.58477L9.80376 22.1608L7.11615 24.2313C5.49472 25.4806 6.40666 28.1693 8.45233 28.1693H10.9669C10.8556 28.4428 10.7945 28.7915 10.7945 29.1338C10.7945 30.7172 12.0918 32 13.6865 32C15.2812 32 16.5785 30.7199 16.5785 29.1365C16.5785 28.7942 16.5174 28.4428 16.4061 28.1693H21.6375C21.5262 28.4428 21.4651 28.7915 21.4651 29.1338C21.4651 30.7172 22.7625 32 24.3572 32C25.9519 32 27.2493 30.7199 27.2493 29.1365C27.2493 28.7942 27.1881 28.4428 27.0768 28.1693H29.3989C29.928 28.1693 30.3568 27.7406 30.3568 27.2121C30.3568 26.6836 29.9279 26.2549 29.3988 26.2549V26.2549ZM13.6865 30.0806C13.1481 30.0806 12.7102 29.6511 12.7102 29.1232C12.7102 28.5952 13.1482 28.1657 13.6865 28.1657C14.2249 28.1657 14.6628 28.5952 14.6628 29.1232C14.6628 29.6511 14.2249 30.0806 13.6865 30.0806ZM24.3571 30.0806C23.8187 30.0806 23.3808 29.6511 23.3808 29.1232C23.3808 28.5952 23.8188 28.1657 24.3571 28.1657C24.8955 28.1657 25.3334 28.5952 25.3334 29.1232C25.3334 29.6511 24.8954 30.0806 24.3571 30.0806Z"
-                        fill="#A158FF"
-                      />
-                      <path
-                        d="M19.1561 13.8741C15.3201 13.8741 12.1992 10.7621 12.1992 6.93703C12.1992 3.11192 15.3201 0 19.1561 0C22.9922 0 26.1131 3.11192 26.1131 6.93703C26.1131 10.7621 22.9922 13.8741 19.1561 13.8741ZM19.1561 1.91399C16.3764 1.91399 14.115 4.1673 14.115 6.93703C14.115 9.70675 16.3765 11.9601 19.1561 11.9601C21.9358 11.9601 24.1973 9.70675 24.1973 6.93703C24.1973 4.1673 21.9359 1.91399 19.1561 1.91399V1.91399Z"
-                        fill="#A158FF"
-                      />
-                      <path
-                        d="M17.459 9.3735L15.9204 7.54764C15.5798 7.14336 15.6316 6.53964 16.0363 6.19922C16.4409 5.8588 17.0451 5.91056 17.3859 6.31498L18.2313 7.31819L20.8614 4.52358C21.2238 4.13858 21.8301 4.11991 22.2154 4.48194C22.6009 4.84397 22.6195 5.44967 22.2571 5.83467L18.8896 9.41275C18.5888 9.72937 17.8191 9.79207 17.459 9.3735V9.3735Z"
-                        fill="#A158FF"
-                      />
-                    </svg>
-                  </span>
-                                <div>
-                                    <h4 class="mb-1">25+</h4>
-                                    <span>Pending Orders</span>
                                 </div>
                             </div>
                         </div>
@@ -228,68 +195,7 @@
                                         Order History
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#address-book" data-bs-toggle="tab">
-                                        <span class="me-2">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M3.33333 1.99341H6C6.35362 1.99341 6.69276 2.13388 6.94281 2.38393C7.19286 2.63398 7.33333 2.97312 7.33333 3.32674V5.99341C7.33333 6.34703 7.19286 6.68617 6.94281 6.93622C6.69276 7.18627 6.35362 7.32674 6 7.32674H3.33333C2.97971 7.32674 2.64057 7.18627 2.39052 6.93622C2.14048 6.68617 2 6.34703 2 5.99341V3.32674C2 2.97312 2.14048 2.63398 2.39052 2.38393C2.64057 2.13388 2.97971 1.99341 3.33333 1.99341Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M10 1.99341H12.6667C13.0203 1.99341 13.3594 2.13388 13.6095 2.38393C13.8595 2.63398 14 2.97312 14 3.32674V5.99341C14 6.34703 13.8595 6.68617 13.6095 6.93622C13.3594 7.18627 13.0203 7.32674 12.6667 7.32674H10C9.64638 7.32674 9.30724 7.18627 9.05719 6.93622C8.80714 6.68617 8.66667 6.34703 8.66667 5.99341V3.32674C8.66667 2.97312 8.80714 2.63398 9.05719 2.38393C9.30724 2.13388 9.64638 1.99341 10 1.99341Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M6 8.66008H3.33333C2.97971 8.66008 2.64057 8.80055 2.39052 9.0506C2.14048 9.30065 2 9.63979 2 9.99341V12.6601C2 13.0137 2.14048 13.3528 2.39052 13.6029C2.64057 13.8529 2.97971 13.9934 3.33333 13.9934H6C6.35362 13.9934 6.69276 13.8529 6.94281 13.6029C7.19286 13.3528 7.33333 13.0137 7.33333 12.6601V9.99341C7.33333 9.63979 7.19286 9.30065 6.94281 9.0506C6.69276 8.80055 6.35362 8.66008 6 8.66008Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M10 8.66008H12.6667C13.0203 8.66008 13.3594 8.80055 13.6095 9.0506C13.8595 9.30065 14 9.63979 14 9.99341V12.6601C14 13.0137 13.8595 13.3528 13.6095 13.6029C13.3594 13.8529 13.0203 13.9934 12.6667 13.9934H10C9.64638 13.9934 9.30724 13.8529 9.05719 13.6029C8.80714 13.3528 8.66667 13.0137 8.66667 12.6601V9.99341C8.66667 9.63979 8.80714 9.30065 9.05719 9.0506C9.30724 8.80055 9.64638 8.66008 10 8.66008Z"
-                            fill="#212B36"
-                          />
-                        </svg>
-                      </span>
-                                        Address Book
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#payments" data-bs-toggle="tab">
-                                        <span class="me-2">
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 16 16"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M3.33333 1.99341H6C6.35362 1.99341 6.69276 2.13388 6.94281 2.38393C7.19286 2.63398 7.33333 2.97312 7.33333 3.32674V5.99341C7.33333 6.34703 7.19286 6.68617 6.94281 6.93622C6.69276 7.18627 6.35362 7.32674 6 7.32674H3.33333C2.97971 7.32674 2.64057 7.18627 2.39052 6.93622C2.14048 6.68617 2 6.34703 2 5.99341V3.32674C2 2.97312 2.14048 2.63398 2.39052 2.38393C2.64057 2.13388 2.97971 1.99341 3.33333 1.99341Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M10 1.99341H12.6667C13.0203 1.99341 13.3594 2.13388 13.6095 2.38393C13.8595 2.63398 14 2.97312 14 3.32674V5.99341C14 6.34703 13.8595 6.68617 13.6095 6.93622C13.3594 7.18627 13.0203 7.32674 12.6667 7.32674H10C9.64638 7.32674 9.30724 7.18627 9.05719 6.93622C8.80714 6.68617 8.66667 6.34703 8.66667 5.99341V3.32674C8.66667 2.97312 8.80714 2.63398 9.05719 2.38393C9.30724 2.13388 9.64638 1.99341 10 1.99341Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M6 8.66008H3.33333C2.97971 8.66008 2.64057 8.80055 2.39052 9.0506C2.14048 9.30065 2 9.63979 2 9.99341V12.6601C2 13.0137 2.14048 13.3528 2.39052 13.6029C2.64057 13.8529 2.97971 13.9934 3.33333 13.9934H6C6.35362 13.9934 6.69276 13.8529 6.94281 13.6029C7.19286 13.3528 7.33333 13.0137 7.33333 12.6601V9.99341C7.33333 9.63979 7.19286 9.30065 6.94281 9.0506C6.69276 8.80055 6.35362 8.66008 6 8.66008Z"
-                            fill="#212B36"
-                          />
-                          <path
-                            d="M10 8.66008H12.6667C13.0203 8.66008 13.3594 8.80055 13.6095 9.0506C13.8595 9.30065 14 9.63979 14 9.99341V12.6601C14 13.0137 13.8595 13.3528 13.6095 13.6029C13.3594 13.8529 13.0203 13.9934 12.6667 13.9934H10C9.64638 13.9934 9.30724 13.8529 9.05719 13.6029C8.80714 13.3528 8.66667 13.0137 8.66667 12.6601V9.99341C8.66667 9.63979 8.80714 9.30065 9.05719 9.0506C9.30724 8.80055 9.64638 8.66008 10 8.66008Z"
-                            fill="#212B36"
-                          />
-                        </svg>
-                      </span>
-                                        Payment Methods
-                                    </a>
-                                </li>
+
                                 <li>
                                     <a href="#update-profile" data-bs-toggle="tab">
                                         <span class="me-2">
@@ -353,7 +259,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">
+                                    <a href="/signout_user/">
                                         <span class="me-2">
                         <svg
                           width="16"
@@ -400,14 +306,16 @@
                                                 <p class="text-uppercase fw-medium mb-3">
                                                     Default Shipping Address
                                                 </p>
+                                                {% for i in ship %}
                                                 <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">Saiful Talukdar</p>
+                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}}</p>
                                                     <p class="mb-0">
-                                                        Ghunshe, Muksudpur Dhaka - Gopalganj.
+                                                        {{i.street_address}},{{i.state}},{{i.Eircode}}
                                                         <br />
-                              (+880) 1633082302
+                                                        {{i.mobile}}
                                                     </p>
                                                 </div>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                         <div class="col-md-6 align-self-end">
@@ -415,14 +323,16 @@
                                                 <p class="text-uppercase fw-medium mb-3">
                                                     Default Billing Address
                                                 </p>
+                                               {% for i in bill %}
                                                 <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">Saiful Talukdar</p>
+                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}}</p>
                                                     <p class="mb-0">
-                                                        Ghunshe, Muksudpur Dhaka - Gopalganj.
+                                                        {{i.street_address}},{{i.state}},{{i.Eircode}}
                                                         <br />
-                              (+880) 1633082302
+                                                        {{i.mobile}}
                                                     </p>
                                                 </div>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                     </div>
@@ -437,303 +347,34 @@
                                                 <th>Order Number#</th>
                                                 <th>Placed on</th>
                                                 <th>Method</th>
-                                                <th>Items</th>
                                                 <th>Total</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
+                                            {% for i in recent_orders%}
                                             <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
+                                                <td>{{i.orderid}}</td>
+                                                <td>{{i.created_at}}</td>
+                                                <td>{{i.payment_method}}</td>
+                                                <td class="text-secondary">{{i.total_after_ship}}</td>
                                                 <td class="text-center">
                                                     <a href="#" class="view-invoice fs-xs">
                                                         <i class="fas fa-eye"></i>
                                                     </a>
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>635981586200289</td>
-                                                <td>03/12/2022</td>
-                                                <td>COD</td>
-                                                <td class="thumbnail">
-                                                    <img src="assets/img/products/cauliflower-xs.png" alt="product" />
-                                                </td>
-                                                <td class="text-secondary">$105.60</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-invoice fs-xs">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                        {% endfor %}
                                         </table>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="address-book">
-                                <div class="address-book bg-white rounded p-5">
-                                    <div class="row g-6">
-                                        <div class="col-md-6">
-                                            <div class="address-book-content pe-md-4 border-right position-relative">
-                                                <div class="d-flex align-items-center gap-5 mb-4">
-                                                    <h6 class="mb-0">Address Book</h6>
-                                                    <a href="#">Edit</a>
-                                                </div>
-                                                <p class="text-uppercase fw-medium mb-3">
-                                                    Default Shipping Address
-                                                </p>
-                                                <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">Saiful Talukdar</p>
-                                                    <p class="mb-0">
-                                                        Ghunshe, Muksudpur Dhaka - Gopalganj.
-                                                        <br />
-                              (+880) 1633082302
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6 align-self-end">
-                                            <div class="address-book-content ps-md-4">
-                                                <p class="text-uppercase fw-medium mb-3">
-                                                    Default Billing Address
-                                                </p>
-                                                <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">Saiful Talukdar</p>
-                                                    <p class="mb-0">
-                                                        Ghunshe, Muksudpur Dhaka - Gopalganj.
-                                                        <br />
-                              (+880) 1633082302
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="payments">
-                                <div class="payment-methods bg-white rounded py-5 px-4">
-                                    <h6 class="mb-4">Default Payment Methods</h6>
-                                    <div class="table-responsive">
-                                        <table class="payments-list-table table">
-                                            <tr>
-                                                <th>Credit / Debit cards info</th>
-                                                <th>Name</th>
-                                                <th>Expires on</th>
-                                                <th class="text-center">Action</th>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center gap-3">
-                                                    <span
-                              class="icon d-inline-flex align-items-center justify-content-center rounded-circle"
-                            >
-                              <img
-                                src="assets/img/brands/paypal-icon.png"
-                                alt="icon"
-                              />
-                            </span>
-                                                    <p class="d-inline-block mb-0">
-                                                        <strong>PayPal</strong>
-                                                        youremail@domain.com
-                                                        <span
-                                class="badge bg-secondary-light text-secondary fw-normal ms-1"
-                              >
-                                Active
-                              </span>
-                                                    </p>
-                                                </td>
-                                                <td>Talukdar</td>
-                                                <td>25/2024</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-more">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center gap-3">
-                                                    <span
-                              class="icon d-inline-flex align-items-center justify-content-center rounded-circle"
-                            >
-                              <img
-                                src="assets/img/brands/paypal-icon.png"
-                                alt="icon"
-                              />
-                            </span>
-                                                    <p class="d-inline-block mb-0">
-                                                        <strong>PayPal</strong>
-                                                        youremail@domain.com
-                                                    </p>
-                                                </td>
-                                                <td>Talukdar</td>
-                                                <td>25/2024</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-more">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center gap-3">
-                                                    <span
-                              class="icon d-inline-flex align-items-center justify-content-center rounded-circle"
-                            >
-                              <img
-                                src="assets/img/brands/paypal-icon.png"
-                                alt="icon"
-                              />
-                            </span>
-                                                    <p class="d-inline-block mb-0">
-                                                        <strong>PayPal</strong>
-                                                        youremail@domain.com
-                                                    </p>
-                                                </td>
-                                                <td>Talukdar</td>
-                                                <td>25/2024</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-more">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="d-flex align-items-center gap-3">
-                                                    <span
-                              class="icon d-inline-flex align-items-center justify-content-center rounded-circle"
-                            >
-                              <img
-                                src="assets/img/brands/paypal-icon.png"
-                                alt="icon"
-                              />
-                            </span>
-                                                    <p class="d-inline-block mb-0">
-                                                        <strong>PayPal</strong>
-                                                        youremail@domain.com
-                                                    </p>
-                                                </td>
-                                                <td>Talukdar</td>
-                                                <td>25/2024</td>
-                                                <td class="text-center">
-                                                    <a href="#" class="view-more">
-                                                        <i class="fas fa-eye"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <a href="#" class="btn btn-primary mt-4">
-                                        <span class="me-2"><i class="fas fa-plus"></i></span>
-                                        Add Payment
-                                    </a>
-                                </div>
-                            </div>
+
                             <div class="tab-pane fade" id="update-profile">
                                 <div class="update-profile bg-white py-5 px-4">
                                     <h6 class="mb-4">Update Profile</h6>
-                                    <form class="profile-form">
+                                    <form class="profile-form" action="/update_profile/" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                         <div class="file-upload text-center rounded-3 mb-5">
                                             <input type="file" name="dp" />
-                                            <img src="assets/img/icons/image.svg" alt="dp" class="img-fluid" />
+                                            <img src="{{my.dp}}" alt="dp" class="img-fluid" />
                                             <p class="text-dark fw-bold mb-2 mt-3">
                                                 Drop your files here or
                                                 <a href="#" class="text-primary">browse</a>
@@ -743,42 +384,25 @@
                                             </p>
                                         </div>
                                         <div class="row g-4">
-                                            <div class="col-sm-6">
+                                            <div class="col-sm-12">
                                                 <div class="label-input-field">
-                                                    <label>First Name</label>
-                                                    <input type="text" placeholder="Gene J." />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="label-input-field">
-                                                    <label>Last Name</label>
-                                                    <input type="text" placeholder="Larose" />
+                                                    <label>Full Name</label>
+                                                    <input type="text" placeholder="Gene J." name="fullname" value="{{my.fullname}}" />
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="label-input-field">
                                                     <label>Phone/Mobile</label>
-                                                    <input type="tel" />
+                                                    <input type="tel" value="{{my.mobile}}" name="mobile"/>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="label-input-field">
                                                     <label>Email Address</label>
-                                                    <input type="email" placeholder="themetags@gmail.com" />
+                                                    <input type="email" name="email" placeholder="themetags@gmail.com" value="{{my.email}}" />
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6">
-                                                <div class="label-input-field">
-                                                    <label>Birthday</label>
-                                                    <input type="date" />
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="label-input-field">
-                                                    <label>User Name</label>
-                                                    <input type="text" placeholder="Username" />
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <button type="submit" class="btn btn-primary mt-6">
                                             Update Profile
@@ -787,24 +411,24 @@
                                 </div>
                                 <div class="change-password bg-white py-5 px-4 mt-4 rounded">
                                     <h6 class="mb-4">Change Password</h6>
-                                    <form class="password-reset-form">
+                                    <form class="password-reset-form" action="/save_password/" method="POST">{% csrf_token %}
                                         <div class="row g-4">
                                             <div class="col-sm-6">
                                                 <div class="label-input-field">
                                                     <label>Email Address</label>
-                                                    <input type="email" placeholder="themetags@gmail.com" />
+                                                    <input type="email" placeholder="themetags@gmail.com" value="{{my.email}}" readonly />
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="label-input-field">
                                                     <label>Current Password</label>
-                                                    <input type="password" placeholder="Current password" />
+                                                    <input type="text" placeholder="Current password" value="{{my.password}}"  readonly/>
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <div class="label-input-field">
                                                     <label>New Password</label>
-                                                    <input type="password" placeholder="New password" />
+                                                    <input type="password" placeholder="New password" name="new_password" />
                                                 </div>
                                             </div>
                                             <div class="col-sm-6">

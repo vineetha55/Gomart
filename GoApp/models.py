@@ -24,7 +24,8 @@ class tbl_Brand(models.Model):
 
 class tbl_Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    status = models.CharField(max_length=50)
+    status = models.CharField(max_length=50,null=True)
+    image=models.ImageField(upload_to="media",null=True)
 
     def __str__(self):
         return self.name
@@ -59,6 +60,7 @@ class tbl_SignUp(models.Model):
     mobile = models.CharField(max_length=20,null=True)
     fullname = models.CharField(max_length=100,null=True)
     password = models.CharField(max_length=100,null=True)
+    dp=models.ImageField(upload_to="media",null=True)
 
     def __str__(self):
         return self.email

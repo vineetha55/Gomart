@@ -18,8 +18,8 @@
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
                                         <p class="mb-7 fs-6">Assertively target market-driven intellectual capital with worldwide human capital holistic.</p>
                                         <div class="hero-btns d-flex align-items-center gap-3 gap-sm-5 flex-wrap">
-                                            <a href="shop-grid.html" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                            <a href="about.html" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/all_products_user" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/about" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -43,8 +43,8 @@
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
                                         <p class="mb-7 fs-6">Assertively target market-driven intellectual capital with worldwide human capital holistic.</p>
                                         <div class="hero-btns d-flex align-items-center gap-3 gap-sm-5 flex-wrap">
-                                            <a href="shop-grid.html" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                            <a href="about.html" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/all_products_user" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/about" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -68,8 +68,8 @@
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
                                         <p class="mb-7 fs-6">Assertively target market-driven intellectual capital with worldwide human capital holistic.</p>
                                         <div class="hero-btns d-flex align-items-center gap-3 gap-sm-5 flex-wrap">
-                                            <a href="shop-grid.html" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                            <a href="about.html" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/all_products_user/" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a href="/about" class="btn btn-primary">About Us<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -1472,126 +1472,17 @@
                 <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo.png' %}" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
+                      {% for i in cat %}
                         <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
+                            <a href="/shop_by_category/{{i.id}}" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/baby-care.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{{i.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
-                                <span>Baby Care</span>
+                                <span>{{i.name}}</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/cleaning.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Cleaning</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/bakery-biscuits.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Bakery & Biscuits</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/coffee-drinks.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Coffee & Drinks</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/beauty-health.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Beauty & Health</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/breakfast.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Breakfast</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/cold-drinks.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Cold Drinks</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/fresh-fruits.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Fresh Fruits</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/honey.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Honey</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/fresh-organic.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Fresh & Organic</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/jam-jelly.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Jam & Jelly</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/sports-fitness.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Sports & Fitness</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/sea-fish.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Sea Fish</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/pet-care.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Pet Care</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/meat.png' %}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Meat</span>
-                            </a>
-                        </li>
+                        {% endfor %}
+
                     </ul>
                 </nav>
             </div>

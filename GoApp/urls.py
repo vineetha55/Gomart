@@ -56,7 +56,13 @@ urlpatterns = [
     path("cod_invoice_view/<id>",views.cod_invoice_view,name="cod_invoice_view"),
     path("pending_orders/",views.pending_orders,name="pending_orders"),
     path("view_check_products_invoice/<id>",views.view_check_products_invoice,name="view_check_products_invoice"),
-    path("completed_orders/",views.completed_orders,name="completed_orders")
+    path("completed_orders/",views.completed_orders,name="completed_orders"),
+
+    path("process_payment/",views.process_payment,name="process_payment"),
+    path("view_check_products/<id>",views.view_check_products,name="view_check_products"),
+    path("all_product_user_sort/",views.all_product_user_sort,name="all_product_user_sort"),
+    path("update_profile/",views.update_profile,name="update_profile"),
+    path("save_password/",views.save_password,name="save_password")
 
 
 ]

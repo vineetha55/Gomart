@@ -1,8 +1,10 @@
+import json
 import math
 from datetime import date
 
 import razorpay as razorpay
 import requests
+import stripe as stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -12,6 +14,7 @@ from django.core.mail import send_mail
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
@@ -76,6 +79,11 @@ def add_category(request):
         d=tbl_Category()
         d.name=request.POST.get("category")
         d.status=request.POST.get("status")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
         d.save()
         return redirect("/category/")
     else:
@@ -675,17 +683,47 @@ def paymenthandler(request):
 
 
 def all_products_user(request):
-    d=tbl_Product.objects.all()
+    d=tbl_Product.objects.all().order_by('-price')[:3]
     cat = tbl_Category.objects.all()
     return render(request,"all_products_user.html",{"d":d,"cat":cat})
 
+def all_product_user_sort(request):
+    d = tbl_Product.objects.all().order_by('price')[:3]
+    cat = tbl_Category.objects.all()
+    return render(request, "all_products_user.html", {"d": d, "cat": cat})
 
 def my_account(request):
-    cat = tbl_Category.objects.all()
+    try:
+        if request.session['userid']:
 
-    return render(request,"my_account.html",{"cat":cat})
+            cat = tbl_Category.objects.all()
+            my=tbl_SignUp.objects.get(id=request.session['userid'])
+            ship=tbl_Shipment_Address.objects.filter(user=request.session['userid'])
+            bill=tbl_Billing_Address.objects.filter(user=request.session['userid'])
+            recent_orders=tbl_Checkout.objects.filter(user=request.session['userid']).order_by('-id')[:6]
 
+            return render(request,"my_account.html",{"cat":cat,"my":my,"ship":ship,"bill":bill,
+                                                     "recent_orders":recent_orders})
+        else:
+            return redirect("/Login/")
+    except:
+        return redirect("/Login/")
 
+def update_profile(request):
+    d=tbl_SignUp.objects.get(id=request.session['userid'])
+    d.fullname=request.POST.get("fullname")
+    d.email=request.POST.get("email")
+    d.mobile=request.POST.get("mobile")
+    try:
+        image=request.FILES['dp']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.dp=url
+        d.save()
+    except:
+        d.save()
+    return redirect("/my_account/")
 def remove_product(request):
     pid=request.GET.get("product_id")
     try:
@@ -700,6 +738,12 @@ def remove_product(request):
         return JsonResponse({'success': False, 'message': 'Product does not exist'})
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'})
+
+def save_password(request):
+    f=tbl_SignUp.objects.get(id=request.session['userid'])
+    f.password=request.POST.get("new_password")
+    f.save()
+    return redirect("/my_account/")
 
 def forgot_password(request):
     return render(request,"forgot_password.html")
@@ -728,11 +772,10 @@ def remove_from_wishlist(request,id):
 
 
 def payment_success(request,id):
-    ch=tbl_Checkout.objects.get(id=id)
-    ch_products=tbl_checkout_products.objects.filter(checkout=ch)
-    d=date.today()
-
-    return render(request,"payment_success.html",{"ch":ch,"ch_products":ch_products,"d":d})
+    inv = tbl_Checkout.objects.get(id=id)
+    inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
+    d = date.today()
+    return render(request, "payment_success.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
 
 def cod_invoice(request):
@@ -803,3 +846,98 @@ def view_check_products_invoice(request,id):
 def completed_orders(request):
     pend = tbl_Checkout.objects.filter(status="Complete")
     return render(request, "pending_orders.html", {"pend": pend})
+stripe.api_key = "sk_test_51P6RmX022XTem7DHqwFRVz2gu5TTcapnV2FPnNg8vIaaLl1NT5olr5QQNxcGXB7zztaPMcC1DkxXEjqmYhVOt1nm004SicdbKv"  # Replace with your Stripe secret key
+
+@csrf_exempt
+def process_payment(request):
+        print("hii")
+
+
+
+
+        if request.method == 'POST':
+            data = json.loads(request.body)
+            # Retrieve the payment method ID from the JSON data
+            payment_method_id = data.get('payment_method_id')
+            print(payment_method_id)
+
+            # Create a payment intent
+            print("helloo")
+            intent = stripe.PaymentIntent.create(
+                amount=int(data.get("total_after_ship"))*100,  # Amount in cents, adjust as needed
+                currency='EUR',
+                payment_method=payment_method_id,
+                confirmation_method='manual',
+                confirm=True,
+                return_url='https://127.0.0.1:8000/payment_success/'
+            )
+            print("complete")
+            ca = tbl_Cart.objects.get(user=request.session['userid'])
+            ca_pd = tbl_Cart_Products.objects.filter(cart=ca)
+            order_id = generate_order_id(6)
+            invoice_number = generate_invoice_number(6)
+
+            # Check if order ID and invoice number already exist
+            while order_id_exists(order_id):
+                order_id = generate_order_id(6)
+
+            while invoice_number_exists(invoice_number):
+                invoice_number = generate_invoice_number(6)
+
+            ff = tbl_Checkout()
+            ff.user_id = request.session['userid']
+            ff.item_price = data.get("item_price")
+            ff.total_items = data.get("total_items")
+            ff.ship_charge = data.get("ship_charge")
+            ff.total_after_ship = data.get("total_after_ship")
+            ff.discount = data.get("discount")
+            d = data.get("ship")
+            d1 = tbl_Shipment_Address.objects.get(id=d)
+            ff.ship_address_id = d1.id
+            ff.status = "Pending"
+            ff.payment_method = "Online"
+            ff.orderid = order_id
+            ff.invoice_number = invoice_number
+            ff.save()
+            for i in ca_pd:
+                data1 = tbl_checkout_products()
+                data1.user_id = request.session['userid']
+                data1.checkout_id = ff.id
+                data1.product_id = i.product.id
+                data1.quantity = i.quantity
+                data1.total_price = i.total_price
+                data1.save()
+            for j in ca_pd:
+                product = j.product.id
+                quantity = j.quantity
+                table = tbl_Product.objects.get(id=product)
+                stock = table.opening_stock - int(quantity)
+                table.current_stock = stock
+                table.save()
+
+            tbl_Cart.objects.get(user=request.session['userid']).delete()
+            print("hiii")
+            print(ff.id,"idd")
+            r={}
+            r['id']=ff.id
+            r['success']=True
+            print(r,"uuuuuuu")
+
+
+            # Payment is successful, you can save the order or perform other actions here
+            return JsonResponse(r)
+            # except stripe.error.CardError as e:
+            #     # Handle card errors
+            #     print("error")
+            #     return JsonResponse({'success': False, 'error': str(e)})
+            # except Exception as e:
+            #     # Handle other errors
+            #     print("newerror")
+            #     return JsonResponse({'success': False, 'error': str(e)})
+
+        # If the request method is not POST, return a method not allowed response
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+def view_check_products(request,id):
+    d=tbl_checkout_products.objects.filter(checkout=id)
+    return render(request,"view_check_products.html",{"d":d})
