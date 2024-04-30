@@ -62,7 +62,10 @@ urlpatterns = [
     path("view_check_products/<id>",views.view_check_products,name="view_check_products"),
     path("all_product_user_sort/",views.all_product_user_sort,name="all_product_user_sort"),
     path("update_profile/",views.update_profile,name="update_profile"),
-    path("save_password/",views.save_password,name="save_password")
+    path("save_password/",views.save_password,name="save_password"),
+    path("edit_products/<id>",views.edit_products,name="edit_products"),
+    path("quick-enquiry/",views.quick_enquiry,name="quick_enquiry"),
+    path("save_enquiry/",views.save_enquiry,name="save_enquiry")
 
 
 ]

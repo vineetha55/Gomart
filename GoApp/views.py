@@ -110,6 +110,11 @@ def add_product(request):
         fs=FileSystemStorage()
         file=fs.save(image.name,image)
         url=fs.url(file)
+        gross_total=request.POST.get("gross_total")
+        weight=request.POST.get("weight")
+        weight_measure=request.POST.get("weight_measure")
+        tax_rate=request.POST.get("tax_rate")
+        tax_amount=request.POST.get("tax_amount")
 
         # Create and save a new Product object
         product = tbl_Product(
@@ -123,7 +128,14 @@ def add_product(request):
             current_stock=current_stock,
             product_code=product_code,
             status=status,
-            image=url
+            image=url,
+            gross_total=gross_total,
+            product_weight=weight,
+            product_measure=weight_measure,
+            tax_rate=tax_rate,
+            tax_amount=tax_amount,
+
+
         )
         product.save()
         return redirect("/products/")
@@ -197,7 +209,7 @@ def save_signup(request):
 
         # If user does not exist, create a new user
         if not user:
-            user = User.objects.create_user(username=username, email=email, password=password)
+            user = User.objects.create_user(username=fullname, email=email, password=password)
 
         signup = tbl_SignUp.objects.create(
             user=user,
@@ -388,7 +400,6 @@ def update_cart_total(request):
     data = {}
     data['message'] = "success"
     return JsonResponse(data)
-razorpay_client = razorpay.Client(auth=('rzp_test_sEU3RKHFgCx23a','YYzkNd8erSik7IK1tnPZL5nY'))
 
 def checkout(request):
 
@@ -400,7 +411,7 @@ def checkout(request):
     total_items=tbl_Cart_Products.objects.filter(cart=f).count()
 
     item_price=f.sub_total
-    if int(f.total) >= 50:
+    if float(f.total) >= 50:
         ship_charge=0
         total_after_ship=f.total
     else:
@@ -424,27 +435,10 @@ def checkout(request):
 
 
             ship_charge = 4.95
-            total_after_ship = int(f.total)+ship_charge
-    currency = 'INR'
-    amount = int(total_after_ship) * 100
+            total_after_ship = float(f.total)+ship_charge
+    context={}
 
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                       currency=currency,
-                                                       payment_capture='0'))
 
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler'
-
-    # we need to pass these details to frontend.
-    context = {}
-    context['razorpay_order_id'] = razorpay_order_id
-
-    context['razorpay_merchant_key'] = 'rzp_test_sEU3RKHFgCx23a'
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
     context['total_items'] = total_items
     context['item_price'] = item_price
     context['ship_charge'] = ship_charge
@@ -513,48 +507,17 @@ def checkout1(request,id):
     f = tbl_Cart.objects.get(user=request.session['userid'])
     total_items = tbl_Cart_Products.objects.filter(cart=f).count()
     item_price = f.sub_total
-    if int(f.total) >= 50:
+    if float(f.total) >= 50:
         ship_charge = 0
         total_after_ship = f.total
     else:
 
-            eircode = d.Eircode
-            # Replace with the desired Eircode
-            latitude, longitude = get_location_from_eircode(eircode)
-            if latitude and longitude:
-                print("Latitude:", latitude)
-                print("Longitude:", longitude)
-            else:
-                print("Location not found or error occurred")
-            address = get_address_from_coordinates(latitude, longitude)
-            if address:
-                print("Address:", address)
-
-            else:
-                print("Address not found or error occurred")
             ship_charge = 4.95
-            total_after_ship = int(f.total)+ship_charge
+            total_after_ship = float(f.total)+ship_charge
 
-    currency = 'INR'
-    amount = int(total_after_ship) * 100
 
-    # Create a Razorpay Order
-    razorpay_order = razorpay_client.order.create(dict(amount=amount,
-                                                       currency=currency,
-                                                       payment_capture='0'))
-
-    # order id of newly created order.
-    razorpay_order_id = razorpay_order['id']
-    callback_url = 'paymenthandler'
-
-    # we need to pass these details to frontend.
     context = {}
-    context['razorpay_order_id'] = razorpay_order_id
 
-    context['razorpay_merchant_key'] = 'rzp_test_a8iORttOoYuVYF'
-    context['razorpay_amount'] = amount
-    context['currency'] = currency
-    context['callback_url'] = callback_url
     context['total_items'] = total_items
     context['item_price'] = item_price
     context['ship_charge'] = ship_charge
@@ -941,3 +904,27 @@ def process_payment(request):
 def view_check_products(request,id):
     d=tbl_checkout_products.objects.filter(checkout=id)
     return render(request,"view_check_products.html",{"d":d})
+
+def edit_products(request,id):
+    d=tbl_Product.objects.get(id=id)
+    if request.method=="POST":
+        pass
+    else:
+        return render(request,"edit_products.html",{"d":d})
+
+def quick_enquiry(request):
+    return render(request,"quick_enquiry.html")
+
+def save_enquiry(request):
+    f=tbl_Enquiry()
+    f.firstname=request.POST.get("firstname")
+    f.lastname=request.POST.get("lastname")
+    f.email=request.POST.get("email")
+    f.message=request.POST.get("message")
+    f.phone=request.POST.get("phone")
+    f.save()
+    subject="New Enquiry from GoMart"
+    msg = f"Name: {f.firstname} {f.lastname}\nPhone: {f.phone}\nMessage: {f.message}"
+    send_mail(subject,msg,f.email,[settings.EMAIL_HOST_USER])
+    return redirect("/")
+

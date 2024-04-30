@@ -1,43 +1,25 @@
 {% include 'left_nav.html' %}
 <div class="page-wrapper">
-    <div class="content" id="container">
+    <div class="content">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <h4 class="page-title">Add Product</h4>
+                <h4 class="page-title">Edit Product</h4>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
-                <form action="/add_product/" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <form action="/edit_products/{{d.id}}" method="post" enctype="multipart/form-data">{% csrf_token %}
                       <div class="form-group">
                         <label>Product Code</label>
                         <input class="form-control" type="text" name="product_code" value="{{pdt_code}}" readonly>
                     </div>
                     <div class="form-group">
-                        <label>Category</label>
-                        <select class="form-control" name="category">
-                            <option value="">Select Category</option>
-                            {% for category in cat %}
-                                <option value="{{ category.id }}">{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label>Product Name</label>
-                        <input class="form-control" type="text" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select class="form-control" name="brand">
-                            <option value="">Select Brand</option>
-                            {% for brand in bran %}
-                                <option value="{{ brand.id }}">{{ brand.name }}</option>
-                            {% endfor %}
-                        </select>
+                        <input class="form-control" type="text" name="name" value="{{d.name}}">
                     </div>
                     <div class="form-group">
                         <label>Description</label>
-                        <textarea class="form-control" name="description"></textarea>
+                        <textarea class="form-control" name="description">{{d.description}}</textarea>
                     </div>
 
 <!--                    <div class="form-group">-->
@@ -52,28 +34,41 @@
 <!--                    </div>-->
                       <div class="form-group">
                         <label>Price</label>
-                        <input class="form-control" type="text" name="price" id="price">
+                        <input class="form-control" type="text" name="price" id="price" value="{{d.price}}">
                     </div>
                     <div class="form-group">
                         <label>Tax Rate</label>
                         <select class="form-control" name="tax_rate" id="tax_rate">
-                            <option value="">Select Rate</option>
-                            <option value="23%">23%</option>
+                            <option>{{d.tax_rate}}</option>
 
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Tax amount</label>
-                        <input class="form-control" type="text" name="tax_amount" id="tax_amount">
+                        <input class="form-control" type="text" name="tax_amount" id="tax_amount" value="{{d.tax_amount}}">
                     </div>
                     <div class="form-group">
                         <label>Gross total</label>
-                        <input class="form-control" type="text" name="gross_total" id="gross_total">
+                        <input class="form-control" type="text" name="gross_total" id="gross_total" value="{{d.gross_total}}">
                     </div>
-
-
-<!--                     <button id="addButton" type="button" onclick="add_more()">Add More</button>-->
-
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control" name="brand">
+                            <option value="">Select Brand</option>
+                            {% for brand in bran %}
+                                <option value="{{ brand.id }}">{{ brand.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" name="category">
+                            <option value="">Select Category</option>
+                            {% for category in cat %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label>Weight / Product</label>
                          <input class="form-control" type="number" name="weight">
@@ -130,9 +125,4 @@
     $("#tax_amount").val(formattedVatAmount);
     $("#gross_total").val(parseFloat(formattedVatAmount) + parseInt(price));
     })
-</script>
-<script>
-    function add_more(){
-
-    }
 </script>

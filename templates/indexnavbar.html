@@ -104,23 +104,22 @@
           class="ms-1"><i class="fa-solid fa-angle-down"></i></span></a>
     <a href="javascript:void(0)" class="category-dropdown-btn fw-bold d-sm-none">Categories
         <span class="ms-1"><i class="fa-solid fa-angle-down"></i></span></a>
-    <div class="category-dropdown-box scrollbar">
-        <div class="row">
-            {% for category in cat %}
-                <div class="col-sm-4">
-                    <ul class="category-dropdown-menu">
-                        <li>
+                <div class="category-dropdown-box scrollbar">
+                                        <ul class="category-dropdown-menu">
+                                            {% for category in cat %}
+                                            <li>
                             <a href="/shop_by_category/{{category.id}}" class="d-flex align-items-center">
-
-                                <span style="width:200px;">{{ category.name }}</span>
+                                    <div class="me-2 avatar-icon">
+                                         <img src="{{category.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    </div>
+                                <span >{{ category.name }}</span>
                             </a>
                         </li>
+                                            {% endfor %}
                     </ul>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+
+ </div>
+                                </div>
                                 <nav class="gshop-navmenu ms-3 d-none d-xl-block">
                                     <ul class="d-flex align-itmes-center justify-content-end">
                                       <li class="has-submenu"><a href="/"><span class="me-2"></span>Home</a></li>
@@ -134,6 +133,7 @@
                                             </ul>
                                         </li>
 
+                        <li class="has-submenu"><a href="/quick-enquiry/"><span class="me-2"></span>Quick Enquiry</a></li>
 
                                     </ul>
                                 </nav>
@@ -264,6 +264,7 @@
                             </ul>
                         </li>
 
+                        <li class="has-submenu"><a href="/quick-enquiry/"><span class="me-2"></span>Quick Enquiry</a></li>
 
                     </ul>
                 </nav>

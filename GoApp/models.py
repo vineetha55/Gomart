@@ -34,7 +34,7 @@ class tbl_Category(models.Model):
 class tbl_Product(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField(null=True)
-    price = models.IntegerField(null=True)
+    price = models.FloatField(null=True)
     country = models.ForeignKey(tbl_Country, on_delete=models.CASCADE, null=True)
     brand = models.ForeignKey(tbl_Brand, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(tbl_Category, on_delete=models.CASCADE, null=True)
@@ -45,10 +45,11 @@ class tbl_Product(models.Model):
     current_stock = models.PositiveIntegerField(default=0, null=True)
     product_code = models.CharField(max_length=100, unique=True, null=True, blank=True)
     image = models.ImageField(upload_to='media', null=True, blank=True)
-    tax_rate=models.IntegerField(null=True)
-    tax_amount=models.IntegerField(null=True)
+    tax_rate=models.CharField(max_length=100,null=True)
+    tax_amount=models.FloatField(null=True)
     product_weight=models.CharField(max_length=100,null=True)
     product_measure = models.CharField(max_length=100, null=True)
+    gross_total=models.FloatField(null=True)
 
 
     def __str__(self):
@@ -132,4 +133,11 @@ class tbl_checkout_products(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class tbl_Enquiry(models.Model):
+    firstname=models.CharField(max_length=100,null=True)
+    lastname = models.CharField(max_length=100, null=True)
+    email = models.EmailField(max_length=100, null=True)
+    phone = models.IntegerField(null=True)
+    message = models.TextField(null=True)
 

@@ -104,23 +104,22 @@ Welcome {{user}}
           class="ms-1"><i class="fa-solid fa-angle-down"></i></span></a>
     <a href="javascript:void(0)" class="category-dropdown-btn fw-bold d-sm-none">Categories
         <span class="ms-1"><i class="fa-solid fa-angle-down"></i></span></a>
-    <div class="category-dropdown-box scrollbar">
-        <div class="row">
-            {% for category in cat %}
-                <div class="col-sm-4">
-                    <ul class="category-dropdown-menu">
-                        <li>
-                            <a href="/shop_by_category_user/{{category.id}}" class="d-flex align-items-center">
-
-                                <span style="width:200px;">{{ category.name }}</span>
+  <div class="category-dropdown-box scrollbar">
+                                        <ul class="category-dropdown-menu">
+                                            {% for category in cat %}
+                                            <li>
+                            <a href="/shop_by_category/{{category.id}}" class="d-flex align-items-center">
+                                    <div class="me-2 avatar-icon">
+                                         <img src="{{category.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    </div>
+                                <span >{{ category.name }}</span>
                             </a>
                         </li>
+                                            {% endfor %}
                     </ul>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+
+ </div>
+                                </div>
                                 <nav class="gshop-navmenu ms-3 d-none d-xl-block">
                                     <ul class="d-flex align-itmes-center justify-content-end">
                                       <li class="has-submenu"><a href="/Homepage/"><span class="me-2"></span>Home</a></li>
@@ -133,15 +132,7 @@ Welcome {{user}}
                                                 <li><a href="/all_products_user">All Products</a></li>
                                             </ul>
                                         </li>
-                                        <li class="has-submenu">
-                                            <a href="javascript:void(0)">Blog<span class="ms-1 fs-xs float-end"><i
-                                                      class="fa-solid fa-angle-down"></i></span></a>
-                                            <ul>
-                                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                                <li><a href="blog-listing.html">Blog List</a></li>
-                                                <li><a href="blog-details.html">Blog Details</a></li>
-                                            </ul>
-                                        </li>
+
 
                                     </ul>
                                 </nav>
@@ -249,7 +240,7 @@ Welcome {{user}}
                 <div class="offcanvas-contact mt-5">
                     <h5 class="mb-20">Contact Info</h5>
                     <address>
-                        Chicago 12, Melborne City, USA <br />
+                        LetterKenny, Co.Donegal,Ireland<br />
                         <a href="tel:+8801682648101">+8801682648101</a> <br />
                         <a href="mailto:info@example.com">info@example.com</a>
                     </address>
@@ -271,26 +262,18 @@ Welcome {{user}}
                         <li class="has-submenu">
                             <a href="javascript:void(0)">Products<span class="ms-1 fs-xs float-end"><i class="fa-solid fa-angle-right"></i></span></a>
                             <ul>
-                                <li><a href="shop-grid.html">Shop Grid</a></li>
-                                <li><a href="shop-grid-2.html">Shop Grid V2</a></li>
-                                <li><a href="product-details.html">Product Details</a></li>
+                                <li><a href="/all_products_user">All Products</a></li>
+
                             </ul>
                         </li>
-                        <li class="has-submenu">
-                            <a href="javascript:void(0)">Blog<span class="ms-1 fs-xs float-end"><i class="fa-solid fa-angle-right"></i></span></a>
-                            <ul>
-                                <li><a href="blog-grid.html">Blog Grid</a></li>
-                                <li><a href="blog-listing.html">Blog List</a></li>
-                                <li><a href="blog-details.html">Blog Details</a></li>
-                            </ul>
-                        </li>
+
 
                     </ul>
                 </nav>
                 <div class="contact-info mt-8">
                     <h5 class="mb-20">Contact Info</h5>
                     <address>
-                        Chicago 12, Melborne City, USA <br />
+                        LetterKenny, Co.Donegal,Ireland <br/>
                         <a href="tel:+8801682648101">+8801682648101</a> <br />
                         <a href="mailto:info@example.com">info@example.com</a>
                     </address>

@@ -241,7 +241,9 @@
 
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
-
+      {% if not d %}
+                                        <p>Complete shipping address for Payment</p>
+      {% endif %}
                                 <button class="btn btn-primary btn-md rounded mt-6 w-100" id="submit" >Place Order via Online</button>
   </form>
       <form action="/cod_invoice/" method="post" enctype="multipart/form-data" class="mb-2">{% csrf_token %}

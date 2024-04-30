@@ -19,9 +19,8 @@
                                 <th>Product Image</th>
                                 <th>Product Code</th>
                                 <th>Product Name</th>
-                                <th>Description</th>
                                 <th>Price</th>
-                                <th>Country</th>
+                                <th>Total(include Tax)</th>
                                 <th>Brand</th>
                                 <th>Category</th>
                                 <th>Created At</th>
@@ -40,9 +39,8 @@
                                 <td><img src="{{product.image}}" width="100" height="100"></td>
                                    <td>{{ product.product_code }}</td>
                                 <td>{{ product.name }}</td>
-                                <td>{{ product.description }}</td>
                                 <td>{{ product.price }}</td>
-                                <td>{{ product.country }}</td>
+                                <td>{{product.gross_total}}</td>
                                 <td>{{ product.brand }}</td>
                                 <td>{{ product.category }}</td>
                                 <td>{{ product.created_at }}</td>
