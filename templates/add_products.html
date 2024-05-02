@@ -127,8 +127,11 @@
     vatAmount = (23 / 100) * price;
     formattedVatAmount = vatAmount.toFixed(2);
 
+
     $("#tax_amount").val(formattedVatAmount);
-    $("#gross_total").val(parseFloat(formattedVatAmount) + parseInt(price));
+    gross_total=parseFloat(formattedVatAmount) + parseFloat(price)
+    formattedPrice = gross_total.toFixed(2);
+    $("#gross_total").val(formattedPrice);
     })
 </script>
 <script>

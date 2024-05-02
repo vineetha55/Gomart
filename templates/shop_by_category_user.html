@@ -260,14 +260,14 @@
                     <div class="col-xl-9">
                         <div class="shop-grid">
                             <div class="listing-top d-flex align-items-center justify-content-between flex-wrap gap-3 bg-white rounded-2 px-4 py-5 mb-6">
-                                <p class="mb-0 fw-bold">Showing 1-12 of {{table_count}} results</p>
+                                <p class="mb-0 fw-bold">Showing 1-12 of  results</p>
                                 <div class="listing-top-right text-end d-inline-flex align-items-center gap-3 flex-wrap">
 
-                                    <div class="select-filter d-inline-flex align-items-center gap-3">
-                                        <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort price:</label>
-                                        <select class="form-select fs-xxs fw-medium theme-select select-sm">
-                                            <option>High to Low</option>
-                                            <option>Low to High</option>
+                                      <div class="select-filter d-inline-flex align-items-center gap-3">
+                                        <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
+                                        <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
+                                            <option value="high">High to Low</option>
+                                            <option value="low">Low to high</option>
 
                                         </select>
                                     </div>
@@ -743,6 +743,19 @@
     </button>
 
     <!--endbuild-->
+<script>
+    $("#sorting").change(function(){
+    var v=$("#sorting").val();
+    if(v=="high"){
+    window.location.href="/all_product_user/";
+    }
+    else{
+    window.location.href="/all_product_user_sort/";
+    }
+
+
+    })
+</script>
 </body>
 
 </html>
