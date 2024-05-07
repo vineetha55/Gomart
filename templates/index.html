@@ -12,7 +12,7 @@
                         <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3" style="color:#76b661; font-size:120px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -37,7 +37,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3"  style="color:#76b661; font-size:120px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -62,7 +62,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3" style="color:#76b661; font-size:120px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -99,66 +99,18 @@
                         <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
                     </div>
                     <div class="row justify-content-center g-4">
+                        {% for i in cat %}
                         <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
                             <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden">
                                 <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/vegetable_new.png' %}" alt="flower" class="img-fluid">
+                                    <img src="{{i.image}}" alt="flower" class="img-fluid">
                                 </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Vegetable</a>
+                                <a href="/shop_by_category/{{i.id}}" class="text-dark fs-sm fw-bold d-block mt-3">{{i.name}}</a>
                                 <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
                                 <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
                             </div>
                         </div>
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden color-2">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/fresh-fruits_new.png' %}" alt="flower" class="img-fluid">
-                                </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Fresh Fruits</a>
-                                <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
-                                <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden color-3">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/milk_new.png' %}" alt="flower" class="img-fluid">
-                                </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Milk & Dairy</a>
-                                <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
-                                <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden color-4">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/coffee-drinks_new.png' %}" alt="flower" class="img-fluid">
-                                </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Coffee & Drinks</a>
-                                <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
-                                <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden color-5">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/meat_new.png' %}" alt="flower" class="img-fluid">
-                                </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Meat</a>
-                                <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
-                                <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden color-3">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{% static 'index/assets/img/category/cleaning_new.png' %}" alt="flower" class="img-fluid">
-                                </div>
-                                <a href="/all_products" class="text-dark fs-sm fw-bold d-block mt-3">Cleaning Essential</a>
-                                <span class="total-count position-relative ps-3 fs-sm fw-medium doted-primary">25 Items</span>
-                                <a href="" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
-                            </div>
-                        </div>
+                      {% endfor %}
                     </div>
                 </div>
             </div>
@@ -865,7 +817,7 @@
             <div class="container">
                 <div class="row g-4">
                     <div class="col-xl-8">
-                        <div class="banner-box background-banner rounded-2 banner-lg" data-background="{% static 'index/assets/img/banner/banner-2_new.jpg' %}">
+                        <div class="banner-box background-banner rounded-2 banner-lg" data-background="{% static 'index/assets/img/banner/banner-3.jpg' %}">
                             <span class="badge bg-danger mb-2">Top Offer</span>
                             <h3 class="mb-6 text-white gshop-title">Fresh & Natural Healthy<br class="d-none d-sm-block"> Food <mark class="position-relative text-secondary position-relative bg-transparent">Special Offer<img src="{% static 'index/assets/img/shapes/border-line_new.png' %}" class="position-absolute start-0 border-line w-100" alt="border line"></mark></h3>
                             <a href="product-details.html" class="btn btn-secondary btn-md">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
@@ -1195,7 +1147,7 @@
                         </div>
                     </div>
                     <div class="col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-10">
-                        <div class="vertical-banner text-center bg-white rounded-2" data-background="{% static 'index/assets/img/banner/banner-4.jpg">
+                        <div class="vertical-banner text-center bg-white rounded-2" data-background="{% static 'index/assets/img/banner/banner-4_new.jpg' %}">
                             <h5 class="mb-1">Fresh & Organic Spice</h5>
                             <div class="d-flex align-items-center justify-content-center gap-2">
                                 <span class="hot-badge bg-danger fw-bold fs-xs position-relative text-white">HOT</span>
@@ -1206,7 +1158,7 @@
                         <div class="counter-box bg-white rounded-2 mt-4">
                             <div class="horizontal-counter d-flex align-items-center gap-3">
                                 <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-2 bg-glimpse-pink flex-shrink-0">
-                                  <img src="{% static 'index/assets/img/icons/letter-box.svg" alt="icon" class="img-fluid">
+                                  <img src="{% static 'index/assets/img/icons/letter-box.svg' %}" alt="icon" class="img-fluid">
                               </span>
                                 <div class="numbers">
                                     <h3 class="mb-1"><span class="counter">456</span>k+</h3>
@@ -1216,7 +1168,7 @@
                             <span class="gradient-spacer-2 d-block my-4"></span>
                             <div class="horizontal-counter d-flex align-items-center gap-3">
                                 <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-2 bg-azure-mist flex-shrink-0">
-                                  <img src="{% static 'index/assets/img/icons/thumbs-up.svg" alt="icon" class="img-fluid">
+                                  <img src="{% static 'index/assets/img/icons/thumbs-up.svg' %}" alt="icon" class="img-fluid">
                               </span>
                                 <div class="numbers">
                                     <h3 class="mb-1"><span class="counter">16</span>M+</h3>
@@ -1230,76 +1182,6 @@
         </section> <!--products listing end-->
 
         <!--blog section start-->
-        <section class="blog-section pb-120 position-relative overflow-hidden z-1">
-            <img src="{% static 'index/assets/img/shapes/dal.png' %}" alt="shape" class="position-absolute dal-shape z--1">
-            <img src="{% static 'index/assets/img/shapes/frame-circle.svg" alt="frame circle" class="position-absolute frame-circle z--1 d-none d-md-block">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-5 col-md-8">
-                        <div class="section-title text-center">
-                            <h2 class="mb-3">Browse Recent Post</h2>
-                            <p class="mb-0">Interactivel product distinctive paradigms whereas one-to-one intellectual capital. resource sucking services.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row g-4 justify-content-center mt-3">
-                    <div class="col-xl-4 col-md-6">
-                        <article class="blog-card rounded-2 overflow-hidden bg-white">
-                            <div class="thumbnail overflow-hidden">
-                                <a href="blog-details.html"><img src="{% static 'index/assets/img/blog/blog-thumb-1.jpg" alt="blog thumb" class="img-fluid"></a>
-                            </div>
-                            <div class="blog-card-content">
-                                <div class="blog-meta d-flex align-items-center gap-3 mb-1">
-                                    <span class="fs-xs fw-medium"><i class="fa-solid fa-tags me-1"></i>Organic Vegetable</span>
-                                    <span class="fs-xs fw-medium"><i class="fa-regular fa-clock me-1"></i>May 24, 2022</span>
-                                </div>
-                                <a href="blog-details.html">
-                                    <h4 class="mb-3">Holiday Home Delivery We have Recently Ordered</h4>
-                                </a>
-                                <p class="mb-0 mb-5">Holisticly exploit equity invested growth strategies whereas enterpris</p>
-                                <a href="blog-details.html" class="btn btn-primary-light btn-md">Explore More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <article class="blog-card rounded-2 overflow-hidden bg-white">
-                            <div class="thumbnail overflow-hidden">
-                                <a href="blog-details.html"><img src="{% static 'index/assets/img/blog/blog-thumb-2.jpg" alt="blog thumb" class="img-fluid"></a>
-                            </div>
-                            <div class="blog-card-content">
-                                <div class="blog-meta d-flex align-items-center gap-3 mb-1">
-                                    <span class="fs-xs fw-medium"><i class="fa-solid fa-tags me-1"></i>Organic Vegetable</span>
-                                    <span class="fs-xs fw-medium"><i class="fa-regular fa-clock me-1"></i>May 24, 2022</span>
-                                </div>
-                                <a href="blog-details.html">
-                                    <h4 class="mb-3">Holiday Home Delivery We have Recently Ordered</h4>
-                                </a>
-                                <p class="mb-0 mb-5">Holisticly exploit equity invested growth strategies whereas enterpris</p>
-                                <a href="blog-details.html" class="btn btn-primary-light btn-md">Explore More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-xl-4 col-md-6">
-                        <article class="blog-card rounded-2 overflow-hidden bg-white">
-                            <div class="thumbnail overflow-hidden">
-                                <a href="blog-details.html"><img src="{% static 'index/assets/img/blog/blog-thumb-3.jpg" alt="blog thumb" class="img-fluid"></a>
-                            </div>
-                            <div class="blog-card-content">
-                                <div class="blog-meta d-flex align-items-center gap-3 mb-1">
-                                    <span class="fs-xs fw-medium"><i class="fa-solid fa-tags me-1"></i>Organic Vegetable</span>
-                                    <span class="fs-xs fw-medium"><i class="fa-regular fa-clock me-1"></i>May 24, 2022</span>
-                                </div>
-                                <a href="blog-details.html">
-                                    <h4 class="mb-3">Holiday Home Delivery We have Recently Ordered</h4>
-                                </a>
-                                <p class="mb-0 mb-5">Holisticly exploit equity invested growth strategies whereas enterpris</p>
-                                <a href="blog-details.html" class="btn btn-primary-light btn-md">Explore More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section> <!--blog section end-->
 
         <!--footer section start-->
         <div class="footer-curve position-relative overflow-hidden">
@@ -1390,12 +1272,12 @@
                     <div class="row align-items-center g-3">
                         <div class="col-lg-4">
                             <div class="copyright-text">
-                                <p class="mb-0 text-white">&copy; All rights reserved Made by <a href="#" class="text-secondary">ThemeTags</a></p>
+                                <p class="mb-0 text-white">&copy; All rights reserved Made by <a href="#" class="text-secondary">GoMart</a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="index.html" class="logo"><img src="{% static 'index/assets/img/logo-white.png' %}" alt="logo" class="img-fluid"></a>
+                                <a href="/" class="logo"><img src="{% static 'index/assets/img/logo-white.png' %}" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -1460,16 +1342,15 @@
                    xmlns="http://www.w3.org/2000/svg">
                   <path d="M21.1704 23.9559L19.6264 7.01422C19.5843 6.55156 19.1908 6.19718 18.7194 6.19718H15.5355V4.78227C15.5355 2.14533 13.3583 0 10.6823 0C8.00628 0 5.82937 2.14533 5.82937 4.78227V6.19718H2.6433C2.17192 6.19718 1.77839 6.55156 1.73625 7.01422L0.186259 24.0225C0.163431 24.2735 0.248671 24.5223 0.421216 24.7082C0.593761 24.8941 0.837705 25 1.0933 25H20.2695C20.2702 25 20.2712 25 20.2719 25C20.775 25 21.1826 24.5982 21.1826 24.1027C21.1825 24.0528 21.1784 24.0036 21.1704 23.9559ZM7.65075 4.78227C7.65075 3.1349 9.01071 1.79465 10.6824 1.79465C12.3542 1.79465 13.7142 3.1349 13.7142 4.78227V6.19718H7.65075V4.78227ZM2.08948 23.2055L3.47591 7.99183H5.82937V9.59649C5.82937 10.0921 6.237 10.4938 6.74006 10.4938C7.24313 10.4938 7.65075 10.0921 7.65075 9.59649V7.99183H13.7142V9.59649C13.7142 10.0921 14.1219 10.4938 14.6249 10.4938C15.128 10.4938 15.5356 10.0921 15.5356 9.59649V7.99183H17.8869L19.2733 23.2055H2.08948Z" fill="#5D6374"/>
               </svg>
-              <small class="badge bg-primary">12</small>
             </span>
-                    <span class="mobile-toolbar-label">€265</span>
+                    <span class="mobile-toolbar-label">Cart</span>
                 </a>
             </div>
         </div>
         <div class="offcanvas-left-menu position-fixed">
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo.png' %}" alt="logo"></a>
+                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo_new.png' %}"width="100" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         {% for i in cat %}

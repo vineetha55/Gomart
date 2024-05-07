@@ -239,7 +239,6 @@ def check_login(request):
         if user:
             us = tbl_SignUp.objects.get(email=email, password=password)
             request.session['userid']=us.id
-            print(request.session['userid'])
             return redirect("/HomePage/")
         else:
             return redirect("/Login/")
