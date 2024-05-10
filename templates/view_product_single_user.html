@@ -79,339 +79,45 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-xl-6">
-                                        <form action="/add_to_cart_single/" method="POST" enctype="multipart/form-data">{% csrf_token %}
                                         <div class="product-info">
                                             <h4 class="mt-1 mb-3">{{single.name}}</h4>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                                <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                            </div>
+
                                             <div class="pricing mt-2">
-                                                <span class="fw-bold fs-xs text-danger" id="price">€{{single.price}}</span>
+                                                <span class="fw-bold fs-xs text-danger" id="gross_total">€{{single.gross_total}}</span>
                                             </div>
                                             <div class="widget-title d-flex mt-4">
                                                 <h6 class="mb-1 flex-shrink-0">Description</h6>
                                                 <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
                                             </div>
                                             <p class="mb-3">{{single.description}} </p>
-                                            <ul class="d-flex flex-column gap-2">
-                                                <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Natural ingredients</li>
-                                                <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Tastes better with milk</li>
-                                                <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Vitamins B2, B3, B5 and B6</li>
-                                                <li><span class="me-2 text-primary"><i class="fa-solid fa-circle-check"></i></span>Refrigerate for freshness</li>
-                                            </ul>
+
                                             <h6 class="fs-md mb-2 mt-3">Weight:</h6>
                                             <ul class="product-radio-btn mb-4 d-flex align-items-center gap-2">
                                                 <li>
                                                     <input type="radio" name="weight" value="250g" checked>
-                                                    <label>150g</label>
+                                                    <label>{{single.product_weight}}{{single.product_measure}}</label>
                                                 </li>
-                                                <li>
-                                                    <input type="radio" name="weight" value="250g">
-                                                    <label>500g</label>
-                                                </li>
-                                                <li>
-                                                    <input type="radio" name="weight" value="250g">
-                                                    <label>1kg</label>
-                                                </li>
+
                                             </ul>
                                             <div class="d-flex align-items-center gap-4 flex-wrap">
-                                                <div class="product-qty d-flex align-items-center">
-                                                    <button class="decrese" onclick="decrease();">-</button>
-                                                    <input type="text" value="01">
-                                                    <button class="increase" onclick="increase();">+</button>
-                                                </div>
-                                                <button type="submit" class="btn btn-secondary btn-md"><span class="me-2"><i
-                                                class="fa-solid fa-bag-shopping"></i></span>Add to Cart</button>
+                                                <div class="product-qty d-inline-flex align-items-center">
+                                        <button class="decrese" onclick="decrease(this)">-</button>
+                                        <input type="text" value="1" id="quantity">
+                                        <button class="increase" onclick="increase(this)">+</button>
+                                                    <input type="hidden" value="{{single.gross_total}}" id="gross">
+                                    </div>
+                                                <a href="#" id="addToCartBtn" class="btn btn-secondary btn-md" onclick="add_to_cart();"><span class="me-2"><i
+                                                class="fa-solid fa-bag-shopping"></i></span>Add to Cart</a>
                                             </div>
 
-                                    </form>
-                                            <div class="tt-category-tag mt-4">
-                                                <a href="#" class="text-muted fs-xxs">Vegetable</a>
-                                                <a href="#" class="text-muted fs-xxs">Healthy</a>
-                                                <a href="#" class="text-muted fs-xxs">Organic</a>
-                                                <a href="#" class="text-muted fs-xxs">Vegetable</a>
-                                                <a href="#" class="text-muted fs-xxs">Healthy</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-info-tab bg-white rounded-2 overflow-hidden pt-6 mt-4">
-                                <ul class="nav nav-tabs border-bottom justify-content-center gap-5 pt-info-tab-nav">
-                                    <li><a href="#description" class="active" data-bs-toggle="tab">Description</a></li>
-                                    <li><a href="#info" data-bs-toggle="tab">Additional Information</a></li>
-                                    <li><a href="#review" data-bs-toggle="tab">Reviews(02)</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div class="tab-pane fade show active px-4 py-5" id="description">
-                                        <h6 class="mb-2">Details:</h6>
-                                        <p class="mb-4">Italy's best, reimagined. At a rustic Osteria, we were inspired to make this recipe when we noticed how mellow a clove of garlic becomes when it simmers all day. We blended the mellow cloves of garlic and sweet basil with plum tomatoes from the San Marzano region of Italy and the finest extra virgin olive oil for a uniquely bright, fresh basil flavor.</p>
-                                        <ul class="list-style-type-disc mb-4">
-                                            <li>Natural ingredients</li>
-                                            <li>Tastes better with milk</li>
-                                            <li>Vitamins B2, B3, B5 and B6</li>
-                                            <li>Refrigerate for freshness</li>
-                                        </ul>
-                                        <h6 class="mb-2">ingredients:</h6>
-                                        <p class="mb-0">Italian Plum Tomatoes From Italy's San Marzano Region, Extra Virgin Olive Oil, Fresh Garlic, Fresh Onions, Sea Salt, Fresh Basil, Spices, Citric Acid.</p>
-                                    </div>
-                                    <div class="tab-pane fade px-4 py-5" id="info">
-                                        <h6 class="mb-2">Additional Information:</h6>
-                                        <table class="w-100 product-info-table">
-                                            <tr>
-                                                <td class="text-dark fw-semibold">Colors</td>
-                                                <td>Black, Green, Orange, Red</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-dark fw-semibold">Weight</td>
-                                                <td>0.5Kg, 1Kg, 2Kg, 5Kg</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane fade px-4 py-5" id="review">
-                                        <div class="review-tab-box bg-white rounded pt-30 pb-40 px-4">
-                                            <div class="d-flex flex-wrap align-items-center justify-content-between">
-                                                <div class="top-left">
-                                                    <h5 class="mb-2">Reviews (1)</h5>
-                                                    <p class="mb-0">Get specific details about this product from customers who own it.</p>
-                                                    <ul class="fs-xs text-warning d-flex mt-1">
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="far fa-star"></i></li>
-                                                        <li class="ms-2 text-dark">(4 out of 5)</li>
-                                                    </ul>
-                                                </div>
-                                                <a href="#" class="btn btn-outline-secondary border-secondary btn-md mt-3 mt-lg-0">Write a Review</a>
-                                            </div>
-                                            <hr class="mt-4 mb-4">
-                                            <div class="users_review">
-                                                <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
-                                                    <div class="top-left d-flex align-items-center">
-                                                        <img src="{% static 'index/assets/img/authors/user-1.jpg" alt="user" class="flex-shrink-0 rounded">
-                                                        <div class="ms-3">
-                                                            <h6 class="mb-1">Helena Garcia</h6>
-                                                            <span>2 January, 2018</span>
-                                                        </div>
-                                                    </div>
-                                                    <ul class="fs-xs text-warning d-flex">
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mt-3 mb-0">Information on technical characteristics, the delivery set, the country of manufacture and the appearance of the goods is for reference only and is based on the latest information of publication.</p>
-                                            </div>
-                                            <div class="users_review mt-4">
-                                                <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
-                                                    <div class="top-left d-flex align-items-center">
-                                                        <img src="{% static 'index/assets/img/authors/user-2.jpg" alt="user" class="flex-shrink-0 rounded">
-                                                        <div class="ms-3">
-                                                            <h6 class="mb-1">Helena Garcia</h6>
-                                                            <span>2 January, 2018</span>
-                                                        </div>
-                                                    </div>
-                                                    <ul class="fs-xs text-warning d-flex">
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="fas fa-star"></i></li>
-                                                        <li><i class="far fa-star"></i></li>
-                                                    </ul>
-                                                </div>
-                                                <p class="mt-3 mb-0">Information on technical characteristics, the delivery set, the country of manufacture and the appearance of the goods is for reference only and is based on the latest information of publication.</p>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-3 col-lg-6 col-md-8">
-                        <div class="gshop-sidebar">
-                            <div class="sidebar-widget info-sidebar bg-white rounded-3 py-3">
-                                <div class="sidebar-info-list d-flex align-items-center gap-3 p-4">
-                                    <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle text-primary">
-                                    <i class="fa-solid fa-truck-fast"></i>
-                                </span>
-                                    <div class="info-right">
-                                        <h6 class="mb-1 fs-md">Free Shipping</h6>
-                                        <span class="fw-medium fs-xs">For orders from €50</span>
-                                    </div>
-                                </div>
-                                <div class="sidebar-info-list d-flex align-items-center gap-3 p-4 border-top">
-                                    <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle text-primary">
-                                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
-                                </span>
-                                    <div class="info-right">
-                                        <h6 class="mb-1 fs-md">100% Money Back</h6>
-                                        <span class="fw-medium fs-xs">Guaranteed Product Warranty</span>
-                                    </div>
-                                </div>
-                                <div class="sidebar-info-list d-flex align-items-center gap-3 p-4 border-top">
-                                    <span class="icon-wrapper d-inline-flex align-items-center justify-content-center rounded-circle text-primary">
-                                    <i class="fa-regular fa-heart"></i>
-                                </span>
-                                    <div class="info-right">
-                                        <h6 class="mb-1 fs-md">Safety & Secure</h6>
-                                        <span class="fw-medium fs-xs">Call us Anytime & Anywhere</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sidebar-widget banner-widget mt-4 p-0 border-0">
-                                <div class="vertical-banner text-center bg-white rounded-2" data-background="{% static 'index/assets/img/banner/banner-4.jpg" style="background-image: url(&quot;{% static 'index/assets/img/banner/banner-4.jpg&quot;);">
-                                    <h5 class="mb-1">Fresh &amp; Organic Spice</h5>
-                                    <div class="d-flex align-items-center justify-content-center gap-2">
-                                        <span class="hot-badge bg-danger fw-bold fs-xs position-relative text-white">HOT</span>
-                                        <span class="offer-title text-danger fw-bold">30% Off</span>
-                                    </div>
-                                    <a href="#" class="explore-btn text-primary fw-bold">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
-                            <div class="sidebar-widget products-widget py-5 px-4 bg-white mt-4">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Featured Products</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <div class="sidebar-products-list">
-                                    <div class="horizontal-product-card card-md d-sm-flex align-items-center bg-white rounded-2 gap-3 mt-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-1.png" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-3 mt-sm-0">
-                                            <a href="#" class="d-block fs-sm fw-bold text-heading title d-block">Strawberry juice Fruit</a>
-                                            <div class="pricing mt-0">
-                                                <span class="fw-bold fs-xxs text-danger">€140.00</span>
-                                            </div>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating mt-1">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="horizontal-product-card card-md d-sm-flex align-items-center bg-white rounded-2 gap-3 mt-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-2.png" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-3 mt-sm-0">
-                                            <a href="#" class="d-block fs-sm fw-bold text-heading title d-block">Strawberry juice Fruit</a>
-                                            <div class="pricing mt-0">
-                                                <span class="fw-bold fs-xxs text-danger">€140.00</span>
-                                            </div>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating mt-1">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="horizontal-product-card card-md d-sm-flex align-items-center bg-white rounded-2 gap-3 mt-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-3.png" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-3 mt-sm-0">
-                                            <a href="#" class="d-block fs-sm fw-bold text-heading title d-block">Strawberry juice Fruit</a>
-                                            <div class="pricing mt-0">
-                                                <span class="fw-bold fs-xxs text-danger">€140.00</span>
-                                            </div>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating mt-1">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="horizontal-product-card card-md d-sm-flex align-items-center bg-white rounded-2 gap-3 mt-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-4.png" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-3 mt-sm-0">
-                                            <a href="#" class="d-block fs-sm fw-bold text-heading title d-block">Strawberry juice Fruit</a>
-                                            <div class="pricing mt-0">
-                                                <span class="fw-bold fs-xxs text-danger">€140.00</span>
-                                            </div>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating mt-1">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="vertical-product-card rounded-bottom-2 position-relative border-0 border-top bg-white shadow-none">
-                                <div class="thumbnail position-relative text-center p-4">
-                                    <img src="{% static 'index/assets/img/products/apple.png" alt="apple" class="img-fluid">
-                                    <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                        <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#" class="rounded-btn">
-                                            <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9"></path>
-                                            </svg>
-                                        </a>
-                                        <a href="#" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
-                                    </div>
-                                </div>
-                                <div class="card-content">
-                                    <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                    <a href="#" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                    <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <h6 class="price text-danger mb-4">€140.00</h6>
-                                    <a href="#" class="btn btn-outline-secondary d-block btn-md border-secondary">Add to Cart</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </section>
@@ -435,146 +141,25 @@
                 </div>
                 <div class="rl-products-slider swiper mt-8">
                     <div class="swiper-wrapper">
+                        {% for i in interest %}
                         <div class="vertical-product-card rounded-2 position-relative swiper-slide">
-                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
-                                <img src="{% static 'index/assets/img/products/apple.png" alt="apple" class="img-fluid">
+                                <img src="{{i.image}}" alt="apple" class="img-fluid">
                                 <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
+                                    <a href="/add_to_wishlist/{{i.id}}" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
+
                                 </div>
                             </div>
                             <div class="card-content">
                                 <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="#" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <h6 class="price text-danger mb-3">€140.00</h6>
-                                <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary" data-progress="60%" style="width: 60%;"></span>
-                                </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">40/100</span></p>
-                                <a href="#" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
+                                <a href="/view_product_single/{{i.id}}" class="card-title fw-bold d-block mb-2">{{i.name}}</a>
+                                <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
+
+                                <a href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
                             </div>
                         </div>
-                        <div class="vertical-product-card rounded-2 position-relative swiper-slide">
-                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
-                            <div class="thumbnail position-relative text-center p-4">
-                                <img src="{% static 'index/assets/img/products/banana.png" alt="apple" class="img-fluid">
-                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="#" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <h6 class="price text-danger mb-3">€140.00</h6>
-                                <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary" data-progress="60%" style="width: 60%;"></span>
-                                </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">40/100</span></p>
-                                <a href="#" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="vertical-product-card rounded-2 position-relative swiper-slide">
-                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
-                            <div class="thumbnail position-relative text-center p-4">
-                                <img src="{% static 'index/assets/img/products/lemon.png" alt="apple" class="img-fluid">
-                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="#" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <h6 class="price text-danger mb-3">€140.00</h6>
-                                <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary" data-progress="60%" style="width: 60%;"></span>
-                                </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">40/100</span></p>
-                                <a href="#" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="vertical-product-card rounded-2 position-relative swiper-slide">
-                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
-                            <div class="thumbnail position-relative text-center p-4">
-                                <img src="{% static 'index/assets/img/products/orange-slice.png" alt="apple" class="img-fluid">
-                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9"></path>
-                                        </svg>
-                                    </a>
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="#" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <h6 class="price text-danger mb-3">€140.00</h6>
-                                <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary" data-progress="60%" style="width: 60%;"></span>
-                                </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">40/100</span></p>
-                                <a href="#" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
-                            </div>
-                        </div>
+                        {% endfor %}
+
                     </div>
                 </div>
             </div>
@@ -670,7 +255,7 @@
                     <div class="row align-items-center g-3">
                         <div class="col-lg-4">
                             <div class="copyright-text">
-                                <p class="mb-0 text-white">&copy; All rights reserved Made by <a href="#" class="text-secondary">ThemeTags</a></p>
+                                <p class="mb-0 text-white">&copy; All rights reserved Made by <a href="#" class="text-secondary">GoMart</a></p>
                             </div>
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
@@ -724,7 +309,7 @@
                         </form>
                     </div>
                 </div>
-                <a class="d-table-cell mobile-toolbar-item" href="my-account.html">
+                <a class="d-table-cell mobile-toolbar-item" href="/my_account/">
                     <span class="mobile-toolbar-icon">
             <svg width="18" height="25" viewBox="0 0 22 25" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
@@ -734,144 +319,33 @@
             </span>
                     <span class="mobile-toolbar-label">Account</span>
                 </a>
-                <a class="d-table-cell mobile-toolbar-item" href="checkout.html">
+                <a class="d-table-cell mobile-toolbar-item" href="/cart_user/">
                     <span class="mobile-toolbar-icon mobile-cart-icon">
               <svg width="18" height="25" viewBox="0 0 22 25" fill="none"
                    xmlns="http://www.w3.org/2000/svg">
                   <path d="M21.1704 23.9559L19.6264 7.01422C19.5843 6.55156 19.1908 6.19718 18.7194 6.19718H15.5355V4.78227C15.5355 2.14533 13.3583 0 10.6823 0C8.00628 0 5.82937 2.14533 5.82937 4.78227V6.19718H2.6433C2.17192 6.19718 1.77839 6.55156 1.73625 7.01422L0.186259 24.0225C0.163431 24.2735 0.248671 24.5223 0.421216 24.7082C0.593761 24.8941 0.837705 25 1.0933 25H20.2695C20.2702 25 20.2712 25 20.2719 25C20.775 25 21.1826 24.5982 21.1826 24.1027C21.1825 24.0528 21.1784 24.0036 21.1704 23.9559ZM7.65075 4.78227C7.65075 3.1349 9.01071 1.79465 10.6824 1.79465C12.3542 1.79465 13.7142 3.1349 13.7142 4.78227V6.19718H7.65075V4.78227ZM2.08948 23.2055L3.47591 7.99183H5.82937V9.59649C5.82937 10.0921 6.237 10.4938 6.74006 10.4938C7.24313 10.4938 7.65075 10.0921 7.65075 9.59649V7.99183H13.7142V9.59649C13.7142 10.0921 14.1219 10.4938 14.6249 10.4938C15.128 10.4938 15.5356 10.0921 15.5356 9.59649V7.99183H17.8869L19.2733 23.2055H2.08948Z" fill="#5D6374"/>
               </svg>
-              <small class="badge bg-primary">12</small>
             </span>
-                    <span class="mobile-toolbar-label">€265</span>
+                    <span class="mobile-toolbar-label">Cart</span>
                 </a>
             </div>
         </div>
         <div class="offcanvas-left-menu position-fixed">
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo.png" alt="logo"></a>
+                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo_new.png" width="100" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
+                        {% for i in cat %}
                         <li>
                             <a href="shop-grid.html" class="d-flex align-items-center">
                                 <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/baby-care.png" alt="vegetables" class="w-100 h-100 rounded-circle">
+                                    <img src="{{i.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
-                                <span>Baby Care</span>
+                                <span>{{i.name}}</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/cleaning.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Cleaning</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/bakery-biscuits.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Bakery & Biscuits</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/coffee-drinks.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Coffee & Drinks</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/beauty-health.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Beauty & Health</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/breakfast.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Breakfast</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/cold-drinks.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Cold Drinks</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/fresh-fruits.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Fresh Fruits</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/honey.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Honey</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/fresh-organic.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Fresh & Organic</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/jam-jelly.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Jam & Jelly</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/sports-fitness.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Sports & Fitness</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/sea-fish.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Sea Fish</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/pet-care.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Pet Care</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="shop-grid.html" class="d-flex align-items-center">
-                                <div class="me-2 avatar-icon">
-                                    <img src="{% static 'index/assets/img/category/meat.png" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                </div>
-                                <span>Meat</span>
-                            </a>
-                        </li>
+                       {% endfor %}
                     </ul>
                 </nav>
             </div>
@@ -995,34 +469,41 @@
     </button>
     <!--scroll bottom to top button end-->
 <script>
-    // Get elements
-    const decreaseBtn = document.querySelector('.decrease');
-    const increaseBtn = document.querySelector('.increase');
-    const quantityInput = document.querySelector('.quantity');
-    const priceSpan = document.querySelector('.price');
 
-    // Initial price and quantity
-    let price = 10; // Initial price
-    let quantity = 1; // Initial quantity
 
-    // Function to update price
-    const updatePrice = () => {
-        priceSpan.textContent = `$${price * quantity}`; // Update price
-    };
+function increase(button) {
+    var quantityInput = document.getElementById("quantity");
+    var currentQuantity = parseInt(quantityInput.value);
+    quantityInput.value = currentQuantity + 1;
+    var quantityInput1 = document.getElementById("quantity").value;
+    tt=quantityInput1 * {{single.gross_total}};
+    document.getElementById("gross_total").innerHTML="€"+tt.toFixed(2);
+    document.getElementById("gross").value=tt.toFixed(2);
 
-    // Event listener for decrease button
-    decreaseBtn.addEventListener('click', () => {
-        if (quantity > 1) { // Quantity cannot be negative
-            quantity--; // Decrease quantity
-            quantityInput.value = quantity; // Update quantity input value
-            updatePrice(); // Update price
-        }
-    });
+}
 
-    // Event listener for increase button
-    increaseBtn.addEventListener('click', () => {
-        quantity++; // Increase quantity
-        quantityInput.value = quantity; // Update quantity input value
-        updatePrice(); // Update price
-    });
+function decrease(button) {
+    var quantityInput = document.getElementById("quantity");
+    var currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity > 1) {
+        quantityInput.value = currentQuantity - 1;
+        var quantityInput1 = document.getElementById("quantity").value;
+        tt=quantityInput1 * {{single.gross_total}};
+        document.getElementById("gross_total").innerHTML="€"+tt.toFixed(2);
+        document.getElementById("gross").value=tt.toFixed(2);
+
+    }
+}
+
+
+</script>
+<script>
+    function add_to_cart(){
+var addToCartBtn = document.getElementById("addToCartBtn");
+             q = document.getElementById("quantity").value;
+
+             totalAmount=document.getElementById("gross").value;
+
+            addToCartBtn.href = "/add_to_cart_products_single/" + {{single.id}} + "/" + totalAmount + "/" + q;
+}
 </script>

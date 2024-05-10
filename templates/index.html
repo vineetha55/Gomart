@@ -1,4 +1,12 @@
 {% load static %}
+<style>
+    @media screen and (max-width: 967px) {
+        .main_title {
+            font-size: 10px; /* Adjust the font size for mobile view */
+        }
+    }
+</style>
+
 {% include 'indexnavbar.html' %}
 
         <!--hero section start-->
@@ -12,7 +20,7 @@
                         <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3" style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title" style="color:#76b661; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -37,7 +45,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3"  style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title"  style="color:#76b661; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -62,7 +70,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3" style="color:#76b661; font-size:120px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title" style="color:#76b661; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -1211,60 +1219,7 @@
                     </div>
                 </div>
                 <span class="gradient-spacer my-8 d-block"></span>
-                <div class="row g-5">
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="footer-widget">
-                            <h5 class="text-white mb-4">Category</h5>
-                            <ul class="footer-nav">
-                                <li><a href="#">Testimonials</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Location & Working Hours</a></li>
-                                <li><a href="#">Our Guarantee</a></li>
-                                <li><a href="#">Track Your Order</a></li>
-                                <li><a href="#">Help Page</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="footer-widget">
-                            <h5 class="text-white mb-4">Quick Links</h5>
-                            <ul class="footer-nav">
-                                <li><a href="#">Your Account</a></li>
-                                <li><a href="#">Returns & Exchanges</a></li>
-                                <li><a href="#">Return Center</a></li>
-                                <li><a href="#">Purchase History</a></li>
-                                <li><a href="#">Latest News Blog</a></li>
-                                <li><a href="#">Shipping & Delivery</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="footer-widget">
-                            <h5 class="text-white mb-4">Contact Us</h5>
-                            <ul class="footer-nav">
-                                <li><a href="#">Testimonials</a></li>
-                                <li><a href="#">Contact</a></li>
-                                <li><a href="#">Location & Working Hours</a></li>
-                                <li><a href="#">Our Guarantee</a></li>
-                                <li><a href="#">Track Your Order</a></li>
-                                <li><a href="#">Help Page</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                        <div class="footer-widget">
-                            <h5 class="text-white mb-4">Customer Support</h5>
-                            <ul class="footer-nav">
-                                <li><a href="#">Your Account</a></li>
-                                <li><a href="#">Returns & Exchanges</a></li>
-                                <li><a href="#">Return Center</a></li>
-                                <li><a href="#">Purchase History</a></li>
-                                <li><a href="#">Latest News Blog</a></li>
-                                <li><a href="#">Shipping & Delivery</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+
             </div>
             <div class="footer-copyright pt-120 pb-3">
                 <span class="gradient-spacer d-block mb-3"></span>
@@ -1277,25 +1232,10 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="/" class="logo"><img src="{% static 'index/assets/img/logo-white.png' %}" alt="logo" class="img-fluid"></a>
+                                <a href="/" class="logo"><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="footer-payments-info d-flex align-items-center justify-content-lg-end gap-2">
-                                <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="{% static 'index/assets/img/brands/visa.png' %}" alt="visa" class="img-fluid">
-                                </div>
-                                <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="{% static 'index/assets/img/brands/mastercard.png' %}" alt="visa" class="img-fluid">
-                                </div>
-                                <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="{% static 'index/assets/img/brands/payoneer.png' %}" alt="visa" class="img-fluid">
-                                </div>
-                                <div class="supported-payment-box rounded-1 bg-dark-light d-inline-flex align-items-center justify-content-center p-2 flex-shrink-0">
-                                    <img src="{% static 'index/assets/img/brands/paypal.png' %}" alt="visa" class="img-fluid">
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 <html lang="en" data-bs-theme="light">
 
 <head>
+
     <!--required meta tags-->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,6 +20,23 @@
 
     <!--build:css-->
     <link rel="stylesheet" href="{% static 'index/assets/css/main.css' %}">
+         <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #FF0000;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+    </style>
     <!-- endbuild -->
 </head>
 
@@ -46,18 +64,24 @@
                             </div>
                             <h2 class="mb-4 h3">Hey there! <br>Welcome back <span class="text-secondary">Gomart</span>
                             </h2>
+                            {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
+
                             <div class="row g-3">
                                 <div class="col-sm-12">
                                     <div class="input-field">
                                         <label class="fw-bold text-dark fs-sm mb-1">Email</label>
-                                        <input type="email" placeholder="Enter your Email" class="theme-input" name="email">
+                                        <input type="email" placeholder="Enter your Email" class="theme-input" name="email" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="input-field check-password">
                                         <label class="fw-bold text-dark fs-sm mb-1">Password</label>
                                         <div class="check-password">
-                                            <input type="password" placeholder="Password" class="theme-input" name="password">
+                                            <input type="password" placeholder="Password" class="theme-input" name="password" required>
                                             <span class="eye eye-icon">
                  <i class="fa-solid fa-eye"></i>
                </span>
@@ -116,6 +140,18 @@
     <script src="{% static 'index/assets/js/vendors/counterup.min.js' %}"></script>
     <script src="{% static 'index/assets/js/vendors/typer.js' %}"></script>
     <script src="{% static 'index/assets/js/app.js' %}"></script>
+
+     <script>
+        // Add fade-out effect to alert messages after some time
+        window.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('fade');
+                }, 3000); // Adjust the time as needed (in milliseconds)
+            });
+        });
+    </script>
     <!--endbuild-->
 </body>
 

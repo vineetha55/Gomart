@@ -11,6 +11,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
+from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -175,11 +176,27 @@ def show_by_brand(request,id):
 
 
 def shop_by_category(request,id):
-    d=tbl_Product.objects.filter(category=id)
+    d = tbl_Product.objects.filter(category=id).order_by("-price")
+    c = tbl_Category.objects.get(id=id)
     cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
-    return render(request,"shop_by_category.html",{"d":d,"cat":cat,"coun":coun,"brand":brand})
+
+    p_count = d.count()
+    paginator = Paginator(d, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range, "brand":brand,"c":c})
+
+
 
 
 def logout_admin(request):
@@ -241,6 +258,7 @@ def check_login(request):
             request.session['userid']=us.id
             return redirect("/HomePage/")
         else:
+            messages.error(request,"Invalid Credentials Please check the email or password")
             return redirect("/Login/")
 
 def HomePage(request):
@@ -291,7 +309,10 @@ def add_vat_gst(request):
 def view_product_single(request,id):
     single=tbl_Product.objects.get(id=id)
     cat = tbl_Category.objects.all()
-    return render(request,"view_product_single.html",{"single":single,"cat":cat})
+    print(single.category.id)
+    interest=tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
+    print(interest)
+    return render(request,"view_product_single.html",{"single":single,"cat":cat,"interest":interest})
 
 def cart_user(request):
     try:
@@ -316,8 +337,22 @@ def wishlist(request):
 
 def all_products(request):
     d=tbl_Product.objects.all()
+    d2 = tbl_Product.objects.all()
     cat = tbl_Category.objects.all()
-    return render(request,"all_products.html",{"d":d,"cat":cat})
+    p_count=d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request,"all_products.html",{"d":d,"cat":cat,"p_count":p_count,'page_obj': page_obj,
+        'page_range': page_range,})
 
 
 def add_to_cart_products(request,id,price):
@@ -360,6 +395,46 @@ def add_to_cart_products(request,id,price):
     except:
         return redirect("/Login/")
 
+
+def add_to_cart_products_single(request,id,price,q):
+    try:
+        if request.session['userid']:
+            if tbl_Cart.objects.filter(user=request.session['userid']).exists():
+                cart = tbl_Cart.objects.get(user=request.session['userid'])
+                s=int(cart.sub_total)
+                s+=int(price)
+                cart.sub_total= s
+                t=int(cart.total)
+                t += int(price)
+                cart.total= t
+                cart.save()
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
+                c.product_id = id
+                c.quantity = q
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                return redirect("/cart_user/")
+            else:
+
+                cart=tbl_Cart()
+                cart.user_id = request.session['userid']
+                cart.sub_total=price
+                cart.total=price
+                cart.save()
+                c=tbl_Cart_Products()
+                c.cart_id=cart.id
+                c.product_id = id
+                c.quantity = q
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                return redirect("/cart_user/")
+        else:
+            return redirect("/Login/")
+    except:
+        return redirect("/Login/")
 
 def signup(request):
     return render(request,"signup.html")
@@ -645,14 +720,55 @@ def paymenthandler(request):
 
 
 def all_products_user(request):
-    d=tbl_Product.objects.all().order_by('-price')[:3]
+    d = tbl_Product.objects.all()
+    d2 = tbl_Product.objects.all()
     cat = tbl_Category.objects.all()
-    return render(request,"all_products_user.html",{"d":d,"cat":cat})
+    p_count = d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range, })
+
+
 
 def all_product_user_sort(request):
-    d = tbl_Product.objects.all().order_by('price')[:3]
+    d = tbl_Product.objects.all().order_by('price')
     cat = tbl_Category.objects.all()
     return render(request, "all_products_user.html", {"d": d, "cat": cat})
+def all_products_sort(request):
+    d = tbl_Product.objects.all().order_by('price')
+    cat = tbl_Category.objects.all()
+    return render(request, "all_products.html", {"d": d, "cat": cat})
+def shop_by_category_sort(request,id):
+    d = tbl_Product.objects.filter(category=id).order_by('price')
+    c = tbl_Category.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+
+    p_count = d.count()
+    paginator = Paginator(d, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                     'page_range': page_range, "brand": brand, "c": c})
+
 
 def my_account(request):
     try:
@@ -724,8 +840,13 @@ def password_send(request):
 
 
 def view_product_single_user(request,id):
-    single=tbl_Product.objects.get(id=id)
-    return render(request,"view_product_single_user.html",{"single":single})
+    single = tbl_Product.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    print(single.category.id)
+    interest = tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
+    print(interest)
+    return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
+
 
 def remove_from_wishlist(request,id):
     d=tbl_Wishlist.objects.get(id=id)
@@ -927,3 +1048,19 @@ def save_enquiry(request):
     send_mail(subject,msg,f.email,[settings.EMAIL_HOST_USER])
     return redirect("/")
 
+def filter_by_price(request):
+    min_price=request.POST.get("min_price")
+    max_price=request.POST.get("max_price")
+    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price)
+    cat=tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+    return render(request,"all_products.html",{"d":d,"cat":cat,"brand":brand})
+
+def filter_by_price_category(request,id):
+    min_price = request.POST.get("min_price")
+    max_price = request.POST.get("max_price")
+    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price,category=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+    c=tbl_Category.objects.get(id=id)
+    return render(request, "shop_by_category.html", {"d": d,"cat":cat,"brand":brand,"c":c})

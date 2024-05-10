@@ -41,29 +41,29 @@
                     <div class="col-lg-5 col-12 bg-white d-flex p-0 tt-login-col shadow">
                         <form class="tt-login-form-wrap p-3 p-md-6 p-lg-6 py-7 w-100" action="/save_signup/" method="POST">{% csrf_token %}
                             <div class="text-center mb-7">
-                                <a href="index.html"><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo"></a>
+                                <a href=""><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo"></a>
                             </div>
                             <p class="fs-xs">Already have an account? <a href="/Login/" class="text-secondary">Sign in</a></p>
                             <div class="row g-3">
                                <div class="col-sm-12">
                                     <div class="input-field">
-                                        <input type="text" placeholder="Fullname" class="theme-input" name="fullname">
+                                        <input type="text" placeholder="Fullname" class="theme-input" name="fullname" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="input-field">
-                                        <input type="email" placeholder="Email address" class="theme-input" name="email">
+                                        <input type="email" placeholder="Email address" class="theme-input" name="email" required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="input-field">
-                                        <input type="number" placeholder="Mobile Number" class="theme-input" name="mobile">
+                                        <input type="number" placeholder="Mobile Number" class="theme-input" name="mobile" required>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12">
                                     <div class="input-field check-password">
-                                        <input type="password" placeholder="Password" class="theme-input" name="password">
+                                        <input type="password" placeholder="Password" class="theme-input" name="password" required>
                                         <span class="eye eye-icon"><i class="fa-solid fa-eye"></i></span>
                                         <span class="eye eye-slash"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>

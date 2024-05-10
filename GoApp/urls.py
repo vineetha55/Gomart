@@ -65,7 +65,12 @@ urlpatterns = [
     path("save_password/",views.save_password,name="save_password"),
     path("edit_products/<id>",views.edit_products,name="edit_products"),
     path("quick-enquiry/",views.quick_enquiry,name="quick_enquiry"),
-    path("save_enquiry/",views.save_enquiry,name="save_enquiry")
+    path("save_enquiry/",views.save_enquiry,name="save_enquiry"),
+    path("filter_by_price/",views.filter_by_price,name="filter_by_price"),
+    path("add_to_cart_products_single/<id>/<price>/<q>",views.add_to_cart_products_single,name="add_to_cart_products_single"),
+    path("all_products_sort/",views.all_products_sort,name="all_products_sort"),
+    path("filter_by_price_category/<id>",views.filter_by_price_category,name="filter_by_price_category"),
+    path("shop_by_category_sort/<id>",views.shop_by_category_sort,name="shop_by_category_sort")
 
 
 ]
