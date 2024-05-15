@@ -37,11 +37,11 @@
                             <table class="invoice-table-sm">
                                 <tr>
                                     <td><strong>Invoice No</strong></td>
-                                    <td>#INV-000414</td>
+                                    <td>#{{inv.invoice_number}}</td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Shipment ID</strong></td>
-                                    <td>#INV-000414</td>
+                                    <td><strong>Order ID</strong></td>
+                                    <td>#{{inv.orderid}}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Date</strong></td>
@@ -52,7 +52,7 @@
                         <div class="col-lg-5 col-md-8">
                             <div class="text-lg-end">
                                 <a href="#"><img src="{% static 'index/assets/img/logo_new.png' %}" alt="logo" class="img-fluid"></a>
-                                <h6 class="mb-0 text-gray mt-4">Cecilia Chapman, 711-2880 Nulla St, Mankato Mississippi 96522</h6>
+                                <h6 class="mb-0 text-gray mt-4">LetterKenny, Co.Donegal,Ireland</h6>
                             </div>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
                             <tr>
                                 <td>
                                     <strong class="text-dark d-block text-nowrap">Payment Method</strong>
-                                    <span>Cash on delivery</span>
+                                    <span>{{inv.payment_method}}</span>
                                 </td>
                                 <td>
                                     <strong class="text-dark d-block text-nowrap">Shipping Cost</strong>

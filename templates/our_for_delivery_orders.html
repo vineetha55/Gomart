@@ -26,7 +26,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for i in pend %}
+                                {% for i in can %}
                                     <tr>
                                         <td>{{forloop.counter}}</td>
                                         <td>{{i.orderid}}</td>
@@ -36,8 +36,7 @@
                                         <td>{{i.total_after_ship}}</td>
                                         <td>{{i.payment_method}}</td>
                                         <td>
-                                            <a class="btn btn-primary" href="/out_for_delivery/{{i.id}}">Out For Delivery</a>
-                                            <a class="btn btn-danger" href="/cancel_order/{{i.id}}">Cancel</a>
+                                           {{i.status}}
                                         </td>
                                         <td class="text-right">
                                             <div class="dropdown dropdown-action">

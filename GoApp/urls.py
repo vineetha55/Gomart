@@ -70,7 +70,14 @@ urlpatterns = [
     path("add_to_cart_products_single/<id>/<price>/<q>",views.add_to_cart_products_single,name="add_to_cart_products_single"),
     path("all_products_sort/",views.all_products_sort,name="all_products_sort"),
     path("filter_by_price_category/<id>",views.filter_by_price_category,name="filter_by_price_category"),
-    path("shop_by_category_sort/<id>",views.shop_by_category_sort,name="shop_by_category_sort")
+    path("shop_by_category_sort/<id>",views.shop_by_category_sort,name="shop_by_category_sort"),
+    path("out_for_delivery/<id>",views.out_for_delivery,name="out_for_delivery"),
+    path("cancel_order/<id>",views.cancel_order,name="cancel_order"),
+    path("cancelled_orders/",views.cancelled_orders,name="cancelled_orders"),
+    path("our_for_delivery_orders/",views.our_for_delivery_orders,name="our_for_delivery_orders"),
+    path("save_assign/",views.save_assign,name="save_assign"),
+    path("error_page/",views.error_page,name="error_page"),
+    path("partner_details/",views.partner_details,name="partner_details")
 
 
 ]

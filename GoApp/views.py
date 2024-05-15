@@ -24,7 +24,9 @@ def index(request):
     cat=tbl_Category.objects.all()
     coun=tbl_Country.objects.all()
     brand=tbl_Brand.objects.all()
-    return render(request,"index.html",{"cat":cat,"coun":coun,"brand":brand})
+    best=tbl_Product.objects.filter(best_score__gte=10)
+    prod=tbl_Product.objects.all()
+    return render(request,"index.html",{"cat":cat,"coun":coun,"brand":brand,"best":best,"prod":prod})
 
 def Admin_login(request):
     return render(request,"Admin_login.html")
@@ -356,16 +358,16 @@ def all_products(request):
 
 
 def add_to_cart_products(request,id,price):
-    try:
+    # try:
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
-                s=int(cart.sub_total)
-                s+=int(price)
-                cart.sub_total= s
-                t=int(cart.total)
-                t += int(price)
-                cart.total= t
+                s=cart.sub_total
+                s+=float(price)
+                cart.sub_total= round(s, 2)
+                t=cart.total
+                t +=float(price)
+                cart.total= round(t, 2)
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -392,8 +394,8 @@ def add_to_cart_products(request,id,price):
                 return redirect("/cart_user/")
         else:
             return redirect("/Login/")
-    except:
-        return redirect("/Login/")
+    # except:
+    #     return redirect("/Login/")
 
 
 def add_to_cart_products_single(request,id,price,q):
@@ -509,7 +511,8 @@ def checkout(request):
 
 
             ship_charge = 4.95
-            total_after_ship = float(f.total)+ship_charge
+            tas=float(f.total)+ship_charge
+            total_after_ship = round(tas,2)
     context={}
 
 
@@ -587,7 +590,8 @@ def checkout1(request,id):
     else:
 
             ship_charge = 4.95
-            total_after_ship = float(f.total)+ship_charge
+            tas = float(f.total) + ship_charge
+            total_after_ship = round(tas, 2)
 
 
     context = {}
@@ -642,6 +646,8 @@ def order_id_exists(order_id):
 # Function to check if invoice number already exists
 def invoice_number_exists(invoice_number):
     return tbl_Checkout.objects.filter(invoice_number=invoice_number).exists()
+
+
 def paymenthandler(request):
     print("jiii")
     price=request.POST.get("total_after_ship")
@@ -806,11 +812,12 @@ def remove_product(request):
     pid=request.GET.get("product_id")
     try:
         product = tbl_Cart_Products.objects.get(id=pid)
-        product.delete()
+
         c=tbl_Cart.objects.get(user=request.session['userid'])
         c.total=int(c.total)-int(product.total_price)
         c.sub_total = int(c.sub_total) - int(product.total_price)
         c.save()
+        product.delete()
         return JsonResponse({'success': True, 'message': 'Product removed successfully'})
     except tbl_Cart_Products.DoesNotExist:
         return JsonResponse({'success': False, 'message': 'Product does not exist'})
@@ -920,6 +927,25 @@ def pending_orders(request):
     pend=tbl_Checkout.objects.filter(status="Pending")
     return render(request,"pending_orders.html",{"pend":pend})
 
+
+def out_for_delivery(request,id):
+    out=tbl_Checkout.objects.get(id=id)
+    del_part=tbl_Delivery_Partner.objects.all()
+    return render(request,"assign_delivery_partner.html",{"out":out,"del_part":del_part})
+
+def cancel_order(request,id):
+    can=tbl_Checkout.objects.get(id=id)
+    can.status="Cancel"
+    can.save()
+    return redirect("/pending_orders/")
+
+def our_for_delivery_orders(request):
+    out = tbl_Checkout.objects.filter(status="Delivery")
+    return render(request, "our_for_delivery_orders.html", {"out": out})
+
+def cancelled_orders(request):
+    can = tbl_Checkout.objects.filter(status="Cancel")
+    return render(request, "cancelled_orders.html", {"can": can})
 def view_check_products_invoice(request,id):
     inv = tbl_Checkout.objects.get(id=id)
     inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
@@ -934,9 +960,6 @@ stripe.api_key = "sk_test_51P6RmX022XTem7DHqwFRVz2gu5TTcapnV2FPnNg8vIaaLl1NT5olr
 @csrf_exempt
 def process_payment(request):
         print("hii")
-
-
-
 
         if request.method == 'POST':
             data = json.loads(request.body)
@@ -996,6 +1019,7 @@ def process_payment(request):
                 table = tbl_Product.objects.get(id=product)
                 stock = table.opening_stock - int(quantity)
                 table.current_stock = stock
+                table.best_score+=1
                 table.save()
 
             tbl_Cart.objects.get(user=request.session['userid']).delete()
@@ -1064,3 +1088,31 @@ def filter_by_price_category(request,id):
     brand = tbl_Brand.objects.all()
     c=tbl_Category.objects.get(id=id)
     return render(request, "shop_by_category.html", {"d": d,"cat":cat,"brand":brand,"c":c})
+
+def save_assign(request):
+    try:
+        checkout=request.POST.get("out")
+        partner=request.POST.get("name")
+        if tbl_Order_Assign.objects.filter(delivery=partner,pdt_checkout=checkout).exists():
+            messages.error(request,"This order is already assigned to the same person.")
+            return redirect("out_for_delivery",id=checkout)
+        elif tbl_Order_Assign.objects.filter(pdt_checkout=checkout).exists():
+            messages.error(request, "This order is already assigned.")
+            return redirect("out_for_delivery", id=checkout)
+        else:
+            g=tbl_Order_Assign()
+            g.delivery_id=checkout
+            g.pdt_checkout_id=checkout
+            g.save()
+            return redirect("/pending_orders/")
+    except:
+        return redirect("/error_page/")
+
+def error_page(request):
+    return render(request,"error_page.html")
+
+
+def partner_details(request):
+    return render(request,"partner_details.html")
+
+

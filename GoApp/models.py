@@ -50,6 +50,7 @@ class tbl_Product(models.Model):
     product_weight=models.CharField(max_length=100,null=True)
     product_measure = models.CharField(max_length=100, null=True)
     gross_total=models.FloatField(null=True)
+    best_score=models.IntegerField(null=True,default=1)
 
 
     def __str__(self):
@@ -76,8 +77,8 @@ class tbl_Wishlist(models.Model):
 
 class tbl_Cart(models.Model):
     user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE,null=True)
-    sub_total=models.CharField(max_length=100,null=True)
-    total=models.CharField(max_length=100,null=True)
+    sub_total=models.FloatField(null=True)
+    total=models.FloatField(null=True)
 
 
 class tbl_Cart_Products(models.Model):
@@ -140,4 +141,19 @@ class tbl_Enquiry(models.Model):
     email = models.EmailField(max_length=100, null=True)
     phone = models.IntegerField(null=True)
     message = models.TextField(null=True)
+
+class tbl_Delivery_Partner(models.Model):
+    partner_id=models.CharField(max_length=20,null=True)
+    name=models.CharField(max_length=100,null=True)
+    email=models.EmailField(null=True)
+    username=models.CharField(max_length=100,null=True)
+    password=models.CharField(max_length=100,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+
+
+class tbl_Order_Assign(models.Model):
+    delivery=models.ForeignKey(tbl_Delivery_Partner,on_delete=models.CASCADE,null=True)
+    pdt_checkout=models.ForeignKey(tbl_Checkout,on_delete=models.CASCADE,null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
 
