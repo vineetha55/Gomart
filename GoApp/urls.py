@@ -79,6 +79,20 @@ urlpatterns = [
     path("save_assign/", views.save_assign, name="save_assign"),
     path("error_page/", views.error_page, name="error_page"),
     path("partner_details/", views.partner_details, name="partner_details"),
-    path("add_new_delivery/", views.add_new_delivery, name="add_new_delivery")
+    path("add_new_delivery/", views.add_new_delivery, name="add_new_delivery"),
+    path("edit_partner/<id>", views.edit_partner, name="edit_partner"),
+    path("delete_partner/<id>", views.delete_partner, name="delete_partner"),
+    path("log_in_off_info/", views.log_in_off_info, name="log_in_off_info"),
+    path("GoMartDelivery/", views.GoMartDelivery, name="GoMartDelivery"),
+    path("login/check/delivery/", views.login_check_delivery, name="login_check_delivery"),
+    path("Delivery_Home/", views.Delivery_Home, name="Delivery_Home"),
+    path("delivery_orders/", views.delivery_orders, name="delivery_orders"),
+    path("delivery_orders_previous/", views.delivery_orders_previous, name="delivery_orders_previous"),
+    path("logout_delivery/", views.logout_delivery, name="logout_delivery"),
+    path("change_password_delivery/", views.change_password_delivery, name="change_password_delivery"),
+    path("save_change_password/", views.save_change_password, name="save_change_password"),
+    path("delivered_orders/<id>", views.delivered_orders, name="delivered_orders"),
+    path("send_email_with_invoice/", views.send_email_with_invoice, name="send_email_with_invoice"),
+    path("send_to_email_invoice/", views.send_to_email_invoice, name="send_to_email_invoice")
 
 ]

@@ -122,7 +122,7 @@ class tbl_Checkout(models.Model):
     orderid = models.IntegerField(null=True)
     invoice_number = models.IntegerField(null=True)
     total_items = models.CharField(max_length=100, null=True)
-    item_price = models.IntegerField(null=True)
+    item_price = models.FloatField(null=True)
     ship_charge = models.FloatField(null=True)
     total_after_ship = models.FloatField(null=True)
     discount = models.CharField(max_length=100, null=True)
@@ -161,7 +161,14 @@ class tbl_Delivery_Partner(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class tbl_login_info(models.Model):
+    username = models.CharField(max_length=100, null=True)
+    password = models.CharField(max_length=100, null=True)
+    login_at_date = models.DateField(auto_now_add=True)
+    login_at_time = models.TimeField(auto_now_add=True)
+
 class tbl_Order_Assign(models.Model):
     delivery = models.ForeignKey(tbl_Delivery_Partner, on_delete=models.CASCADE, null=True)
     pdt_checkout = models.ForeignKey(tbl_Checkout, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=10, null=True)

@@ -6,7 +6,9 @@
                 <h4 class="page-title">Category</h4>
             </div>
             <div class="col-sm-7 col-7 text-right m-b-30">
-                <a class="btn btn-primary btn-rounded" href="/add_new_delivery"><i class="fa fa-plus"></i> Add New</a>
+                <a class="btn btn-primary btn-rounded" href="/add_new_delivery"><i class="fa fa-plus"></i> All</a>
+                <a class="btn btn-primary btn-rounded" href="/add_new_delivery"><i class="fa fa-plus"></i> Today</a>
+
             </div>
         </div>
         <div class="row">
@@ -16,39 +18,22 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Personal Id</th>
-                            <th>Image</th>
                             <th>Name</th>
-                            <th>Email</th>
                             <th>Username</th>
                             <th>Password</th>
-                            <th>Created At</th>
+                            <th>Login At</th>
                             <th class="text-right">Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {% for i in part %}
+                        {% for i in logg %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{i.partner_id}}</td>
-                            <td><img height="100" src="{{i.image}}" width="100"></td>
-                            <td>{{i.name}}</td>
-                            <td>{{i.email}}</td>
+                            <td>{{i.partner.name}}</td>
                             <td>{{i.username}}</td>
                             <td>{{i.password}}</td>
-                            <td>{{i.created_at}}</td>
-                            <td class="text-right">
-                                <div class="dropdown dropdown-action">
-                                    <a aria-expanded="false" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                                       href="#"><i class="fa fa-ellipsis-v"></i></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="/edit_partner/{{i.id}}"><i
-                                                class="fa fa-pencil m-r-5"></i> Edit</a>
-                                        <a class="dropdown-item" data-target="#delete_department" data-toggle="modal"
-                                           href="#"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
+                            <td>{{i.login_at_date}} {{i.login_at_time}}</td>
+
                         </tr>
                         <div class="modal fade delete-modal" id="delete_department" role="dialog">
                             <div class="modal-dialog modal-dialog-centered">

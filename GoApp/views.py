@@ -1,7 +1,10 @@
 import json
 
 from datetime import date
+from django.core.mail import EmailMessage
 
+from django.template.loader import render_to_string
+from django.views.decorators.cache import never_cache
 
 import requests
 import stripe as stripe
@@ -11,7 +14,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 
 from django.views.decorators.csrf import csrf_exempt
@@ -41,13 +44,19 @@ def login_check(request):
     else:
         return redirect("/Gomart_Admin/")
 
+
+@never_cache
 def Admin_Home(request):
     return render(request,"Admin_Home.html")
 
+
+@never_cache
 def country(request):
     d=tbl_Country.objects.all()
     return render(request,"country.html",{"d":d})
 
+
+@never_cache
 def add_country(request):
     if request.method=="POST":
         d=tbl_Country()
@@ -57,10 +66,15 @@ def add_country(request):
         return redirect("/country/")
     else:
         return render(request,"add_country.html")
+
+
+@never_cache
 def brands(request):
     d=tbl_Brand.objects.all()
     return render(request,"brands.html",{"d":d})
 
+
+@never_cache
 def add_brands(request):
     if request.method=="POST":
         d=tbl_Brand()
@@ -71,11 +85,14 @@ def add_brands(request):
     else:
         return render(request,"add_brands.html")
 
+
+@never_cache
 def category(request):
     d=tbl_Category.objects.all()
     return render(request,"category.html",{"d":d})
 
 
+@never_cache
 def add_category(request):
     if request.method=="POST":
         d=tbl_Category()
@@ -92,10 +109,13 @@ def add_category(request):
         return render(request,"add_category.html")
 
 
+@never_cache
 def products(request):
     products=tbl_Product.objects.all()
     return render(request,"products.html",{"products":products})
 
+
+@never_cache
 def add_product(request):
     if request.method=="POST":
         name = request.POST.get('name')
@@ -158,6 +178,8 @@ def add_product(request):
             print(pdt_code)
         return render(request,"add_products.html",{"cou":cou,"cat":cat,"bran":bran,"pdt_code":pdt_code})
 
+
+@never_cache
 def show_by_country(request,id):
     d=tbl_Product.objects.filter(country=id)
     cat = tbl_Category.objects.all()
@@ -262,21 +284,27 @@ def check_login(request):
             messages.error(request,"Invalid Credentials Please check the email or password")
             return redirect("/Login/")
 
-def HomePage(request):
 
-        r=request.session['userid']
+@never_cache
+def HomePage(request):
+    try:
+
+        r = request.session['userid']
 
         if r:
-            user=tbl_SignUp.objects.get(id=r)
-            print(user,"jj")
+            user = tbl_SignUp.objects.get(id=r)
+            print(user, "jj")
             cat = tbl_Category.objects.all()
             coun = tbl_Country.objects.all()
             brand = tbl_Brand.objects.all()
-            return render(request,"HomePage.html",{"user":user,"cat":cat,"coun":coun,"brand":brand})
+            return render(request, "HomePage.html", {"user": user, "cat": cat, "coun": coun, "brand": brand})
         else:
             return redirect("/")
+    except:
+        return redirect("/")
 
 
+@never_cache
 def add_to_wishlist(request,id):
     try:
         if request.session['userid']:
@@ -315,6 +343,8 @@ def view_product_single(request,id):
     print(interest)
     return render(request,"view_product_single.html",{"single":single,"cat":cat,"interest":interest})
 
+
+@never_cache
 def cart_user(request):
     try:
         c=tbl_Cart.objects.get(user=request.session["userid"])
@@ -327,10 +357,7 @@ def cart_user(request):
         return render(request,"cart_user.html",{"cat":cat})
 
 
-
-
-
-
+@never_cache
 def wishlist(request):
     wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
     return render(request,"wishlist.html",{"wish":wish})
@@ -356,17 +383,18 @@ def all_products(request):
         'page_range': page_range,})
 
 
+@never_cache
 def add_to_cart_products(request,id,price):
-    # try:
+    try:
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
-                s=cart.sub_total
-                s+=float(price)
-                cart.sub_total= round(s, 2)
-                t=cart.total
-                t +=float(price)
-                cart.total= round(t, 2)
+                s = cart.sub_total
+                s += float(price)
+                cart.sub_total = round(s, 2)
+                t = cart.total
+                t += float(price)
+                cart.total = round(t, 2)
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -383,8 +411,8 @@ def add_to_cart_products(request,id,price):
                 cart.sub_total=price
                 cart.total=price
                 cart.save()
-                c=tbl_Cart_Products()
-                c.cart_id=cart.id
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
                 c.product_id = id
                 c.quantity = 1
                 c.total_price = price
@@ -393,10 +421,11 @@ def add_to_cart_products(request,id,price):
                 return redirect("/cart_user/")
         else:
             return redirect("/Login/")
-    # except:
-    #     return redirect("/Login/")
+    except:
+        return redirect("/Login/")
 
 
+@never_cache
 def add_to_cart_products_single(request,id,price,q):
     try:
         if request.session['userid']:
@@ -437,17 +466,24 @@ def add_to_cart_products_single(request,id,price,q):
     except:
         return redirect("/Login/")
 
-def signup(request):
-    return render(request,"signup.html")
 
-def shop_by_category_user(request,id):
-    d = tbl_Product.objects.filter(category=id)
-    table_count= tbl_Product.objects.filter(category=id).count()
-    cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
-    brand = tbl_Brand.objects.all()
-    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
-                                                          "table_count":table_count})
+def signup(request):
+    return render(request, "signup.html")
+
+
+@never_cache
+def shop_by_category_user(request, id):
+    try:
+        ic = request.session['userid']
+        d = tbl_Product.objects.filter(category=id)
+        table_count = tbl_Product.objects.filter(category=id).count()
+        cat = tbl_Category.objects.all()
+        coun = tbl_Country.objects.all()
+        brand = tbl_Brand.objects.all()
+        return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                              "table_count": table_count})
+    except:
+        return redirect("/Login/")
 
 def signout_user(request):
     del request.session['userid']
@@ -476,55 +512,59 @@ def update_cart_total(request):
     data['message'] = "success"
     return JsonResponse(data)
 
+
+@never_cache
 def checkout(request):
+    try:
+        ic = request.session['userid']
 
-    ship = tbl_Shipment_Address.objects.filter(user=request.session['userid']).last()
+        ship = tbl_Shipment_Address.objects.filter(user=request.session['userid']).last()
 
+        bill = tbl_Billing_Address.objects.filter(user=request.session['userid']).last()
+        f = tbl_Cart.objects.get(user=request.session['userid'])
+        total_items = tbl_Cart_Products.objects.filter(cart=f).count()
 
-    bill = tbl_Billing_Address.objects.filter(user=request.session['userid']).last()
-    f=tbl_Cart.objects.get(user=request.session['userid'])
-    total_items=tbl_Cart_Products.objects.filter(cart=f).count()
-
-    item_price=f.sub_total
-    if float(f.total) >= 50:
-        ship_charge=0
-        total_after_ship=f.total
-    else:
-        # if ship:
-        #     eircode=ship.Eircode
-        #     # Replace with the desired Eircode
-        #     latitude, longitude = get_location_from_eircode(eircode)
-        #     if latitude and longitude:
-        #         print("Latitude:", latitude)
-        #         print("Longitude:", longitude)
-        #     else:
-        #         print("Location not found or error occurred")
-        #     address = get_address_from_coordinates(latitude, longitude)
-        #     if address:
-        #         print("Address:", address)
-        #         ship_charge = 4.95
-        #         total_after_ship = f.total
-        #
-        #     else:
-        #         print("Address not found or error occurred")
-
+        item_price = f.sub_total
+        if float(f.total) >= 50:
+            ship_charge = 0
+            total_after_ship = f.total
+        else:
+            # if ship:
+            #     eircode=ship.Eircode
+            #     # Replace with the desired Eircode
+            #     latitude, longitude = get_location_from_eircode(eircode)
+            #     if latitude and longitude:
+            #         print("Latitude:", latitude)
+            #         print("Longitude:", longitude)
+            #     else:
+            #         print("Location not found or error occurred")
+            #     address = get_address_from_coordinates(latitude, longitude)
+            #     if address:
+            #         print("Address:", address)
+            #         ship_charge = 4.95
+            #         total_after_ship = f.total
+            #
+            #     else:
+            #         print("Address not found or error occurred")
 
             ship_charge = 4.95
-            tas=float(f.total)+ship_charge
-            total_after_ship = round(tas,2)
-    context={}
+            tas = float(f.total) + ship_charge
+            total_after_ship = round(tas, 2)
+        context = {}
+
+        context['total_items'] = total_items
+        context['item_price'] = item_price
+        context['ship_charge'] = ship_charge
+        context['total_after_ship'] = total_after_ship
+        context['d'] = ship
+        context['bill'] = bill
+
+        return render(request, "checkout.html", context)
+    except:
+        return render(request, "checkout.html")
 
 
-    context['total_items'] = total_items
-    context['item_price'] = item_price
-    context['ship_charge'] = ship_charge
-    context['total_after_ship'] = total_after_ship
-    context['d'] = ship
-    context['bill'] = bill
-
-
-    return render(request,"checkout.html",context)
-
+@never_cache
 def get_address_from_coordinates(latitude, longitude):
     url = f"https://nominatim.openstreetmap.org/reverse?lat={latitude}&lon={longitude}&format=json"
     headers = {'User-Agent': 'YourApp/1.0'}  # Replace 'YourApp/1.0' with your own user agent string
@@ -569,39 +609,43 @@ def save_ship_address(request):
     data=tbl_Shipment_Address()
     data.first_name=request.POST.get("firstname")
     data.last_name=request.POST.get("lastname")
-    data.email=request.POST.get("email")
-    data.mobile=request.POST.get("mobile")
-    data.state=request.POST.get("state")
-    data.street_address=request.POST.get("street")
-    data.user_id=request.session['userid']
-    data.Eircode=request.POST.get("eircode")
+    data.email = request.POST.get("email")
+    data.mobile = request.POST.get("mobile")
+    data.state = request.POST.get("state")
+    data.street_address = request.POST.get("street")
+    data.user_id = request.session['userid']
+    data.Eircode = request.POST.get("eircode")
     data.save()
-    return redirect("checkout1",id=data.id)
+    return redirect("checkout1", id=data.id)
 
-def checkout1(request,id):
-    d=tbl_Shipment_Address.objects.get(id=id)
-    f = tbl_Cart.objects.get(user=request.session['userid'])
-    total_items = tbl_Cart_Products.objects.filter(cart=f).count()
-    item_price = f.sub_total
-    if float(f.total) >= 50:
-        ship_charge = 0
-        total_after_ship = f.total
-    else:
+
+@never_cache
+def checkout1(request, id):
+    try:
+        d = tbl_Shipment_Address.objects.get(id=id)
+        f = tbl_Cart.objects.get(user=request.session['userid'])
+        total_items = tbl_Cart_Products.objects.filter(cart=f).count()
+        item_price = f.sub_total
+        if float(f.total) >= 50:
+            ship_charge = 0
+            total_after_ship = f.total
+        else:
 
             ship_charge = 4.95
             tas = float(f.total) + ship_charge
             total_after_ship = round(tas, 2)
 
+        context = {}
 
-    context = {}
+        context['total_items'] = total_items
+        context['item_price'] = item_price
+        context['ship_charge'] = ship_charge
+        context['total_after_ship'] = total_after_ship
+        context['d'] = d
 
-    context['total_items'] = total_items
-    context['item_price'] = item_price
-    context['ship_charge'] = ship_charge
-    context['total_after_ship'] = total_after_ship
-    context['d'] = d
-
-    return render(request,"checkout.html",context)
+        return render(request, "checkout.html", context)
+    except:
+        return render(request, "checkout.html")
 def save_bill_address(request):
     if request.method=="POST":
         data=tbl_Billing_Address()
@@ -721,25 +765,28 @@ def invoice_number_exists(invoice_number):
 #     print("hiii")
 #     return redirect("payment_success",id=data.id)
 
-
+@never_cache
 def all_products_user(request):
-    d = tbl_Product.objects.all()
-    d2 = tbl_Product.objects.all()
-    cat = tbl_Category.objects.all()
-    p_count = d2.count()
-    paginator = Paginator(d2, 6)  # 6 products per page
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
+    try:
+        d = tbl_Product.objects.all()
+        d2 = tbl_Product.objects.all()
+        cat = tbl_Category.objects.all()
+        p_count = d2.count()
+        paginator = Paginator(d2, 6)  # 6 products per page
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
 
-    # Determine the range of page numbers to display
-    start_page = max(page_obj.number - 2, 1)
-    end_page = min(page_obj.number + 2, paginator.num_pages)
-    page_range = range(start_page, end_page + 1)
-    print(page_range)
-    d = page_obj.object_list
+        # Determine the range of page numbers to display
+        start_page = max(page_obj.number - 2, 1)
+        end_page = min(page_obj.number + 2, paginator.num_pages)
+        page_range = range(start_page, end_page + 1)
+        print(page_range)
+        d = page_obj.object_list
 
-    return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                 'page_range': page_range, })
+        return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                          'page_range': page_range, })
+    except:
+        return redirect("/Login/")
 
 
 
@@ -773,6 +820,7 @@ def shop_by_category_sort(request,id):
                                                      'page_range': page_range, "brand": brand, "c": c})
 
 
+@never_cache
 def my_account(request):
     try:
         if request.session['userid']:
@@ -790,6 +838,8 @@ def my_account(request):
     except:
         return redirect("/Login/")
 
+
+@never_cache
 def update_profile(request):
     d=tbl_SignUp.objects.get(id=request.session['userid'])
     d.fullname=request.POST.get("fullname")
@@ -843,6 +893,7 @@ def password_send(request):
         return redirect("/forgot_password/")
 
 
+@never_cache
 def view_product_single_user(request,id):
     single = tbl_Product.objects.get(id=id)
     cat = tbl_Category.objects.all()
@@ -1097,34 +1148,216 @@ def save_assign(request):
             messages.error(request, "This order is already assigned.")
             return redirect("out_for_delivery", id=checkout)
         else:
-            g=tbl_Order_Assign()
-            g.delivery_id=checkout
-            g.pdt_checkout_id=checkout
+            g = tbl_Order_Assign()
+            g.delivery_id = partner
+            g.pdt_checkout_id = checkout
+            g.status = "new"
             g.save()
-            return redirect("/pending_orders/")
+            ch = tbl_Checkout.objects.get(id=checkout)
+            ch.status = "Delivery"
+            ch.save()
+            return redirect("/our_for_delivery_orders/")
     except:
         return redirect("/error_page/")
 
+
 def error_page(request):
-    return render(request,"error_page.html")
+    return render(request, "error_page.html")
 
 
 def partner_details(request):
     part = tbl_Delivery_Partner.objects.all()
-    d = tbl_Delivery_Partner.objects.all().last()
-    print(d)
 
-    if d == None:
-        p_id = 'GM000' + '1' + "DP"
-        print(p_id)
-    else:
-        d1 = d.id
-        d2 = d1 + 1
-        p_id = 'GM000' + str(d2) + "DP"
-        print(p_id)
-
-    return render(request, "partner_details.html", {"part": part, "p_id": p_id})
+    return render(request, "partner_details.html", {"part": part})
 
 
 def add_new_delivery(request):
-    return render(request, "add_new_delivery.html")
+    if request.method == "POST":
+        dp = tbl_Delivery_Partner()
+        dp.name = request.POST.get("name")
+        dp.email = request.POST.get("email")
+        dp.username = request.POST.get("username")
+        dp.password = request.POST.get("password")
+        dp.partner_id = request.POST.get("p_id")
+        img = request.FILES['image']
+        fs = FileSystemStorage()
+        file = fs.save(img.name, img)
+        url = fs.url(file)
+        dp.image = url
+        dp.save()
+        return redirect("/partner_details/")
+
+    else:
+        d = tbl_Delivery_Partner.objects.all().last()
+        print(d)
+
+        if d == None:
+            p_id = 'GM000' + '1' + "/DP"
+            print(p_id)
+        else:
+            d1 = d.id
+            d2 = d1 + 1
+            p_id = 'GM000' + str(d2) + "/DP"
+            print(p_id)
+
+    return render(request, "add_new_delivery.html", {"p_id": p_id})
+
+
+def edit_partner(request, id):
+    dp = tbl_Delivery_Partner.objects.get(id=id)
+    if request.method == "POST":
+        dp.name = request.POST.get("name")
+        dp.email = request.POST.get("email")
+        dp.username = request.POST.get("username")
+        dp.password = request.POST.get("password")
+        dp.partner_id = request.POST.get("p_id")
+
+        try:
+            img = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(img.name, img)
+            url = fs.url(file)
+            dp.image = url
+            dp.save()
+        except:
+            dp.save()
+        return redirect("/partner_details/")
+    else:
+        return render(request, "edit_partner.html", {"d": dp})
+
+
+def delete_partner(request, id):
+    d = tbl_Delivery_Partner.objects.get(id=id)
+    d.delete()
+    return redirect("/partner_details/")
+
+
+def log_in_off_info(request):
+    logg = tbl_login_info.objects.all()
+    return render(request, "log_in_off_info.html", {"logg": logg})
+
+
+def GoMartDelivery(request):
+    return render(request, "GoMartDelivery.html")
+
+
+def login_check_delivery(request):
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = tbl_Delivery_Partner.objects.filter(username=username, password=password)
+    if user:
+        us = tbl_Delivery_Partner.objects.get(username=username, password=password)
+        request.session["deli"] = us.id
+        logg = tbl_login_info()
+        logg.username = username
+        logg.password = password
+        logg.save()
+        return redirect("/Delivery_Home/")
+    else:
+        messages.error(request, "Invalid Credentials")
+        return redirect("/GoMartDelivery/")
+
+
+@never_cache
+def Delivery_Home(request):
+    try:
+        ic = request.session['deli']
+        return render(request, "Delivery_Home.html")
+    except:
+        return redirect("/GoMartDelivery/")
+
+
+@never_cache
+def delivery_orders(request):
+    try:
+        ic = request.session['deli']
+        orders = tbl_Order_Assign.objects.filter(delivery=request.session["deli"], status="new")
+        return render(request, "delivery_orders.html", {"orders": orders})
+    except:
+        return redirect("/GoMartDelivery/")
+
+
+@never_cache
+def delivery_orders_previous(request):
+    try:
+        ic = request.session['deli']
+        orders = tbl_Order_Assign.objects.filter(delivery=request.session["deli"], status="complete")
+        return render(request, "delivery_orders_previous.html", {"orders": orders})
+    except:
+        return redirect("/GoMartDelivery/")
+
+
+def logout_delivery(request):
+    del request.session['deli']
+    return redirect("/GoMartDelivery/")
+
+
+def change_password_delivery(request):
+    password = tbl_Delivery_Partner.objects.get(id=request.session['deli'])
+    return render(request, "change_password_delivery.html", {"password": password})
+
+
+def save_change_password(request):
+    new = request.POST.get("new")
+    p = tbl_Delivery_Partner.objects.get(id=request.session['deli'])
+    p.password = new
+    p.save()
+    return redirect("/Delivery_Home/")
+
+
+def delivered_orders(request, id):
+    d = tbl_Order_Assign.objects.get(id=id)
+    d.status = "complete"
+    d.save()
+    f = tbl_Checkout.objects.get(id=d.pdt_checkout.id)
+    f.status = "Complete"
+    f.save()
+    orderid = d.pdt_checkout.orderid
+    total = d.pdt_checkout.total_after_ship
+    email = f.user.email
+    subject = "Delivery Notification"
+    message = "Your Order " + str(orderid) + " is delivered successfully, Amount is " + str(total)
+    message1 = "Order " + str(orderid) + " is delivered successfully, Amount is " + str(total) + "<br>"
+    +" Delivery Partner : " + d.delivery.name
+
+    send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
+    send_mail(subject, message1, d.delivery.email, [settings.EMAIL_HOST_USER])
+    return redirect("/delivery_orders/")
+
+
+def send_email_with_invoice(request):
+    # Generate the invoice content (You need to implement this)
+
+    inv = request.GET.get("inv")
+    print(inv, "inv")
+    inv = tbl_Checkout.objects.get(id=inv)
+    inv_pdt = tbl_checkout_products.objects.filter(checkout=inv)
+    d = date.today()
+
+    # Render the invoice template to string
+    html_content = render_to_string('cod_invoice_view_email.html', {'inv': inv, 'd': d, 'inv_pdt': inv_pdt})
+    email_rec = inv.user.email
+    # Send email
+    email = EmailMessage('Invoice', html_content, settings.EMAIL_HOST_USER, [email_rec])
+    email.content_subtype = 'html'  # Set the content type
+    email.send()
+
+    return JsonResponse({"status": 200})
+
+
+def send_to_email_invoice(request):
+    inv = request.GET.get("inv")
+    print(inv, "inv")
+    inv = tbl_Checkout.objects.get(id=inv)
+    inv_pdt = tbl_checkout_products.objects.filter(checkout=inv)
+    d = date.today()
+
+    # Render the invoice template to string
+    html_content = render_to_string('payment_success_email.html', {'inv': inv, 'd': d, 'inv_pdt': inv_pdt})
+    email_rec = inv.user.email
+    # Send email
+    email = EmailMessage('Invoice', html_content, settings.EMAIL_HOST_USER, [email_rec])
+    email.content_subtype = 'html'  # Set the content type
+    email.send()
+
+    return JsonResponse({"status": 200})
