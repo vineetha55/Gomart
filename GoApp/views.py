@@ -1,20 +1,19 @@
 import json
-import math
+
 from datetime import date
 
-import razorpay as razorpay
+
 import requests
 import stripe as stripe
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
+
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
@@ -639,90 +638,88 @@ def generate_order_id(length):
 def generate_invoice_number(length):
     return ''.join(random.choices(string.digits, k=length))
 
+
 # Function to check if order ID already exists
 def order_id_exists(order_id):
     return tbl_Checkout.objects.filter(orderid=order_id).exists()
+
 
 # Function to check if invoice number already exists
 def invoice_number_exists(invoice_number):
     return tbl_Checkout.objects.filter(invoice_number=invoice_number).exists()
 
 
-def paymenthandler(request):
-    print("jiii")
-    price=request.POST.get("total_after_ship")
-
-    razorpay_order_id = request.POST.get('order_id')
-
-    payment_id = request.POST.get('payment_id', '')
-    print('paymentid:', str(payment_id))
-
-    signature = request.POST.get('razorpay_signature', '')
-
-    params_dict = {
-        'razorpay_order_id': razorpay_order_id,
-        'razorpay_payment_id': payment_id,
-        'razorpay_signature': signature
-    }
-
-    # verify the payment signature.
-
-    print("res:")
-    amount = int(price) * 100  # Rs. 200
-    razorpay_client.payment.capture(payment_id, amount)
-
-    #checkout saving and stock reduce
-    ca=tbl_Cart.objects.get(user=request.session['userid'])
-    ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
-    order_id = generate_order_id(6)
-    invoice_number = generate_invoice_number(6)
-
-    # Check if order ID and invoice number already exist
-    while order_id_exists(order_id):
-        order_id = generate_order_id(6)
-
-    while invoice_number_exists(invoice_number):
-        invoice_number = generate_invoice_number(6)
-
-    data=tbl_Checkout()
-    data.user_id=request.session['userid']
-    data.item_price=request.POST.get("item_price")
-    data.total_items=request.POST.get("total_items")
-    data.ship_charge=request.POST.get("ship_charge")
-    data.total_after_ship=request.POST.get("total_after_ship")
-    data.discount=request.POST.get("discount")
-    d = request.POST.get("ship")
-    d1 = tbl_Shipment_Address.objects.get(id=d)
-    data.ship_address_id = d1.id
-    data.status="Pending"
-    data.payment_method = "Online"
-    data.orderid=order_id
-    data.invoice_number=invoice_number
-    data.save()
-    for i in ca_pd:
-        data1=tbl_checkout_products()
-        data1.user_id=request.session['userid']
-        data1.checkout_id=data.id
-        data1.product_id=i.product.id
-        data1.quantity=i.quantity
-        data1.total_price=i.total_price
-        data1.save()
-    for j in ca_pd:
-        product=j.product.id
-        quantity=j.quantity
-        table=tbl_Product.objects.get(id=product)
-        stock=table.opening_stock - int(quantity)
-        table.current_stock=stock
-        table.save()
-
-
-    tbl_Cart.objects.get(user=request.session['userid']).delete()
-    print("hiii")
-    return redirect("payment_success",id=data.id)
-
-
-
-
+# def paymenthandler(request):
+#     print("jiii")
+#     price=request.POST.get("total_after_ship")
+#
+#     razorpay_order_id = request.POST.get('order_id')
+#
+#     payment_id = request.POST.get('payment_id', '')
+#     print('paymentid:', str(payment_id))
+#
+#     signature = request.POST.get('razorpay_signature', '')
+#
+#     params_dict = {
+#         'razorpay_order_id': razorpay_order_id,
+#         'razorpay_payment_id': payment_id,
+#         'razorpay_signature': signature
+#     }
+#
+#     # verify the payment signature.
+#
+#     print("res:")
+#     amount = int(price) * 100  # Rs. 200
+#     razorpay_client.payment.capture(payment_id, amount)
+#
+#     #checkout saving and stock reduce
+#     ca=tbl_Cart.objects.get(user=request.session['userid'])
+#     ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
+#     order_id = generate_order_id(6)
+#     invoice_number = generate_invoice_number(6)
+#
+#     # Check if order ID and invoice number already exist
+#     while order_id_exists(order_id):
+#         order_id = generate_order_id(6)
+#
+#     while invoice_number_exists(invoice_number):
+#         invoice_number = generate_invoice_number(6)
+#
+#     data=tbl_Checkout()
+#     data.user_id=request.session['userid']
+#     data.item_price=request.POST.get("item_price")
+#     data.total_items=request.POST.get("total_items")
+#     data.ship_charge=request.POST.get("ship_charge")
+#     data.total_after_ship=request.POST.get("total_after_ship")
+#     data.discount=request.POST.get("discount")
+#     d = request.POST.get("ship")
+#     d1 = tbl_Shipment_Address.objects.get(id=d)
+#     data.ship_address_id = d1.id
+#     data.status="Pending"
+#     data.payment_method = "Online"
+#     data.orderid=order_id
+#     data.invoice_number=invoice_number
+#     data.save()
+#     for i in ca_pd:
+#         data1=tbl_checkout_products()
+#         data1.user_id=request.session['userid']
+#         data1.checkout_id=data.id
+#         data1.product_id=i.product.id
+#         data1.quantity=i.quantity
+#         data1.total_price=i.total_price
+#         data1.save()
+#     for j in ca_pd:
+#         product=j.product.id
+#         quantity=j.quantity
+#         table=tbl_Product.objects.get(id=product)
+#         stock=table.opening_stock - int(quantity)
+#         table.current_stock=stock
+#         table.save()
+#
+#
+#     tbl_Cart.objects.get(user=request.session['userid']).delete()
+#     print("hiii")
+#     return redirect("payment_success",id=data.id)
 
 
 def all_products_user(request):
@@ -1113,6 +1110,21 @@ def error_page(request):
 
 
 def partner_details(request):
-    return render(request,"partner_details.html")
+    part = tbl_Delivery_Partner.objects.all()
+    d = tbl_Delivery_Partner.objects.all().last()
+    print(d)
+
+    if d == None:
+        p_id = 'GM000' + '1' + "DP"
+        print(p_id)
+    else:
+        d1 = d.id
+        d2 = d1 + 1
+        p_id = 'GM000' + str(d2) + "DP"
+        print(p_id)
+
+    return render(request, "partner_details.html", {"part": part, "p_id": p_id})
 
 
+def add_new_delivery(request):
+    return render(request, "add_new_delivery.html")
