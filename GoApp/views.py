@@ -1361,3 +1361,27 @@ def send_to_email_invoice(request):
     email.send()
 
     return JsonResponse({"status": 200})
+
+
+def edit_category(request, id):
+    d = tbl_Category.objects.get(id=id)
+    if request.method == "POST":
+        d.name = request.POST.get("category")
+        try:
+            img = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(img.name, img)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
+        return redirect("/category/")
+    else:
+        return render(request, "edit_category.html", {"d": d})
+
+
+def delete_category(request, id):
+    d = tbl_Category.objects.get(id=id)
+    d.delete()
+    return redirect("/category/")

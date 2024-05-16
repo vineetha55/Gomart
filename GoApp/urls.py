@@ -93,6 +93,8 @@ urlpatterns = [
     path("save_change_password/", views.save_change_password, name="save_change_password"),
     path("delivered_orders/<id>", views.delivered_orders, name="delivered_orders"),
     path("send_email_with_invoice/", views.send_email_with_invoice, name="send_email_with_invoice"),
-    path("send_to_email_invoice/", views.send_to_email_invoice, name="send_to_email_invoice")
+    path("send_to_email_invoice/", views.send_to_email_invoice, name="send_to_email_invoice"),
+    path("edit_category/<id>", views.edit_category, name="edit_category"),
+    path("delete_category/<id>", views.delete_category, name="delete_category")
 
 ]
