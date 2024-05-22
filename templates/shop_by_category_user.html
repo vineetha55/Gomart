@@ -220,10 +220,14 @@
                                             <div class="mb-2  tt-category tt-line-clamp tt-clamp-1">
                                                 <a href="#" class="d-inline-block text-muted fs-xxs">Fresh Organic</a>
                                             </div>
-                                            <a href="/view_product_single/{{i.id}}" class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}</a>
+                                            <span>{{i.brand.name}}</span>
+
+                                            <a href="/view_product_single/{{i.id}}"
+                                               class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}</a>
 
                                             <h6 class="price text-danger mb-4">€{{i.price}}</h6>
-                                            <a href="/add_to_cart_products/{{i.id}}/{{i.price}}" class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
+                                            <a href="/add_to_cart_products/{{i.id}}/{{i.price}}"
+                                               class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -353,6 +357,8 @@
                                     <img src="{{i.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
                                 </div>
                                 <span>{{i.name}}</span>
+
+
                             </a>
                         </li>
                   {% endfor %}

@@ -95,6 +95,9 @@ urlpatterns = [
     path("send_email_with_invoice/", views.send_email_with_invoice, name="send_email_with_invoice"),
     path("send_to_email_invoice/", views.send_to_email_invoice, name="send_to_email_invoice"),
     path("edit_category/<id>", views.edit_category, name="edit_category"),
-    path("delete_category/<id>", views.delete_category, name="delete_category")
+    path("delete_category/<id>", views.delete_category, name="delete_category"),
+    path("edit_brands/<id>", views.edit_brands, name="edit_brands"),
+    path("delete_brands/<id>", views.delete_brands, name="delete_brands"),
+    path("delete_product/<id>", views.delete_product, name="delete_product")
 
 ]

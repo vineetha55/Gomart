@@ -1099,13 +1099,45 @@ def view_check_products(request,id):
 
 def edit_products(request,id):
     d=tbl_Product.objects.get(id=id)
-    if request.method=="POST":
-        pass
+    if request.method == "POST":
+        d.name = request.POST.get('name')
+        d.description = request.POST.get('description')
+        d.price = request.POST.get('price')
+        d.country_id = request.POST.get('country')
+        d.brand_id = request.POST.get('brand')
+        d.category_id = request.POST.get('category')
+        d.opening_stock = request.POST.get('opening_stock')
+        d.current_stock = request.POST.get('current_stock')
+        d.product_code = request.POST.get('product_code')
+        d.status = request.POST.get('status')
+        d.gross_total = request.POST.get("gross_total")
+        d.product_weight = request.POST.get("weight")
+        d.product_measure = request.POST.get("weight_measure")
+        d.tax_rate = request.POST.get("tax_rate")
+        d.tax_amount = request.POST.get("tax_amount")
+        try:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(image.name, image)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
+        d.save()
+        return redirect("/products/")
     else:
-        return render(request,"edit_products.html",{"d":d})
+        return render(request, "edit_products.html", {"d": d})
+
+
+def delete_product(request, id):
+    d = tbl_Product.objects.get(id=id)
+    d.delete()
+    return redirect("/products/")
+
 
 def quick_enquiry(request):
-    return render(request,"quick_enquiry.html")
+    return render(request, "quick_enquiry.html")
 
 def save_enquiry(request):
     f=tbl_Enquiry()
@@ -1385,3 +1417,19 @@ def delete_category(request, id):
     d = tbl_Category.objects.get(id=id)
     d.delete()
     return redirect("/category/")
+
+
+def edit_brands(request, id):
+    d = tbl_Brand.objects.get(id=id)
+    if request.method == "POST":
+        d.name = request.POST.get("brands")
+        d.save()
+        return redirect("/brands/")
+    else:
+        return render(request, "edit_brands.html", {"d": d})
+
+
+def delete_brands(request, id):
+    d = tbl_Brand.objects.get(id=id)
+    d.delete()
+    return redirect("/brands/")
