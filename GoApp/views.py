@@ -335,13 +335,18 @@ def add_vat_gst(request):
         return render(request,"add_vat_gst.html",{"coun":coun})
 
 
-def view_product_single(request,id):
-    single=tbl_Product.objects.get(id=id)
-    cat = tbl_Category.objects.all()
-    print(single.category.id)
-    interest=tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
-    print(interest)
-    return render(request,"view_product_single.html",{"single":single,"cat":cat,"interest":interest})
+def view_product_single(request, id):
+    try:
+        single = tbl_Product.objects.get(id=id)
+        cat = tbl_Category.objects.all()
+
+        interest = tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
+
+        return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
+    except:
+        single = tbl_Product.objects.get(id=id)
+        cat = tbl_Category.objects.all()
+        return render(request, "view_product_single.html", {"single": single, "cat": cat})
 
 
 @never_cache
