@@ -5,6 +5,16 @@
             font-size: 10px; /* Adjust the font size for mobile view */
         }
     }
+
+</style>
+<style>
+    .vertical-product-card {
+        width: 100%; /* Set the width of the product card */
+        height: 500px; /* Set the height of the product card */
+    }
+
+
+
 </style>
 
 {% include 'indexnavbar.html' %}
@@ -228,47 +238,41 @@
                 </div>
                 <div class="row justify-content-center g-4 mt-5 filter_group">
 <div class="brands-slider swiper px-2 pt-4 pb-7">
-                        <div class="swiper-wrapper">
-                    {% for i in prod %}
+    <div class="swiper-wrapper">
+        {% for i in prod %}
 
-                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide  filter_item beans_peas{{i.category.id}}">
-                        <div class="vertical-product-card rounded-2 position-relative">
-                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
-                            <div class="thumbnail position-relative text-center p-4">
-                                <a href=""><img alt="apple" class="img-fluid"  src="{{i.image}}"></a>
-                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
-
-                                </div>
-                            </div>
-                            <div class="card-content">
-                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh Organic</a>
-                                <a class="card-title fw-bold d-block mb-2" href="/view_product_single/{{i.id}}">{{i.name}}</a>
-<!--                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">-->
-<!--                                    <ul class="d-flex align-items-center me-2">-->
-<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
-<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
-<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
-<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
-<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
-<!--                                    </ul>-->
-<!--                                    <span class="flex-shrink-0">(5.2k Reviews)</span>-->
-<!--                                </div>-->
-                                <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
-                                <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary-light" data-progress="60%"></span>
-                                </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span></p>
-                            </div>
-                            <div class="card-btn bg-white">
-                                <a class="btn btn-secondary d-block btn-md rounded-1" href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
-                            </div>
-                        </div>
+        <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide filter_item beans_peas{{i.category.id}}">
+            <div class="vertical-product-card rounded-2 position-relative">
+                <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
+                <div class="thumbnail position-relative text-center p-4">
+                    <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
+                                    style=" height:250px;"></a>
+                    <div class="product-btns position-absolute d-flex gap-2 flex-column">
+                        <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
                     </div>
-
-                {% endfor %}
-                            </div>
+                </div>
+                <div class="card-content">
+                    <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh Organic</a>
+                    <a class="card-title fw-bold d-block mb-2" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                    <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
+                    <div class="card-progressbar mb-2 rounded-pill">
+                        <span class="card-progress bg-primary-light" data-progress="60%"></span>
                     </div>
+                    <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
+                    </p>
+                </div>
+                <div class="card-btn bg-white">
+                    <a class="btn btn-secondary d-block btn-md rounded-1"
+                       href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+    </div>
+</div>
+
+
                 </div>
             </div>
         </section> <!--trending products end-->
