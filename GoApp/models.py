@@ -41,6 +41,7 @@ class tbl_Product(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField(null=True)
     price = models.FloatField(null=True)
+    our_price = models.FloatField(null=True)
     country = models.ForeignKey(tbl_Country, on_delete=models.CASCADE, null=True)
     brand = models.ForeignKey(tbl_Brand, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(tbl_Category, on_delete=models.CASCADE, null=True)
@@ -57,6 +58,7 @@ class tbl_Product(models.Model):
     product_measure = models.CharField(max_length=100, null=True)
     gross_total = models.FloatField(null=True)
     best_score = models.IntegerField(null=True, default=1)
+
 
     def __str__(self):
         return self.name if self.name else 'Unnamed Product'
@@ -229,7 +231,6 @@ class tbl_poster7(models.Model):
     subtitle2 =models.CharField(max_length=500,null=True)
 
 
-
-
-
-
+class tbl_Subscribe(models.Model):
+    email = models.EmailField(null=True)
+    created_at = models.DateTimeField(auto_now_add=True)

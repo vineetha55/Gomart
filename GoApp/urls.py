@@ -120,5 +120,6 @@ urlpatterns = [
     path("update_poster5/<id>", views.update_poster5, name="update_poster5"),
     path("update_poster6/<id>", views.update_poster6, name="update_poster6"),
     path("update_poster7/<id>", views.update_poster7, name="update_poster7"),
+    path("add-subscription/", views.add_subscription, name="add_subscription")
 
 ]

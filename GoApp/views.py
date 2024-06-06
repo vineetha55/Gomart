@@ -181,6 +181,11 @@ def add_product(request):
 
         )
         product.save()
+        sub = tbl_Subscribe.objects.all()
+        for i in sub:
+            send_mail("New Product Alert",
+                      "Hi customer We have added a new product in our store please check it and buy it",
+                      settings.EMAIL_HOST_USER, [i.email])
         return redirect("/products/")
     else:
         cou = tbl_Country.objects.all()
@@ -1691,8 +1696,9 @@ def update_poster4(request,id):
         d.sentence = request.POST.get("sentence")
         image=request.FILES['image']
         fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
+        file = fs.save(image.name, image)
+        file = fs.save(image.name, image)
+        url = fs.url(file)
         d.image=url
         d.save()
         return redirect("/poster4/")
@@ -1741,13 +1747,24 @@ def update_poster7(request,id):
         d.subtitle2=request.POST.get("subtitle2")
         image=request.FILES['image']
         fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
+        file = fs.save(image.name, image)
+        url = fs.url(file)
+        d.image = url
         d.save()
         return redirect("/poster7/")
 
     else:
-        return render(request,"update_poster7.html",{"d":d})
+        return render(request, "update_poster7.html", {"d": d})
 
 
+def add_subscription(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        if tbl_Subscribe.objects.filter(email=email).exists():
+            messages.error(request, "You are already subscribed")
+            return redirect("/")
+        else:
+            data = tbl_Subscribe()
+            data.email = request.POST.get("email")
+            data.save()
+            return redirect("/")
