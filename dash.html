@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Dashboard</title>
+    <link href="styles.css" rel="stylesheet">
+  <style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh;
+    position: fixed;
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    background-color: #1a252f;
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-menu li {
+    position: relative;
+}
+
+.sidebar-menu li a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 15px 20px;
+}
+
+.sidebar-menu li a:hover {
+    background-color: #1a252f;
+}
+
+.sidebar-menu .dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #34495e;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-width: 200px;
+}
+
+.sidebar-menu .dropdown-menu li a {
+    padding: 10px 20px;
+}
+
+.sidebar-menu .dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    width: calc(100% - 250px);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.stat-box {
+    width: 23%;
+    background-color: #f3f3f3;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.stat-box .stat-icon {
+    margin-bottom: 10px;
+}
+
+.calendar {
+    margin-top: 20px;
+}
+
+.calendar-week {
+    display: flex;
+    justify-content: space-between;
+}
+
+.calendar-day {
+    width: 13%;
+    background-color: #f3f3f3;
+    padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.calendar-day.highlighted {
+    background-color: #dff0d8;
+}
+
+.event {
+    background-color: #5cb85c;
+    color: white;
+    padding: 5px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+  </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>DECKLINE INTERIORS</h2>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="dropdown">
+                <a href="#">Dashboard</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Sub-item 1</a></li>
+                    <li><a href="#">Sub-item 2</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Settings</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Preferences</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Featured Products</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Best Sellers</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Leads Details</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">New Leads</a></li>
+                    <li><a href="#">Archived Leads</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Quotation</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">New Quotation</a></li>
+                    <li><a href="#">Manage Quotations</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Purchase</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">New Purchase</a></li>
+                    <li><a href="#">Manage Purchases</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">HR</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Employee List</a></li>
+                    <li><a href="#">Recruitment</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Reports</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Sales Report</a></li>
+                    <li><a href="#">Purchase Report</a></li>
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="#">Control Panel</a>
+                <ul class="dropdown-menu">
+                    <li><a href="#">System Settings</a></li>
+                    <li><a href="#">User Management</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Log out</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <div class="dashboard-header">
+            <h2>Dashboard</h2>
+            <div class="user-info">
+                <span>DECKLINE</span>
+            </div>
+        </div>
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-icon"><img alt="Total Leads" src="icon1.png"></div>
+                <div class="stat-info">
+                    <h3>180</h3>
+                    <p>Total Leads</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><img alt="Leads Converted" src="icon2.png"></div>
+                <div class="stat-info">
+                    <h3>27</h3>
+                    <p>No. of Leads Converted</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><img alt="Leads in Pipeline" src="icon3.png"></div>
+                <div class="stat-info">
+                    <h3>153</h3>
+                    <p>No. of Leads in Pipeline</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><img alt="Order Conversion Rate" src="icon4.png"></div>
+                <div class="stat-info">
+                    <h3>100.0000%</h3>
+                    <p>Order Conversion Rate</p>
+                </div>
+            </div>
+        </div>
+        <div class="calendar">
+            <h3>Reminder</h3>
+            <div class="calendar-week">
+                <div class="calendar-day">Sun 6/2</div>
+                <div class="calendar-day">Mon 6/3</div>
+                <div class="calendar-day highlighted">Tue 6/4
+                    <div class="event">Enquiry ID:177 - Customer Name: SHYAM RAJ - Call Time: 12:00 am - Status: Order Taken - Remark: </div>
+                    <div class="event">Enquiry ID:179 - Customer Name: BENJAMIN - Call Time: 12:00 am - Status: Order Taken - Remark: </div>
+                    <div class="event">Enquiry ID:180 - Customer Name: REX - Call Time: 12:00 am - Status: Order Taken - Remark: </div>
+                </div>
+                <div class="calendar-day">Wed 6/5
+                    <div class="event">Enquiry ID:162 - Customer Name: FEBIN - Call Time: 12:00 am - Status: Lead Approved - Remark: Works going delay</div>
+                </div>
+                <div class="calendar-day">Thu 6/6</div>
+                <div class="calendar-day">Fri 6/7</div>
+                <div class="calendar-day">Sat 6/8</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import json
 
-from datetime import date
+from datetime import date, datetime
 from django.core.mail import EmailMessage
 
 from django.template.loader import render_to_string
@@ -21,25 +21,42 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
+
 # Create your views here.
 def index(request):
-    cat=tbl_Category.objects.all()
-    coun=tbl_Country.objects.all()
-    brand=tbl_Brand.objects.all()
-    best=tbl_Product.objects.filter(best_score__gte=10)
-    prod=tbl_Product.objects.all()
-    return render(request,"index.html",{"cat":cat,"coun":coun,"brand":brand,"best":best,"prod":prod})
+    cat = tbl_Category.objects.all()
+    coun = tbl_Country.objects.all()
+    brand = tbl_Brand.objects.all()
+    best = tbl_Product.objects.filter(best_score__gte=10)
+    prod = tbl_Product.objects.all()
+    deal = tbl_Deals.objects.filter(status="Start")
+    post1=tbl_poster1.objects.get()
+    post2=tbl_poster2.objects.get()
+    post3=tbl_poster3.objects.get()
+    post4=tbl_poster4.objects.get()
+    post5=tbl_poster5.objects.get()
+    post6=tbl_poster6.objects.get()
+    post7=tbl_poster7.objects.get()
+    new_pdt=tbl_Product.objects.all().order_by('-id')[:3]
+    organic = tbl_Product.objects.all()[:3]
+    return render(request, "index.html",
+                  {"cat": cat, "coun": coun, "brand": brand, "best": best,
+                   "prod": prod, "deal": deal,"post1":post1,
+                   "post2":post2,"post3":post3,"post4":post4,
+                   "post5":post5,"post6":post6,"post7":post7,
+                   "new_pdt":new_pdt,"organic":organic})
+
 
 def Admin_login(request):
-    return render(request,"Admin_login.html")
+    return render(request, "Admin_login.html")
 
 
 def login_check(request):
-    username=request.POST.get("username")
-    password=request.POST.get("password")
-    user=authenticate(request,username=username,password=password)
+    username = request.POST.get("username")
+    password = request.POST.get("password")
+    user = authenticate(request, username=username, password=password)
     if user:
-        login(request,user)
+        login(request, user)
         return redirect("/Admin_Home/")
     else:
         return redirect("/Gomart_Admin/")
@@ -47,77 +64,82 @@ def login_check(request):
 
 @never_cache
 def Admin_Home(request):
-    return render(request,"Admin_Home.html")
+    return render(request, "Admin_Home.html")
 
 
 @never_cache
 def country(request):
-    d=tbl_Country.objects.all()
-    return render(request,"country.html",{"d":d})
+    d = tbl_Country.objects.all()
+    return render(request, "country.html", {"d": d})
 
 
 @never_cache
 def add_country(request):
-    if request.method=="POST":
-        d=tbl_Country()
-        d.name=request.POST.get("country")
-        d.status=request.POST.get("status")
+    if request.method == "POST":
+        d = tbl_Country()
+        d.name = request.POST.get("country")
+        d.status = request.POST.get("status")
         d.save()
         return redirect("/country/")
     else:
-        return render(request,"add_country.html")
+        return render(request, "add_country.html")
 
 
 @never_cache
 def brands(request):
-    d=tbl_Brand.objects.all()
-    return render(request,"brands.html",{"d":d})
+    d = tbl_Brand.objects.all()
+    return render(request, "brands.html", {"d": d})
 
 
 @never_cache
 def add_brands(request):
-    if request.method=="POST":
-        d=tbl_Brand()
-        d.name=request.POST.get("brands")
-        d.status=request.POST.get("status")
+    if request.method == "POST":
+        d = tbl_Brand()
+        d.name = request.POST.get("brands")
+        d.status = request.POST.get("status")
+        image = request.FILES['image']
+        fs = FileSystemStorage()
+        file = fs.save(image.name, image)
+        url = fs.url(file)
+        d.image = url
         d.save()
         return redirect("/brands/")
     else:
-        return render(request,"add_brands.html")
+        return render(request, "add_brands.html")
 
 
 @never_cache
 def category(request):
-    d=tbl_Category.objects.all()
-    return render(request,"category.html",{"d":d})
+    d = tbl_Category.objects.all()
+    return render(request, "category.html", {"d": d})
 
 
 @never_cache
 def add_category(request):
-    if request.method=="POST":
-        d=tbl_Category()
-        d.name=request.POST.get("category")
-        d.status=request.POST.get("status")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
+    if request.method == "POST":
+        d = tbl_Category()
+        d.name = request.POST.get("category")
+        d.status = request.POST.get("status")
+        image = request.FILES['image']
+        fs = FileSystemStorage()
+        file = fs.save(image.name, image)
+        url = fs.url(file)
+        d.image = url
         d.save()
         return redirect("/category/")
     else:
-        return render(request,"add_category.html")
+        return render(request, "add_category.html")
 
 
 @never_cache
 def products(request):
-    products=tbl_Product.objects.all()
-    return render(request,"products.html",{"products":products})
+    products = tbl_Product.objects.all()
+    return render(request, "products.html", {"products": products})
 
 
 @never_cache
 def add_product(request):
-    if request.method=="POST":
+    if request.method == "POST":
         name = request.POST.get('name')
         description = request.POST.get('description')
         price = request.POST.get('price')
@@ -129,14 +151,14 @@ def add_product(request):
         product_code = request.POST.get('product_code')
         status = request.POST.get('status')
         image = request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        gross_total=request.POST.get("gross_total")
-        weight=request.POST.get("weight")
-        weight_measure=request.POST.get("weight_measure")
-        tax_rate=request.POST.get("tax_rate")
-        tax_amount=request.POST.get("tax_amount")
+        fs = FileSystemStorage()
+        file = fs.save(image.name, image)
+        url = fs.url(file)
+        gross_total = request.POST.get("gross_total")
+        weight = request.POST.get("weight")
+        weight_measure = request.POST.get("weight_measure")
+        tax_rate = request.POST.get("tax_rate")
+        tax_amount = request.POST.get("tax_amount")
 
         # Create and save a new Product object
         product = tbl_Product(
@@ -157,14 +179,13 @@ def add_product(request):
             tax_rate=tax_rate,
             tax_amount=tax_amount,
 
-
         )
         product.save()
         return redirect("/products/")
     else:
-        cou=tbl_Country.objects.all()
-        cat=tbl_Category.objects.all()
-        bran=tbl_Brand.objects.all()
+        cou = tbl_Country.objects.all()
+        cat = tbl_Category.objects.all()
+        bran = tbl_Brand.objects.all()
         d = tbl_Product.objects.all().last()
         print(d)
 
@@ -176,29 +197,30 @@ def add_product(request):
             d2 = d1 + 1
             pdt_code = 'GM/PD00' + str(d2)
             print(pdt_code)
-        return render(request,"add_products.html",{"cou":cou,"cat":cat,"bran":bran,"pdt_code":pdt_code})
+        return render(request, "add_products.html", {"cou": cou, "cat": cat, "bran": bran, "pdt_code": pdt_code})
 
 
 @never_cache
-def show_by_country(request,id):
-    d=tbl_Product.objects.filter(country=id)
+def show_by_country(request, id):
+    d = tbl_Product.objects.filter(country=id)
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
-    return render(request,"show_by_country.html",{"d":d,"cat":cat,"coun":coun,"brand":brand})
+    return render(request, "show_by_country.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
 
-def show_by_brand(request,id):
-    d=tbl_Product.objects.filter(brand=id)
+
+def show_by_brand(request, id):
+    d = tbl_Product.objects.filter(brand=id)
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
-    latest=tbl_Product.objects.all()[:9]
-    n=range(2)
-    return render(request,"show_by_brand.html",{"d":d,"cat":cat,"coun":coun,"brand":brand,
-                                                "latest":latest,"n":n})
+    latest = tbl_Product.objects.all()[:9]
+    n = range(2)
+    return render(request, "show_by_brand.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                  "latest": latest, "n": n})
 
 
-def shop_by_category(request,id):
+def shop_by_category(request, id):
     d = tbl_Product.objects.filter(category=id).order_by("-price")
     c = tbl_Category.objects.get(id=id)
     cat = tbl_Category.objects.all()
@@ -217,9 +239,7 @@ def shop_by_category(request,id):
     d = page_obj.object_list
 
     return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                 'page_range': page_range, "brand":brand,"c":c})
-
-
+                                                     'page_range': page_range, "brand": brand, "c": c})
 
 
 def logout_admin(request):
@@ -231,10 +251,11 @@ def contact(request):
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
-    return render(request,"contact.html",{"cat":cat,"coun":coun,"brand":brand})
+    return render(request, "contact.html", {"cat": cat, "coun": coun, "brand": brand})
+
 
 def Login(request):
-    return render(request,"Login_new.html")
+    return render(request, "Login_new.html")
 
 
 def save_signup(request):
@@ -258,7 +279,6 @@ def save_signup(request):
             email=email,
             password=password,
 
-
         )
         return redirect("/Login/")
 
@@ -275,13 +295,13 @@ def check_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user= tbl_SignUp.objects.filter(email=email,password=password)
+        user = tbl_SignUp.objects.filter(email=email, password=password)
         if user:
             us = tbl_SignUp.objects.get(email=email, password=password)
-            request.session['userid']=us.id
+            request.session['userid'] = us.id
             return redirect("/HomePage/")
         else:
-            messages.error(request,"Invalid Credentials Please check the email or password")
+            messages.error(request, "Invalid Credentials Please check the email or password")
             return redirect("/Login/")
 
 
@@ -305,14 +325,14 @@ def HomePage(request):
 
 
 @never_cache
-def add_to_wishlist(request,id):
+def add_to_wishlist(request, id):
     try:
         if request.session['userid']:
             print("hi")
             d = tbl_Product.objects.get(id=id)
-            wish=tbl_Wishlist()
-            wish.product_id=id
-            wish.user_id=request.session['userid']
+            wish = tbl_Wishlist()
+            wish.product_id = id
+            wish.user_id = request.session['userid']
             wish.save()
             return redirect("/wishlist/")
         else:
@@ -323,16 +343,17 @@ def add_to_wishlist(request,id):
         print("hiii")
         return redirect("/Login/")
 
+
 def add_vat_gst(request):
-    if request.method=="POST":
-        f=tbl_Tax()
-        f.country_id=request.POST.get("country")
-        f.rate=request.POST.get("rate")
+    if request.method == "POST":
+        f = tbl_Tax()
+        f.country_id = request.POST.get("country")
+        f.rate = request.POST.get("rate")
         f.save()
         return redirect("/country/")
     else:
-        coun=tbl_Country.objects.all()
-        return render(request,"add_vat_gst.html",{"coun":coun})
+        coun = tbl_Country.objects.all()
+        return render(request, "add_vat_gst.html", {"coun": coun})
 
 
 def view_product_single(request, id):
@@ -352,27 +373,27 @@ def view_product_single(request, id):
 @never_cache
 def cart_user(request):
     try:
-        c=tbl_Cart.objects.get(user=request.session["userid"])
-        cart_details=tbl_Cart_Products.objects.filter(user=request.session["userid"],cart=c)
+        c = tbl_Cart.objects.get(user=request.session["userid"])
+        cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
         cat = tbl_Category.objects.all()
 
-        return render(request,"cart_user.html",{"cart_details":cart_details,"cat":cat,"c":c})
+        return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
     except:
         cat = tbl_Category.objects.all()
-        return render(request,"cart_user.html",{"cat":cat})
+        return render(request, "cart_user.html", {"cat": cat})
 
 
 @never_cache
 def wishlist(request):
     wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
-    return render(request,"wishlist.html",{"wish":wish})
+    return render(request, "wishlist.html", {"wish": wish})
 
 
 def all_products(request):
-    d=tbl_Product.objects.all()
+    d = tbl_Product.objects.all()
     d2 = tbl_Product.objects.all()
     cat = tbl_Category.objects.all()
-    p_count=d2.count()
+    p_count = d2.count()
     paginator = Paginator(d2, 6)  # 6 products per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -384,12 +405,12 @@ def all_products(request):
     print(page_range)
     d = page_obj.object_list
 
-    return render(request,"all_products.html",{"d":d,"cat":cat,"p_count":p_count,'page_obj': page_obj,
-        'page_range': page_range,})
+    return render(request, "all_products.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range, })
 
 
 @never_cache
-def add_to_cart_products(request,id,price):
+def add_to_cart_products(request, id, price):
     try:
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
@@ -411,10 +432,10 @@ def add_to_cart_products(request,id,price):
                 return redirect("/cart_user/")
             else:
 
-                cart=tbl_Cart()
+                cart = tbl_Cart()
                 cart.user_id = request.session['userid']
-                cart.sub_total=price
-                cart.total=price
+                cart.sub_total = price
+                cart.total = price
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -431,17 +452,17 @@ def add_to_cart_products(request,id,price):
 
 
 @never_cache
-def add_to_cart_products_single(request,id,price,q):
+def add_to_cart_products_single(request, id, price, q):
     try:
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
-                s=int(cart.sub_total)
-                s+=int(price)
-                cart.sub_total= s
-                t=int(cart.total)
+                s = int(cart.sub_total)
+                s += int(price)
+                cart.sub_total = s
+                t = int(cart.total)
                 t += int(price)
-                cart.total= t
+                cart.total = t
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -453,13 +474,13 @@ def add_to_cart_products_single(request,id,price,q):
                 return redirect("/cart_user/")
             else:
 
-                cart=tbl_Cart()
+                cart = tbl_Cart()
                 cart.user_id = request.session['userid']
-                cart.sub_total=price
-                cart.total=price
+                cart.sub_total = price
+                cart.total = price
                 cart.save()
-                c=tbl_Cart_Products()
-                c.cart_id=cart.id
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
                 c.product_id = id
                 c.quantity = q
                 c.total_price = price
@@ -490,21 +511,24 @@ def shop_by_category_user(request, id):
     except:
         return redirect("/Login/")
 
+
 def signout_user(request):
     del request.session['userid']
     return redirect("/")
 
+
 def update_cart_products(request):
-    q=request.GET.get("q")
-    tp=request.GET.get("tp")
-    id=request.GET.get("id")
-    c=tbl_Cart_Products.objects.get(id=id)
-    c.quantity=q
-    c.total_price=tp
+    q = request.GET.get("q")
+    tp = request.GET.get("tp")
+    id = request.GET.get("id")
+    c = tbl_Cart_Products.objects.get(id=id)
+    c.quantity = q
+    c.total_price = tp
     c.save()
-    data={}
-    data['message']="success"
+    data = {}
+    data['message'] = "success"
     return JsonResponse(data)
+
 
 def update_cart_total(request):
     ts = request.GET.get("ts")
@@ -585,6 +609,7 @@ def get_address_from_coordinates(latitude, longitude):
         print("Error:", response.status_code)
         return None
 
+
 def get_location_from_eircode(eircode):
     url = f"https://nominatim.openstreetmap.org/search?q={eircode}&format=json"
     headers = {
@@ -606,14 +631,15 @@ def get_location_from_eircode(eircode):
         print("Error:", response.status_code)
         return None, None
 
+
 def about(request):
-    return render(request,"about.html")
+    return render(request, "about.html")
 
 
 def save_ship_address(request):
-    data=tbl_Shipment_Address()
-    data.first_name=request.POST.get("firstname")
-    data.last_name=request.POST.get("lastname")
+    data = tbl_Shipment_Address()
+    data.first_name = request.POST.get("firstname")
+    data.last_name = request.POST.get("lastname")
     data.email = request.POST.get("email")
     data.mobile = request.POST.get("mobile")
     data.state = request.POST.get("state")
@@ -651,17 +677,19 @@ def checkout1(request, id):
         return render(request, "checkout.html", context)
     except:
         return render(request, "checkout.html")
+
+
 def save_bill_address(request):
-    if request.method=="POST":
-        data=tbl_Billing_Address()
-        data.first_name=request.POST.get("firstname")
-        data.last_name=request.POST.get("lastname")
-        data.email=request.POST.get("email")
-        data.mobile=request.POST.get("mobile")
-        data.state=request.POST.get("state")
-        data.street_address=request.POST.get("street")
-        data.user_id=request.session['userid']
-        data.Eircode=request.POST.get("eircode")
+    if request.method == "POST":
+        data = tbl_Billing_Address()
+        data.first_name = request.POST.get("firstname")
+        data.last_name = request.POST.get("lastname")
+        data.email = request.POST.get("email")
+        data.mobile = request.POST.get("mobile")
+        data.state = request.POST.get("state")
+        data.street_address = request.POST.get("street")
+        data.user_id = request.session['userid']
+        data.Eircode = request.POST.get("eircode")
         data.save()
         return redirect("/checkout/")
     else:
@@ -675,13 +703,17 @@ def save_bill_address(request):
         data.user_id = request.session['userid']
         data.Eircode = request.GET.get("eircode")
         data.save()
-        return JsonResponse(data={"msg":"success"})
+        return JsonResponse(data={"msg": "success"})
+
+
 import random
 import string
+
 
 # Function to generate a random order ID
 def generate_order_id(length):
     return ''.join(random.choices(string.digits, k=length))
+
 
 # Function to generate a random invoice number
 def generate_invoice_number(length):
@@ -794,16 +826,19 @@ def all_products_user(request):
         return redirect("/Login/")
 
 
-
 def all_product_user_sort(request):
     d = tbl_Product.objects.all().order_by('price')
     cat = tbl_Category.objects.all()
     return render(request, "all_products_user.html", {"d": d, "cat": cat})
+
+
 def all_products_sort(request):
     d = tbl_Product.objects.all().order_by('price')
     cat = tbl_Category.objects.all()
     return render(request, "all_products.html", {"d": d, "cat": cat})
-def shop_by_category_sort(request,id):
+
+
+def shop_by_category_sort(request, id):
     d = tbl_Product.objects.filter(category=id).order_by('price')
     c = tbl_Category.objects.get(id=id)
     cat = tbl_Category.objects.all()
@@ -831,13 +866,13 @@ def my_account(request):
         if request.session['userid']:
 
             cat = tbl_Category.objects.all()
-            my=tbl_SignUp.objects.get(id=request.session['userid'])
-            ship=tbl_Shipment_Address.objects.filter(user=request.session['userid'])
-            bill=tbl_Billing_Address.objects.filter(user=request.session['userid'])
-            recent_orders=tbl_Checkout.objects.filter(user=request.session['userid']).order_by('-id')[:6]
+            my = tbl_SignUp.objects.get(id=request.session['userid'])
+            ship = tbl_Shipment_Address.objects.filter(user=request.session['userid'])
+            bill = tbl_Billing_Address.objects.filter(user=request.session['userid'])
+            recent_orders = tbl_Checkout.objects.filter(user=request.session['userid']).order_by('-id')[:6]
 
-            return render(request,"my_account.html",{"cat":cat,"my":my,"ship":ship,"bill":bill,
-                                                     "recent_orders":recent_orders})
+            return render(request, "my_account.html", {"cat": cat, "my": my, "ship": ship, "bill": bill,
+                                                       "recent_orders": recent_orders})
         else:
             return redirect("/Login/")
     except:
@@ -846,27 +881,29 @@ def my_account(request):
 
 @never_cache
 def update_profile(request):
-    d=tbl_SignUp.objects.get(id=request.session['userid'])
-    d.fullname=request.POST.get("fullname")
-    d.email=request.POST.get("email")
-    d.mobile=request.POST.get("mobile")
+    d = tbl_SignUp.objects.get(id=request.session['userid'])
+    d.fullname = request.POST.get("fullname")
+    d.email = request.POST.get("email")
+    d.mobile = request.POST.get("mobile")
     try:
-        image=request.FILES['dp']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.dp=url
+        image = request.FILES['dp']
+        fs = FileSystemStorage()
+        file = fs.save(image.name, image)
+        url = fs.url(file)
+        d.dp = url
         d.save()
     except:
         d.save()
     return redirect("/my_account/")
+
+
 def remove_product(request):
-    pid=request.GET.get("product_id")
+    pid = request.GET.get("product_id")
     try:
         product = tbl_Cart_Products.objects.get(id=pid)
 
-        c=tbl_Cart.objects.get(user=request.session['userid'])
-        c.total=int(c.total)-int(product.total_price)
+        c = tbl_Cart.objects.get(user=request.session['userid'])
+        c.total = int(c.total) - int(product.total_price)
         c.sub_total = int(c.sub_total) - int(product.total_price)
         c.save()
         product.delete()
@@ -876,30 +913,32 @@ def remove_product(request):
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
+
 def save_password(request):
-    f=tbl_SignUp.objects.get(id=request.session['userid'])
-    f.password=request.POST.get("new_password")
+    f = tbl_SignUp.objects.get(id=request.session['userid'])
+    f.password = request.POST.get("new_password")
     f.save()
     return redirect("/my_account/")
 
+
 def forgot_password(request):
-    return render(request,"forgot_password.html")
+    return render(request, "forgot_password.html")
 
 
 def password_send(request):
-    email=request.POST.get("email")
+    email = request.POST.get("email")
     if tbl_SignUp.objects.filter(email=email).exists():
-        e=tbl_SignUp.objects.get(email=email)
-        password=e.password
-        subject="Password"
-        Message="Your Password is "+password
-        send_mail(subject,Message,settings.EMAIL_HOST_USER,[email])
-        messages.success(request,"Password sent to your email ,Please check ")
+        e = tbl_SignUp.objects.get(email=email)
+        password = e.password
+        subject = "Password"
+        Message = "Your Password is " + password
+        send_mail(subject, Message, settings.EMAIL_HOST_USER, [email])
+        messages.success(request, "Password sent to your email ,Please check ")
         return redirect("/forgot_password/")
 
 
 @never_cache
-def view_product_single_user(request,id):
+def view_product_single_user(request, id):
     single = tbl_Product.objects.get(id=id)
     cat = tbl_Category.objects.all()
     print(single.category.id)
@@ -908,13 +947,13 @@ def view_product_single_user(request,id):
     return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
 
 
-def remove_from_wishlist(request,id):
-    d=tbl_Wishlist.objects.get(id=id)
+def remove_from_wishlist(request, id):
+    d = tbl_Wishlist.objects.get(id=id)
     d.delete()
     return redirect("/wishlist/")
 
 
-def payment_success(request,id):
+def payment_success(request, id):
     inv = tbl_Checkout.objects.get(id=id)
     inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
     d = date.today()
@@ -932,178 +971,189 @@ def cod_invoice(request):
     while invoice_number_exists(invoice_number):
         invoice_number = generate_invoice_number(6)
 
-    #checkout saving and stock reduce
-    ca=tbl_Cart.objects.get(user=request.session['userid'])
-    ca_pd=tbl_Cart_Products.objects.filter(cart=ca)
-    data=tbl_Checkout()
-    data.user_id=request.session['userid']
-    data.item_price=request.POST.get("item_price")
-    data.total_items=request.POST.get("total_items")
-    data.ship_charge=request.POST.get("ship_charge")
-    data.total_after_ship=request.POST.get("total_after_ship")
-    data.discount=request.POST.get("discount")
-    d=request.POST.get("ship")
+    # checkout saving and stock reduce
+    ca = tbl_Cart.objects.get(user=request.session['userid'])
+    ca_pd = tbl_Cart_Products.objects.filter(cart=ca)
+    data = tbl_Checkout()
+    data.user_id = request.session['userid']
+    data.item_price = request.POST.get("item_price")
+    data.total_items = request.POST.get("total_items")
+    data.ship_charge = request.POST.get("ship_charge")
+    data.total_after_ship = request.POST.get("total_after_ship")
+    data.discount = request.POST.get("discount")
+    d = request.POST.get("ship")
     d1 = tbl_Shipment_Address.objects.get(id=d)
-    data.ship_address_id=d1.id
-    data.status="Pending"
-    data.payment_method="COD"
-    data.orderid=order_id
-    data.invoice_number=invoice_number
+    data.ship_address_id = d1.id
+    data.status = "Pending"
+    data.payment_method = "COD"
+    data.orderid = order_id
+    data.invoice_number = invoice_number
     data.save()
     for i in ca_pd:
-        data1=tbl_checkout_products()
-        data1.user_id=request.session['userid']
-        data1.checkout_id=data.id
-        data1.product_id=i.product.id
-        data1.quantity=i.quantity
-        data1.total_price=i.total_price
+        data1 = tbl_checkout_products()
+        data1.user_id = request.session['userid']
+        data1.checkout_id = data.id
+        data1.product_id = i.product.id
+        data1.quantity = i.quantity
+        data1.total_price = i.total_price
         data1.save()
     for j in ca_pd:
-        product=j.product.id
-        quantity=j.quantity
-        table=tbl_Product.objects.get(id=product)
-        stock=table.opening_stock - int(quantity)
-        table.current_stock=stock
+        product = j.product.id
+        quantity = j.quantity
+        table = tbl_Product.objects.get(id=product)
+        stock = table.opening_stock - int(quantity)
+        table.current_stock = stock
         table.save()
 
-
     tbl_Cart.objects.get(user=request.session['userid']).delete()
-    return redirect("cod_invoice_view",id=data.id)
+    return redirect("cod_invoice_view", id=data.id)
 
-def cod_invoice_view(request,id):
-    inv=tbl_Checkout.objects.get(id=id)
-    inv_pdt=tbl_checkout_products.objects.filter(checkout=id)
-    d=date.today()
-    return render(request,"cod_invoice_view.html",{"inv":inv,"inv_pdt":inv_pdt,"d":d})
+
+def cod_invoice_view(request, id):
+    inv = tbl_Checkout.objects.get(id=id)
+    inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
+    d = date.today()
+    return render(request, "cod_invoice_view.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
+
 
 def pending_orders(request):
-    pend=tbl_Checkout.objects.filter(status="Pending")
-    return render(request,"pending_orders.html",{"pend":pend})
+    pend = tbl_Checkout.objects.filter(status="Pending")
+    return render(request, "pending_orders.html", {"pend": pend})
 
 
-def out_for_delivery(request,id):
-    out=tbl_Checkout.objects.get(id=id)
-    del_part=tbl_Delivery_Partner.objects.all()
-    return render(request,"assign_delivery_partner.html",{"out":out,"del_part":del_part})
+def out_for_delivery(request, id):
+    out = tbl_Checkout.objects.get(id=id)
+    del_part = tbl_Delivery_Partner.objects.all()
+    return render(request, "assign_delivery_partner.html", {"out": out, "del_part": del_part})
 
-def cancel_order(request,id):
-    can=tbl_Checkout.objects.get(id=id)
-    can.status="Cancel"
+
+def cancel_order(request, id):
+    can = tbl_Checkout.objects.get(id=id)
+    can.status = "Cancel"
     can.save()
     return redirect("/pending_orders/")
+
 
 def our_for_delivery_orders(request):
     out = tbl_Checkout.objects.filter(status="Delivery")
     return render(request, "our_for_delivery_orders.html", {"out": out})
 
+
 def cancelled_orders(request):
     can = tbl_Checkout.objects.filter(status="Cancel")
     return render(request, "cancelled_orders.html", {"can": can})
-def view_check_products_invoice(request,id):
+
+
+def view_check_products_invoice(request, id):
     inv = tbl_Checkout.objects.get(id=id)
     inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
     d = date.today()
     return render(request, "view_check_products_invoice.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
+
 def completed_orders(request):
     pend = tbl_Checkout.objects.filter(status="Complete")
     return render(request, "pending_orders.html", {"pend": pend})
+
+
 stripe.api_key = "sk_test_51P6RmX022XTem7DHqwFRVz2gu5TTcapnV2FPnNg8vIaaLl1NT5olr5QQNxcGXB7zztaPMcC1DkxXEjqmYhVOt1nm004SicdbKv"  # Replace with your Stripe secret key
+
 
 @csrf_exempt
 def process_payment(request):
-        print("hii")
+    print("hii")
 
-        if request.method == 'POST':
-            data = json.loads(request.body)
-            # Retrieve the payment method ID from the JSON data
-            payment_method_id = data.get('payment_method_id')
-            print(payment_method_id)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        # Retrieve the payment method ID from the JSON data
+        payment_method_id = data.get('payment_method_id')
+        print(payment_method_id)
 
-            # Create a payment intent
-            print("helloo")
-            intent = stripe.PaymentIntent.create(
-                amount=int(data.get("total_after_ship"))*100,  # Amount in cents, adjust as needed
-                currency='EUR',
-                payment_method=payment_method_id,
-                confirmation_method='manual',
-                confirm=True,
-                return_url='https://127.0.0.1:8000/payment_success/'
-            )
-            print("complete")
-            ca = tbl_Cart.objects.get(user=request.session['userid'])
-            ca_pd = tbl_Cart_Products.objects.filter(cart=ca)
+        # Create a payment intent
+        print("helloo")
+        intent = stripe.PaymentIntent.create(
+            amount=int(data.get("total_after_ship")) * 100,  # Amount in cents, adjust as needed
+            currency='EUR',
+            payment_method=payment_method_id,
+            confirmation_method='manual',
+            confirm=True,
+            return_url='https://127.0.0.1:8000/payment_success/'
+        )
+        print("complete")
+        ca = tbl_Cart.objects.get(user=request.session['userid'])
+        ca_pd = tbl_Cart_Products.objects.filter(cart=ca)
+        order_id = generate_order_id(6)
+        invoice_number = generate_invoice_number(6)
+
+        # Check if order ID and invoice number already exist
+        while order_id_exists(order_id):
             order_id = generate_order_id(6)
+
+        while invoice_number_exists(invoice_number):
             invoice_number = generate_invoice_number(6)
 
-            # Check if order ID and invoice number already exist
-            while order_id_exists(order_id):
-                order_id = generate_order_id(6)
+        ff = tbl_Checkout()
+        ff.user_id = request.session['userid']
+        ff.item_price = data.get("item_price")
+        ff.total_items = data.get("total_items")
+        ff.ship_charge = data.get("ship_charge")
+        ff.total_after_ship = data.get("total_after_ship")
+        ff.discount = data.get("discount")
+        d = data.get("ship")
+        d1 = tbl_Shipment_Address.objects.get(id=d)
+        ff.ship_address_id = d1.id
+        ff.status = "Pending"
+        ff.payment_method = "Online"
+        ff.orderid = order_id
+        ff.invoice_number = invoice_number
+        ff.save()
+        for i in ca_pd:
+            data1 = tbl_checkout_products()
+            data1.user_id = request.session['userid']
+            data1.checkout_id = ff.id
+            data1.product_id = i.product.id
+            data1.quantity = i.quantity
+            data1.total_price = i.total_price
+            data1.save()
+        for j in ca_pd:
+            product = j.product.id
+            quantity = j.quantity
+            table = tbl_Product.objects.get(id=product)
+            stock = table.opening_stock - int(quantity)
+            table.current_stock = stock
+            table.best_score += 1
+            table.save()
 
-            while invoice_number_exists(invoice_number):
-                invoice_number = generate_invoice_number(6)
+        tbl_Cart.objects.get(user=request.session['userid']).delete()
+        print("hiii")
+        print(ff.id, "idd")
+        r = {}
+        r['id'] = ff.id
+        r['success'] = True
+        print(r, "uuuuuuu")
 
-            ff = tbl_Checkout()
-            ff.user_id = request.session['userid']
-            ff.item_price = data.get("item_price")
-            ff.total_items = data.get("total_items")
-            ff.ship_charge = data.get("ship_charge")
-            ff.total_after_ship = data.get("total_after_ship")
-            ff.discount = data.get("discount")
-            d = data.get("ship")
-            d1 = tbl_Shipment_Address.objects.get(id=d)
-            ff.ship_address_id = d1.id
-            ff.status = "Pending"
-            ff.payment_method = "Online"
-            ff.orderid = order_id
-            ff.invoice_number = invoice_number
-            ff.save()
-            for i in ca_pd:
-                data1 = tbl_checkout_products()
-                data1.user_id = request.session['userid']
-                data1.checkout_id = ff.id
-                data1.product_id = i.product.id
-                data1.quantity = i.quantity
-                data1.total_price = i.total_price
-                data1.save()
-            for j in ca_pd:
-                product = j.product.id
-                quantity = j.quantity
-                table = tbl_Product.objects.get(id=product)
-                stock = table.opening_stock - int(quantity)
-                table.current_stock = stock
-                table.best_score+=1
-                table.save()
+        # Payment is successful, you can save the order or perform other actions here
+        return JsonResponse(r)
+        # except stripe.error.CardError as e:
+        #     # Handle card errors
+        #     print("error")
+        #     return JsonResponse({'success': False, 'error': str(e)})
+        # except Exception as e:
+        #     # Handle other errors
+        #     print("newerror")
+        #     return JsonResponse({'success': False, 'error': str(e)})
 
-            tbl_Cart.objects.get(user=request.session['userid']).delete()
-            print("hiii")
-            print(ff.id,"idd")
-            r={}
-            r['id']=ff.id
-            r['success']=True
-            print(r,"uuuuuuu")
+    # If the request method is not POST, return a method not allowed response
+    return JsonResponse({'error': 'Method not allowed'}, status=405)
 
 
-            # Payment is successful, you can save the order or perform other actions here
-            return JsonResponse(r)
-            # except stripe.error.CardError as e:
-            #     # Handle card errors
-            #     print("error")
-            #     return JsonResponse({'success': False, 'error': str(e)})
-            # except Exception as e:
-            #     # Handle other errors
-            #     print("newerror")
-            #     return JsonResponse({'success': False, 'error': str(e)})
+def view_check_products(request, id):
+    d = tbl_checkout_products.objects.filter(checkout=id)
+    return render(request, "view_check_products.html", {"d": d})
 
-        # If the request method is not POST, return a method not allowed response
-        return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-def view_check_products(request,id):
-    d=tbl_checkout_products.objects.filter(checkout=id)
-    return render(request,"view_check_products.html",{"d":d})
-
-def edit_products(request,id):
-    d=tbl_Product.objects.get(id=id)
+def edit_products(request, id):
+    d = tbl_Product.objects.get(id=id)
     if request.method == "POST":
         d.name = request.POST.get('name')
         d.description = request.POST.get('description')
@@ -1144,43 +1194,47 @@ def delete_product(request, id):
 def quick_enquiry(request):
     return render(request, "quick_enquiry.html")
 
+
 def save_enquiry(request):
-    f=tbl_Enquiry()
-    f.firstname=request.POST.get("firstname")
-    f.lastname=request.POST.get("lastname")
-    f.email=request.POST.get("email")
-    f.message=request.POST.get("message")
-    f.phone=request.POST.get("phone")
+    f = tbl_Enquiry()
+    f.firstname = request.POST.get("firstname")
+    f.lastname = request.POST.get("lastname")
+    f.email = request.POST.get("email")
+    f.message = request.POST.get("message")
+    f.phone = request.POST.get("phone")
     f.save()
-    subject="New Enquiry from GoMart"
+    subject = "New Enquiry from GoMart"
     msg = f"Name: {f.firstname} {f.lastname}\nPhone: {f.phone}\nMessage: {f.message}"
-    send_mail(subject,msg,f.email,[settings.EMAIL_HOST_USER])
+    send_mail(subject, msg, f.email, [settings.EMAIL_HOST_USER])
     return redirect("/")
 
-def filter_by_price(request):
-    min_price=request.POST.get("min_price")
-    max_price=request.POST.get("max_price")
-    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price)
-    cat=tbl_Category.objects.all()
-    brand = tbl_Brand.objects.all()
-    return render(request,"all_products.html",{"d":d,"cat":cat,"brand":brand})
 
-def filter_by_price_category(request,id):
+def filter_by_price(request):
     min_price = request.POST.get("min_price")
     max_price = request.POST.get("max_price")
-    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price,category=id)
+    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price)
     cat = tbl_Category.objects.all()
     brand = tbl_Brand.objects.all()
-    c=tbl_Category.objects.get(id=id)
-    return render(request, "shop_by_category.html", {"d": d,"cat":cat,"brand":brand,"c":c})
+    return render(request, "all_products.html", {"d": d, "cat": cat, "brand": brand})
+
+
+def filter_by_price_category(request, id):
+    min_price = request.POST.get("min_price")
+    max_price = request.POST.get("max_price")
+    d = tbl_Product.objects.filter(price__gte=min_price, price__lte=max_price, category=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+    c = tbl_Category.objects.get(id=id)
+    return render(request, "shop_by_category.html", {"d": d, "cat": cat, "brand": brand, "c": c})
+
 
 def save_assign(request):
     try:
-        checkout=request.POST.get("out")
-        partner=request.POST.get("name")
-        if tbl_Order_Assign.objects.filter(delivery=partner,pdt_checkout=checkout).exists():
-            messages.error(request,"This order is already assigned to the same person.")
-            return redirect("out_for_delivery",id=checkout)
+        checkout = request.POST.get("out")
+        partner = request.POST.get("name")
+        if tbl_Order_Assign.objects.filter(delivery=partner, pdt_checkout=checkout).exists():
+            messages.error(request, "This order is already assigned to the same person.")
+            return redirect("out_for_delivery", id=checkout)
         elif tbl_Order_Assign.objects.filter(pdt_checkout=checkout).exists():
             messages.error(request, "This order is already assigned.")
             return redirect("out_for_delivery", id=checkout)
@@ -1428,7 +1482,15 @@ def edit_brands(request, id):
     d = tbl_Brand.objects.get(id=id)
     if request.method == "POST":
         d.name = request.POST.get("brands")
-        d.save()
+        try:
+            img = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(img.name, img)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
         return redirect("/brands/")
     else:
         return render(request, "edit_brands.html", {"d": d})
@@ -1438,3 +1500,254 @@ def delete_brands(request, id):
     d = tbl_Brand.objects.get(id=id)
     d.delete()
     return redirect("/brands/")
+
+
+def deals(request):
+    deal = tbl_Deals.objects.all()
+    return render(request, "deals.html", {"deal": deal})
+
+
+def add_deal(request):
+    if request.method == "POST":
+        de = tbl_Deals()
+        de.deal_type = request.POST.get("deal_type")
+        de.product_id = request.POST.get("product")
+        de.deal_price = request.POST.get("deal_price")
+        de.deal_end_date = request.POST.get("e_date")
+        de.deal_start_date = request.POST.get("s_date")
+        de.deal_end_time = request.POST.get("e_time")
+        de.deal_start_time = request.POST.get("s_time")
+        de.status = "Start"
+        de.save()
+        return redirect("/deals/")
+    else:
+        pdt = tbl_Product.objects.all()
+        return render(request, "add_deal.html", {"pdt": pdt})
+
+
+def Get_pdt_actual_price(request):
+    pid = request.GET.get("pid")
+    d = tbl_Product.objects.get(id=pid)
+    price = d.gross_total
+    data = {}
+    data['message'] = price
+    return JsonResponse(data)
+
+
+def edit_deal(request, id):
+    deal = tbl_Deals.objects.get(id=id)
+    pdt = tbl_Product.objects.all()
+
+    if request.method == "POST":
+        deal.deal_type = request.POST.get("deal_type")
+        deal.product_id = request.POST.get("product")
+        deal.deal_price = request.POST.get("deal_price")
+        deal.deal_end_date = request.POST.get("e_date")
+        deal.deal_start_date = request.POST.get("s_date")
+        deal.deal_end_time = request.POST.get("e_time")
+        deal.deal_start_time = request.POST.get("s_time")
+        deal.status = "Start"
+        deal.save()
+        return redirect("/deals/")
+    else:
+        return render(request, "edit_deal.html", {"deal": deal, "pdt": pdt})
+
+
+def close_deal(request, id):
+    deal = tbl_Deals.objects.get(id=id)
+    deal.status = "Closed"
+    deal.save()
+    return redirect("/deals/")
+
+
+def delete_deal(request, id):
+    deal = tbl_Deals.objects.get(id=id)
+    deal.delete()
+    return redirect("/deals/")
+
+
+def checking_deal_time(request, pid, id):
+    deal = tbl_Deals.objects.get(id=id)
+    current_time = datetime.now().strftime("%H:%M:%S")
+    if deal.deal_start_date <= date.today() and deal.deal_end_date >= date.today():
+        if deal.deal_start_time <= current_time and deal.deal_end_time >= current_time:
+            return redirect("view_product_single", id=pid)
+        else:
+            messages.error(request, "Deal is not started")
+            return redirect("/")
+    else:
+        messages.error(request, "Deal is not started")
+        return redirect("/")
+
+
+def poster1(request):
+    d1=tbl_poster1.objects.get()
+    d2=d1.id
+    d=tbl_poster1.objects.get(id=d2)
+    return render(request, "poster1.html",{"d":d})
+
+
+def poster2(request):
+    d1 = tbl_poster2.objects.get()
+    d2 = d1.id
+    d = tbl_poster2.objects.get(id=d2)
+    return render(request, "poster2.html",{"d":d})
+
+
+def poster3(request):
+    d1 = tbl_poster3.objects.get()
+    d2 = d1.id
+    d = tbl_poster3.objects.get(id=d2)
+    return render(request, "poster3.html",{"d":d})
+
+
+def poster4(request):
+    d1 = tbl_poster4.objects.get()
+    d2 = d1.id
+    d = tbl_poster4.objects.get(id=d2)
+    return render(request, "poster4.html",{"d":d})
+
+
+def poster5(request):
+    d1 = tbl_poster5.objects.get()
+    d2 = d1.id
+    d = tbl_poster5.objects.get(id=d2)
+    return render(request, "poster5.html",{"d":d})
+
+
+def poster6(request):
+    d1 = tbl_poster6.objects.get()
+    d2 = d1.id
+    d = tbl_poster6.objects.get(id=d2)
+    return render(request, "poster6.html",{"d":d})
+
+
+def poster7(request):
+    d1 = tbl_poster7.objects.get()
+    d2 = d1.id
+    d = tbl_poster7.objects.get(id=d2)
+    return render(request, "poster7.html",{"d":d})
+
+def update_poster1(request,id):
+    d=tbl_poster1.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.heading=request.POST.get("heading")
+        d.heading2=request.POST.get("heading2")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster1/")
+
+    else:
+        return render(request,"update_poster1.html",{"d":d})
+
+
+def update_poster2(request,id):
+    d=tbl_poster2.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.heading=request.POST.get("heading")
+        d.heading2=request.POST.get("heading2")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster2/")
+
+    else:
+        return render(request,"update_poster2.html",{"d":d})
+
+
+def update_poster3(request,id):
+    d=tbl_poster3.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.heading=request.POST.get("heading")
+        d.heading2=request.POST.get("heading2")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster3/")
+
+    else:
+        return render(request,"update_poster1.html",{"d":d})
+
+
+def update_poster4(request,id):
+    d=tbl_poster4.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.heading=request.POST.get("heading")
+        d.heading2=request.POST.get("heading2")
+        d.sentence = request.POST.get("sentence")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster4/")
+
+    else:
+        return render(request,"update_poster4.html",{"d":d})
+
+
+def update_poster5(request,id):
+    d=tbl_poster5.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.heading=request.POST.get("heading")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster5/")
+
+    else:
+        return render(request,"update_poster5.html",{"d":d})
+
+
+def update_poster6(request,id):
+    d=tbl_poster6.objects.get(id=id)
+    if request.method=="POST":
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster6/")
+
+    else:
+        return render(request,"update_poster6.html",{"d":d})
+
+
+def update_poster7(request,id):
+    d=tbl_poster7.objects.get(id=id)
+    if request.method=="POST":
+        d.subtitle=request.POST.get("subtitle")
+        d.title=request.POST.get("title")
+        d.subtitle2=request.POST.get("subtitle2")
+        image=request.FILES['image']
+        fs=FileSystemStorage()
+        file=fs.save(image.name,image)
+        url=fs.url(file)
+        d.image=url
+        d.save()
+        return redirect("/poster7/")
+
+    else:
+        return render(request,"update_poster7.html",{"d":d})
+
+

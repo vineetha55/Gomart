@@ -1,0 +1,76 @@
+{% include 'left_nav.html' %}
+<div class="page-wrapper" id="container">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-5 col-5">
+                <h4 class="page-title">Poster 3</h4>
+            </div>
+            <div class="col-sm-7 col-7 text-right m-b-30">
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <form action="/update_poster3/{{d.id}}" enctype="multipart/form-data" method="POST">{% csrf_token %}
+                    <table class="table table-striped custom-table mb-0 datatable">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <th>Image</th>
+                            <td><input name="image" type="file"></td>
+                        </tr>
+                        <tr>
+                            <th> Subtitle </th>
+                            <td><input name="subtitle" type="text" value="{{ d.subtitle }}"></td>
+                        </tr>
+                        <tr>
+                            <th>Heading</th>
+                            <td><input name="heading" type="text" value="{{ d.heading }}"></td>
+                        </tr>
+                        <tr>
+                            <th>Heading 2</th>
+                            <td><input name="heading2" type="text" value="{{ d.heading2 }}"></td>
+                        </tr>
+                         <tr>
+                            <td><input class="btn btn-primary" type="submit" value="Create"></td>
+                        </tr>
+
+
+                        <div class="modal fade delete-modal" id="delete_product" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body text-center">
+                                        <img alt="" height="46" src="assets/img/sent.png" width="50">
+                                        <h3>Are you sure want to delete this Poster?</h3>
+                                        <div class="m-t-20">
+                                            <a class="btn btn-white" data-dismiss="modal" href="#">Close</a>
+                                            <a class="btn btn-danger" href="/delete_poster/{{d.id}}">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </tbody>
+                    </table>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="notification-box">
+        <!-- Message notifications list -->
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+        $("#product").DataTable();
+    });
+
+</script>

@@ -1,0 +1,68 @@
+{% include 'left_nav.html' %}
+<div class="page-wrapper" id="container">
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-5 col-5">
+                <h4 class="page-title">Poster 4</h4>
+            </div>
+            <div class="col-sm-7 col-7 text-right m-b-30">
+                <a class="btn btn-primary btn-rounded" href="/update_poster4/{{d.id}}"><i class="fa fa-plus"></i> Update Poster</a>
+                <a class="btn btn-primary btn-rounded" data-target="#delete_product" data-toggle="modal" href="#"><i class="fa fa-trash-o m-r-5"></i>Delete Poster</a>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table class="table table-striped custom-table mb-0 datatable" >
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <th>Image</th>
+                            <td><img height="50" src="{{d.image}}" width="50"></td>
+                        </tr>
+                        <tr>
+                            <th> Subtitle </th>
+                            <td>{{ d.subtitle }}</td>
+                        </tr>
+                        <tr>
+                            <th>Heading</th>
+                            <td>{{ d.heading }}</td>
+                        </tr>
+                         <tr>
+                            <th>Heading2</th>
+                            <td>{{ d.heading2 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sentence</th>
+                            <td>{{ d.sentence }}</td>
+                        </tr>
+
+                        <div class="modal fade delete-modal" id="delete_product" role="dialog">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body text-center">
+                                        <img alt="" height="46" src="assets/img/sent.png" width="50">
+                                        <h3>Are you sure want to delete this Poster?</h3>
+                                        <div class="m-t-20">
+                                            <a class="btn btn-white" data-dismiss="modal" href="#">Close</a>
+                                            <a class="btn btn-danger" href="/delete_poster4/{{d.id}}">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

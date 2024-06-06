@@ -20,7 +20,7 @@
                         <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3 main_title" style="color:#76b661; font-size:100px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title" style="color:#2f9140; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -45,7 +45,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3 main_title"  style="color:#76b661; font-size:100px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title"  style="color:#2f9140; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -70,7 +70,7 @@
                          <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3 main_title" style="color:#76b661; font-size:100px;">Gomart</h1>
+                                    <h1 class="display-4 mb-3 main_title" style="color:#2f9140; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -102,7 +102,7 @@
         <section class="gshop-category-section bg-white pt-120 position-relative z-1 overflow-hidden">
             <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape" class="position-absolute bottom-0 start-0 w-100 z--1">
             <div class="container">
-                <div class="gshop-category-box border-secondary rounded-3 bg-white">
+                <div class="gshop-category-box border-primary rounded-4 bg-white">
                     <div class="text-center section-title">
                         <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
                     </div>
@@ -122,66 +122,89 @@
                 </div>
             </div>
         </section> <!--category section end-->
- {% if best %}
-        <!--featured products start-->
-        <section class="featured-products pt-120 pb-200 bg-shade position-relative overflow-hidden z-1">
-            <img src="{% static 'index/assets/img/shapes/roll-1_new.png' %}" alt="roll" class="position-absolute roll-1 z--1" data-parallax='{"y": -120}'>
-            <img src="{% static 'index/assets/img/shapes/roll-2_new.png' %}" alt="roll" class="position-absolute roll-2 z--1" data-parallax='{"y": 120}'>
+
+        <section class="brands-section ptb-120 position-relative z-1 overflow-hidden">
+            <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape" src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
             <div class="container">
+                <div class="brand-wrapper px-5 rounded-4 border-primary" style="height:50%;">
+                    <h4 class="section-title mb-0">The Most Popular Brands</h4>
+                    <div class="brands-slider swiper px-2 pt-4 pb-7">
+                        <div class="swiper-wrapper">
+                           {% for i in brand %}
+                            <div class="swiper-slide brand-item rounded" >
 
-                <div class="row justify-content-center">
-                    <div class="col-xl-6">
-                        <div class="section-title text-center mb-4">
-                            <h3 class="mb-2">Best Seller</h3>
-                            <p class="mb-0">Platform mindshare through effective infomediaries Dynamically implement.</p>
+                                <img alt="brand" class="img-fluid" src="{{i.image}}">
+                            </div>
+                            {% endfor %}
                         </div>
                     </div>
-                </div>
-                <div class="row g-4 justify-content-center">
-
-                    {% for i in best %}
-                    <div class="col-xxl-4 col-lg-6">
-                        <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 gap-4">
-                            <div class="thumbnail position-relative rounded-2">
-                                <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-1_new.png' %}" alt="product" class="img-fluid"></a>
-                                <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374" />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-content mt-4 mt-sm-0">
-                                <div class="d-flex align-items-center flex-nowrap star-rating">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <a href="product-details.html" class="fw-bold text-heading title d-block">Strawberry Fruit</a>
-                                <div class="pricing mt-2">
-                                    <span class="fw-bold h4 deleted me-1 text-muted">€230.00</span>
-                                    <span class="fw-bold h4 text-danger">€180.00</span>
-                                </div>
-                                <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
                 </div>
             </div>
-            <img src="{% static 'index/assets/img/shapes/bg-shape-2_new.png' %}" alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1">
-        </section> <!--featured products end-->
+        </section> <!--brands section end-->
 
-                    {% endif %}
+
+<!-- {% if best %}-->
+<!--        &lt;!&ndash;featured products start&ndash;&gt;-->
+<!--        <section class="featured-products pt-120 pb-200 bg-shade position-relative overflow-hidden z-1">-->
+<!--            <img src="{% static 'index/assets/img/shapes/roll-1_new.png' %}" alt="roll" class="position-absolute roll-1 z&#45;&#45;1" data-parallax='{"y": -120}'>-->
+<!--            <img src="{% static 'index/assets/img/shapes/roll-2_new.png' %}" alt="roll" class="position-absolute roll-2 z&#45;&#45;1" data-parallax='{"y": 120}'>-->
+<!--            <div class="container">-->
+
+<!--                <div class="row justify-content-center">-->
+<!--                    <div class="col-xl-6">-->
+<!--                        <div class="section-title text-center mb-4">-->
+<!--                            <h3 class="mb-2">Best Seller</h3>-->
+<!--                            <p class="mb-0">Platform mindshare through effective infomediaries Dynamically implement.</p>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="row g-4 justify-content-center">-->
+
+<!--                    {% for i in best %}-->
+<!--                    <div class="col-xxl-4 col-lg-6">-->
+<!--                        <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 gap-4">-->
+<!--                            <div class="thumbnail position-relative rounded-2">-->
+<!--                                <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-1_new.png' %}" alt="product" class="img-fluid"></a>-->
+<!--                                <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">-->
+<!--                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>-->
+<!--                                    <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>-->
+<!--                                    <a href="#" class="rounded-btn">-->
+<!--                                        <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374" />-->
+<!--                                        </svg>-->
+<!--                                    </a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="card-content mt-4 mt-sm-0">-->
+<!--                                <div class="d-flex align-items-center flex-nowrap star-rating">-->
+<!--                                    <ul class="d-flex align-items-center me-2">-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                    </ul>-->
+<!--                                    <span class="flex-shrink-0">(5.2k Reviews)</span>-->
+<!--                                </div>-->
+<!--                                <a href="product-details.html" class="fw-bold text-heading title d-block">Strawberry Fruit</a>-->
+<!--                                <div class="pricing mt-2">-->
+<!--                                    <span class="fw-bold h4 deleted me-1 text-muted">€230.00</span>-->
+<!--                                    <span class="fw-bold h4 text-danger">€180.00</span>-->
+<!--                                </div>-->
+<!--                                <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    {% endfor %}-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--            <img src="{% static 'index/assets/img/shapes/bg-shape-2_new.png' %}" alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z&#45;&#45;1">-->
+<!--        </section> &lt;!&ndash;featured products end&ndash;&gt;-->
+
+<!--                    {% endif %}-->
+
+
         <!--trending products start-->
         <section class="pt-8 pb-100 bg-white position-relative overflow-hidden z-1 trending-products-area">
             <img src="{% static 'index/assets/img/shapes/garlic.png' %}" alt="garlic" class="position-absolute garlic z--1" data-parallax='{"y": 100}'>
@@ -194,61 +217,62 @@
                             <h3 class="mb-0">Top Trending Products</h3>
                         </div>
                     </div>
-                    <div class="col-xl-7">
-                        <div class="filter-btns gshop-filter-btn-group text-center text-xl-end mt-4 mt-xl-0">
-                            <button class="active" data-filter="*">All Products</button>
-                            {% for i in cat %}
-                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>
-                            {% endfor %}
-                        </div>
-                    </div>
+<!--                    <div class="col-xl-7">-->
+<!--                        <div class="filter-btns gshop-filter-btn-group text-center text-xl-end mt-4 mt-xl-0">-->
+<!--                            <button class="active" data-filter="*">All Products</button>-->
+<!--                            {% for i in cat %}-->
+<!--                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>-->
+<!--                            {% endfor %}-->
+<!--                        </div>-->
+<!--                    </div>-->
                 </div>
                 <div class="row justify-content-center g-4 mt-5 filter_group">
-
+<div class="brands-slider swiper px-2 pt-4 pb-7">
+                        <div class="swiper-wrapper">
                     {% for i in prod %}
-                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 filter_item beans_peas{{i.category.id}}">
+
+                    <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide  filter_item beans_peas{{i.category.id}}">
                         <div class="vertical-product-card rounded-2 position-relative">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
-                                <a href="product-details.html"><img src="{% static 'index/assets/img/products/stroberry_new.png' %}" alt="apple" class="img-fluid"></a>
+                                <a href=""><img alt="apple" class="img-fluid"  src="{{i.image}}"></a>
                                 <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                    <a href="#" class="rounded-btn">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M10.705 0.201222C10.4317 0.469526 10.4317 0.904522 10.705 1.17283L11.6101 2.06107H7.70001C6.15364 2.06107 4.90001 3.29144 4.90001 4.80917V5.49619C4.90001 5.87564 5.21341 6.18322 5.60001 6.18322C5.98662 6.18322 6.30001 5.87564 6.30001 5.49619V4.80917C6.30001 4.0503 6.92679 3.43512 7.70001 3.43512H11.6101L10.705 4.32337C10.4317 4.59166 10.4317 5.02668 10.705 5.29496C10.9784 5.56325 11.4216 5.56325 11.695 5.29496L13.795 3.2339C14.0683 2.96559 14.0683 2.5306 13.795 2.26229L11.695 0.201222C11.4216 -0.0670741 10.9784 -0.0670741 10.705 0.201222ZM8.40001 4.80917C8.0134 4.80917 7.70001 5.11675 7.70001 5.49619V6.18322C7.70001 6.9421 7.07323 7.55726 6.30001 7.55726H2.38995L3.29498 6.66901C3.56835 6.40073 3.56835 5.9657 3.29498 5.69742C3.02161 5.42914 2.5784 5.42914 2.30503 5.69742L0.205023 7.75849C-0.0683411 8.02678 -0.0683411 8.4618 0.205023 8.73008L2.30503 10.7912C2.5784 11.0594 3.02161 11.0594 3.29498 10.7912C3.56835 10.5229 3.56835 10.0878 3.29498 9.81957L2.38995 8.93131H6.30001C7.84638 8.93131 9.10001 7.70092 9.10001 6.18322V5.49619C9.10001 5.11675 8.78662 4.80917 8.40001 4.80917Z" fill="#AEB1B9" />
-                                        </svg>
-                                    </a>
-                                    <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-regular fa-eye"></i></a>
+                                    <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
+
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="shop-grid.html" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="product-details.html" class="card-title fw-bold d-block mb-2">Popped Rice Crisps Snacks Chocolate.</a>
-                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">
-                                    <ul class="d-flex align-items-center me-2">
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                    </ul>
-                                    <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                </div>
-                                <h6 class="price text-danger mb-3">€140.00</h6>
+                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh Organic</a>
+                                <a class="card-title fw-bold d-block mb-2" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+<!--                                <div class="d-flex align-items-center flex-nowrap star-rating fs-xxs mb-2">-->
+<!--                                    <ul class="d-flex align-items-center me-2">-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                    </ul>-->
+<!--                                    <span class="flex-shrink-0">(5.2k Reviews)</span>-->
+<!--                                </div>-->
+                                <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
-                                    <span class="card-progress bg-primary" data-progress="60%"></span>
+                                    <span class="card-progress bg-primary-light" data-progress="60%"></span>
                                 </div>
-                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">40/100</span></p>
+                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span></p>
                             </div>
                             <div class="card-btn bg-white">
-                                <a href="#" class="btn btn-secondary d-block btn-md rounded-1">Add to Cart</a>
+                                <a class="btn btn-secondary d-block btn-md rounded-1" href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
                             </div>
                         </div>
                     </div>
+
                 {% endfor %}
+                            </div>
+                    </div>
                 </div>
             </div>
         </section> <!--trending products end-->
+
 
         <!--banner section start-->
         <section class="banner-section position-relative z-1 overflow-hidden bg-white pt-2">
@@ -256,28 +280,28 @@
             <div class="container">
                 <div class="row align-items-center g-4 justify-content-center">
                     <div class="col-xl-4 col-md-6">
-                        <div class="banner-box background-banner rounded-2 overflow-hidden" data-background="{% static 'index/assets/img/products/pago_new.png' %}">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">100% Pur Products</span>
-                            <h6 class="mb-0">Fresh Fruits</h6>
-                            <h4 class="mb-6">Healthy Juice</h4>
-                            <a href="product-details.html" class="explore-btn fw-bold text-dark">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
+                        <div class="banner-box background-banner rounded-2 overflow-hidden" data-background="{{post1.image}}">
+                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
+                            <h6 class="mb-0">{{post1.heading}}</h6>
+                            <h4 class="mb-6">{{post1.heading2}}</h4>
+                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative banner-color-green z-1">
-                            <img src="{% static 'index/assets/img/products/capsicum_new.png' %}" alt="capsicum" class="banner-img">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">Weekly Best Seller</span>
-                            <h6 class="mb-0">Fresh Fruits</h6>
-                            <h4 class="mb-6">Healthy Juice</h4>
-                            <a href="product-details.html" class="explore-btn fw-bold text-dark">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
+                            <img alt="capsicum" class="banner-img" src="{{post2.image}}">
+                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post.subtitle}}</span>
+                            <h6 class="mb-0">{{post2.heading}}</h6>
+                            <h4 class="mb-6">{{post2.heading2}}</h4>
+                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative z-1 banner-color-secondary">
-                            <img src="{% static 'index/assets/img/products/lychee_new.png' %}" alt="lychee" class="banner-img">
-                            <span class="badge bg-danger gshop-subtitle mb-1">Top Offer</span>
-                            <h6 class="mb-0">Fresh Fruits</h6>
-                            <h4 class="mb-6">Healthy Juice</h4>
+                            <img alt="lychee" class="banner-img" src="{{post3.image}}">
+                            <span class="badge bg-danger gshop-subtitle mb-1">{{post3.subtitle}}</span>
+                            <h6 class="mb-0">{{post3.heading}}</h6>
+                            <h4 class="mb-6">{{post3.heading2}}</h4>
                             <a href="product-details.html" class="explore-btn fw-bold text-dark">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
@@ -291,13 +315,13 @@
                 <div class="row g-4 align-items-center justify-content-center">
                     <div class="col-xxl-4 col-xl-5 order-2 order-xxl-1">
                         <div class="banner-box banner-color-green position-relative overflow-hidden z-1 rounded-2 pe-0 pb-0">
-                            <span class="gshop-subtitle text-secondary mb-1">100% Organic Vegetable</span>
-                            <h6 class="mb-0">Vegetable</h6>
-                            <h4 class="mb-2">Fresh & Healthy</h4>
-                            <p class="fw-medium mb-5">Get 50% Off on Selected Organic Items</p>
-                            <a href="product-details.html" class="btn btn-primary btn-md">Show Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                            <span class="gshop-subtitle text-secondary mb-1">{{post4.subtitle}}</span>
+                            <h6 class="mb-0">{{post4.heading}}</h6>
+                            <h4 class="mb-2">{{post4.heading2}}</h4>
+                            <p class="fw-medium mb-5">{{post4.sentence}}</p>
+                            <a class="btn btn-primary btn-md" href="/all_products/">Show Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                             <div class="banner-img-wrapper text-end mt--40">
-                                <img src="{% static 'index/assets/img/products/vegetables.png' %}" alt="vegetables" class="">
+                                <img alt="vegetables" class="" src="{{post4.image}}">
                             </div>
                         </div>
                     </div>
@@ -325,142 +349,30 @@
                         </div>
                         <div class="mt-4">
                             <div class="row g-4">
+                                {% for i in deal %}
                                 <div class="col-lg-6">
                                     <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 shadow gap-4">
                                         <div class="thumbnail position-relative rounded-2">
-                                            <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-1_new.png' %}" alt="product" class="img-fluid"></a>
+                                            <a href="product-details.html"><img alt="product" class="img-fluid" src="{{i.product.image}}"></a>
                                             <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                                <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                                <a href="#" class="rounded-btn">
-                                                    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                                    </svg>
-                                                </a>
+                                                <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
+
                                             </div>
                                         </div>
                                         <div class="card-content mt-4 mt-sm-0">
-                                            <div class="d-flex align-items-center flex-nowrap star-rating">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                                <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                            </div>
-                                            <a href="product-details.html" class="fw-bold text-heading title d-block">European Lemon Zest</a>
+
+                                            <a class="fw-bold text-heading title d-block" href="">{{i.product.name}}</a>
                                             <div class="pricing mt-2">
-                                                <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                                <span class="fw-bold h4 text-danger">€140.00</span>
+                                                <span class="fw-bold h4 deleted me-1">€{{i.product.gross_total}}</span>
+                                                <span class="fw-bold h4 text-danger">€{{i.deal_price}}</span>
+                                                <p>Deal Starts: {{ i.deal_start_date }} - Ends: {{ i.deal_end_date }}</p>
+                                                <p>From{{ i.deal_start_time }} - Ends: {{ i.deal_end_time }}</p>
                                             </div>
-                                            <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <a class="fs-xs fw-bold mt-3 d-inline-block explore-btn" href="/checking_deal_time/{{i.product.id}}/{{i.id}}">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 shadow gap-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-2_new.png' %}" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                                <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                                <a href="#" class="rounded-btn">
-                                                    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-4 mt-sm-0">
-                                            <div class="d-flex align-items-center flex-nowrap star-rating">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                                <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                            </div>
-                                            <a href="product-details.html" class="fw-bold text-heading title d-block">European Lemon Zest</a>
-                                            <div class="pricing mt-2">
-                                                <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                                <span class="fw-bold h4 text-danger">€140.00</span>
-                                            </div>
-                                            <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 shadow gap-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-3_new.png' %}" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                                <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                                <a href="#" class="rounded-btn">
-                                                    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-4 mt-sm-0">
-                                            <div class="d-flex align-items-center flex-nowrap star-rating">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                                <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                            </div>
-                                            <a href="product-details.html" class="fw-bold text-heading title d-block">European Lemon Zest</a>
-                                            <div class="pricing mt-2">
-                                                <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                                <span class="fw-bold h4 text-danger">€140.00</span>
-                                            </div>
-                                            <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 shadow gap-4">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-4_new.png' %}" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="#" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
-                                                <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                                <a href="#" class="rounded-btn">
-                                                    <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-4 mt-sm-0">
-                                            <div class="d-flex align-items-center flex-nowrap star-rating">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                                <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                            </div>
-                                            <a href="product-details.html" class="fw-bold text-heading title d-block">European Lemon Zest</a>
-                                            <div class="pricing mt-2">
-                                                <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                                <span class="fw-bold h4 text-danger">€140.00</span>
-                                            </div>
-                                            <a href="product-details.html" class="fs-xs fw-bold mt-3 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                        </div>
-                                    </div>
-                                </div>
+                               {% endfor %}
                             </div>
                         </div>
                     </div>
@@ -474,15 +386,15 @@
             <div class="container">
                 <div class="row g-4">
                     <div class="col-xl-8">
-                        <div class="banner-box background-banner rounded-2 banner-lg" data-background="{% static 'index/assets/img/banner/banner-3.jpg' %}">
-                            <span class="badge bg-danger mb-2">Top Offer</span>
-                            <h3 class="mb-6 text-white gshop-title">Fresh & Natural Healthy<br class="d-none d-sm-block"> Food <mark class="position-relative text-secondary position-relative bg-transparent">Special Offer<img src="{% static 'index/assets/img/shapes/border-line_new.png' %}" class="position-absolute start-0 border-line w-100" alt="border line"></mark></h3>
+                        <div class="banner-box background-banner rounded-2 banner-lg" data-background="{{post5.image}}">
+                            <span class="badge bg-danger mb-2">{{post5.title}}</span>
+                            <h3 class="mb-6 text-white gshop-title">{{post5.heading}}<br class="d-none d-sm-block"> Food <mark class="position-relative text-secondary position-relative bg-transparent">Special Offer<img alt="border line" class="position-absolute start-0 border-line w-100" src="{% static 'index/assets/img/shapes/border-line_new.png' %}"></mark></h3>
                             <a href="product-details.html" class="btn btn-secondary btn-md">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4">
                         <div class="banner-img rounded-3 overflow-hidden">
-                            <img src="{% static 'index/assets/img/banner/banner-3_new.png' %}" alt="banner" class="img-fluid">
+                            <img alt="banner" class="img-fluid" src="{{post6.image}}">
                         </div>
                     </div>
                 </div>
@@ -599,216 +511,94 @@
                         <div class="product-listing-box bg-white">
                             <div class="d-flex align-items-center justify-content-between gap-3 mb-5 flex-wrap">
                                 <h4 class="mb-0">New Products</h4>
-                                <a href="shop-grid.html" class="explore-btn text-secondary fw-bold">View More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                                <a class="explore-btn text-secondary fw-bold" href="/all_products">View More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                             </div>
+                                                        {% for i in new_pdt %}
+
                             <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
                                 <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-1_new.png' %}" alt="product" class="img-fluid"></a>
+                                    <a href="#"><img alt="product" class="img-fluid" src="{{i.image}}"></a>
                                     <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
+                                        <a class="rounded-btn fs-xs" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
+<!--                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>-->
+<!--                                        <a href="#" class="rounded-btn fs-xs">-->
+<!--                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
                                     </div>
                                 </div>
                                 <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
+<!--                                    <div class="d-flex align-items-center flex-nowrap star-rating">-->
+<!--                                        <ul class="d-flex align-items-center me-2">-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        </ul>-->
+<!--                                        <span class="flex-shrink-0">(5.2k Reviews)</span>-->
+<!--                                    </div>-->
+                                    <a class="fw-bold text-heading title d-block fs-sm" href="/view_product_single/{{i.id}}">{{i.name}}</a>
                                     <div class="pricing mt-2">
                                         <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
+                                        <span class="fw-bold h4 text-danger">€{{i.gross_total}}</span>
                                     </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                    <a class="fs-xs fw-bold mt-10 d-inline-block explore-btn" href="/view_product_single/{{i.id}}">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
                                 </div>
                             </div>
-                            <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
-                                <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-2_new.png' %}" alt="product" class="img-fluid"></a>
-                                    <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
-                                    <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
-                                    </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
-                            <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
-                                <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-3_new.png' %}" alt="product" class="img-fluid"></a>
-                                    <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
-                                    <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
-                                    </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
+                                                    {% endfor %}
+
                         </div>
                     </div>
                     <div class="col-xxl-4 col-lg-6">
                         <div class="product-listing-box bg-white">
                             <div class="d-flex align-items-center justify-content-between gap-3 mb-5 flex-wrap">
                                 <h4 class="mb-0">Organic Bestseller</h4>
-                                <a href="#" class="explore-btn text-secondary fw-bold">View More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                                <a class="explore-btn text-secondary fw-bold" href="/all_products">View More<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                             </div>
+                            {% for i in organic %}
                             <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
                                 <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-4_new_new.png' %}" alt="product" class="img-fluid"></a>
+                                    <a href="#"><img alt="product" class="img-fluid" src="{{i.image}}"></a>
                                     <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
+                                        <a class="rounded-btn fs-xs" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
+<!--                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>-->
+<!--                                        <a href="#" class="rounded-btn fs-xs">-->
+<!--                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">-->
+<!--                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>-->
+<!--                                            </svg>-->
+<!--                                        </a>-->
                                     </div>
                                 </div>
                                 <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
+<!--                                    <div class="d-flex align-items-center flex-nowrap star-rating">-->
+<!--                                        <ul class="d-flex align-items-center me-2">-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>-->
+<!--                                        </ul>-->
+<!--                                        <span class="flex-shrink-0">(5.2k Reviews)</span>-->
+<!--                                    </div>-->
+                                    <a class="fw-bold text-heading title d-block fs-sm" href="/view_product_single/{{i.id}}">{{i.name}}</a>
                                     <div class="pricing mt-2">
                                         <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
+                                        <span class="fw-bold h4 text-danger">€{{i.gross_total}}</span>
                                     </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                    <a class="fs-xs fw-bold mt-10 d-inline-block explore-btn" href="/view_product_single/{{i.id}}">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
                                 </div>
                             </div>
-                            <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
-                                <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-5_new.png' %}" alt="product" class="img-fluid"></a>
-                                    <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
-                                    <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
-                                    </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
-                            <div class="horizontal-product-card d-sm-flex align-items-center p-3 bg-white rounded-2 mt-3 border card-md gap-4">
-                                <div class="thumbnail position-relative rounded-2">
-                                    <a href="product-details.html"><img src="{% static 'index/assets/img/products/p-sm-6_new.png' %}" alt="product" class="img-fluid"></a>
-                                    <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-1 rounded-2">
-                                        <a href="#" class="rounded-btn fs-xs"><i class="fa-regular fa-heart"></i></a>
-                                        <a href="#quickview_modal" data-bs-toggle="modal" class="rounded-btn fs-xs"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="#" class="rounded-btn fs-xs">
-                                            <svg width="13" height="10" viewBox="0 0 13 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M9.86193 0.189422C9.62476 0.422214 9.62476 0.799637 9.86193 1.03243L10.6472 1.80311H7.25462C5.91292 1.80311 4.82521 2.87064 4.82521 4.18749V4.78359C4.82521 5.11281 5.09713 5.37968 5.43256 5.37968C5.768 5.37968 6.03991 5.11281 6.03991 4.78359V4.18749C6.03991 3.52906 6.58374 2.9953 7.25462 2.9953H10.6472L9.86193 3.76599C9.62476 3.99877 9.62476 4.37622 9.86193 4.60899C10.0991 4.84177 10.4837 4.84177 10.7208 4.60899L12.5429 2.82071C12.7801 2.58792 12.7801 2.2105 12.5429 1.9777L10.7208 0.189422C10.4837 -0.0433652 10.0991 -0.0433652 9.86193 0.189422ZM7.86197 4.18749C7.52653 4.18749 7.25462 4.45436 7.25462 4.78359V5.37968C7.25462 6.03813 6.7108 6.57187 6.03991 6.57187H2.64736L3.43261 5.80118C3.66979 5.5684 3.66979 5.19096 3.43261 4.95818C3.19542 4.72541 2.81087 4.72541 2.57368 4.95818L0.751618 6.74647C0.514435 6.97924 0.514435 7.35669 0.751618 7.58946L2.57368 9.37775C2.81087 9.61052 3.19542 9.61052 3.43261 9.37775C3.66979 9.14497 3.66979 8.76752 3.43261 8.53475L2.64736 7.76406H6.03991C7.38162 7.76406 8.46933 6.69651 8.46933 5.37968V4.78359C8.46933 4.45436 8.19742 4.18749 7.86197 4.18749Z" fill="#5D6374"></path>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="card-content mt-4 mt-sm-0">
-                                    <div class="d-flex align-items-center flex-nowrap star-rating">
-                                        <ul class="d-flex align-items-center me-2">
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                            <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                        </ul>
-                                        <span class="flex-shrink-0">(5.2k Reviews)</span>
-                                    </div>
-                                    <a href="product-details.html" class="fw-bold text-heading title d-block fs-sm">European Lemon Zest</a>
-                                    <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
-                                        <span class="fw-bold h4 text-danger">€140.00</span>
-                                    </div>
-                                    <a href="product-details.html" class="fs-xs fw-bold mt-10 d-inline-block explore-btn">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                </div>
-                            </div>
+                        {% endfor %}
                         </div>
                     </div>
                     <div class="col-xxl-3 col-xl-4 col-lg-5 col-md-6 col-sm-8 col-10">
-                        <div class="vertical-banner text-center bg-white rounded-2" data-background="{% static 'index/assets/img/banner/banner-4_new.jpg' %}">
-                            <h5 class="mb-1">Fresh & Organic Spice</h5>
+                        <div class="vertical-banner text-center bg-white rounded-2" data-background="{{post7.image}}">
+                            <h5 class="mb-1">{{post7.title}}</h5>
                             <div class="d-flex align-items-center justify-content-center gap-2">
-                                <span class="hot-badge bg-danger fw-bold fs-xs position-relative text-white">HOT</span>
-                                <span class="offer-title text-danger fw-bold">30% Off</span>
+                                <span class="hot-badge bg-danger fw-bold fs-xs position-relative text-white">{{post7.subtitle}}</span>
+                                <span class="offer-title text-danger fw-bold">{{post7.subtitle2}}</span>
                             </div>
                             <a href="product-details.html" class="explore-btn text-primary fw-bold">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                         </div>

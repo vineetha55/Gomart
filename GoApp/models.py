@@ -21,6 +21,8 @@ class tbl_Tax(models.Model):
 class tbl_Brand(models.Model):
     name = models.CharField(max_length=100, unique=True)
     status = models.CharField(max_length=50)
+    image = models.ImageField(upload_to="media", null=True)
+
 
     def __str__(self):
         return self.name
@@ -172,3 +174,62 @@ class tbl_Order_Assign(models.Model):
     pdt_checkout = models.ForeignKey(tbl_Checkout, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=10, null=True)
+
+
+class tbl_Deals(models.Model):
+    product=models.ForeignKey(tbl_Product,on_delete=models.CASCADE,null=True)
+    deal_price=models.FloatField(null=True)
+    deal_type=models.CharField(max_length=100,null=True)
+    deal_start_date=models.DateField(null=True)
+    deal_end_date = models.DateField(null=True)
+    deal_start_time = models.TimeField(null=True)
+    deal_end_time = models.TimeField(null=True)
+    status=models.CharField(max_length=50,null=True)
+
+
+class tbl_poster1(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+    subtitle = models.CharField(max_length=100, null=True)
+    heading = models.CharField(max_length=100, null=True)
+    heading2=models.CharField(max_length=500,null=True)
+
+class tbl_poster2(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+    subtitle = models.CharField(max_length=100, null=True)
+    heading = models.CharField(max_length=100, null=True)
+    heading2=models.CharField(max_length=500,null=True)
+
+class tbl_poster3(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+    subtitle = models.CharField(max_length=100, null=True)
+    heading = models.CharField(max_length=100, null=True)
+    heading2=models.CharField(max_length=500,null=True)
+
+
+class tbl_poster4(models.Model):
+    subtitle=models.CharField(max_length=100,null=True)
+    heading=models.CharField(max_length=100,null=True)
+    heading2=models.CharField(max_length=500,null=True)
+    sentence=models.CharField(max_length=600,null=True)
+    image=models.ImageField(upload_to="media",null=True)
+
+class tbl_poster5(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+    subtitle = models.CharField(max_length=100, null=True)
+    heading = models.CharField(max_length=100, null=True)
+
+
+class tbl_poster6(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+
+class tbl_poster7(models.Model):
+    image = models.ImageField(upload_to="media", null=True)
+    title = models.CharField(max_length=100, null=True)
+    subtitle = models.CharField(max_length=100, null=True)
+    subtitle2 =models.CharField(max_length=500,null=True)
+
+
+
+
+
+
