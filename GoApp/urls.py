@@ -120,6 +120,8 @@ urlpatterns = [
     path("update_poster5/<id>", views.update_poster5, name="update_poster5"),
     path("update_poster6/<id>", views.update_poster6, name="update_poster6"),
     path("update_poster7/<id>", views.update_poster7, name="update_poster7"),
-    path("add-subscription/", views.add_subscription, name="add_subscription")
+    path("add-subscription/", views.add_subscription, name="add_subscription"),
+    path("My-products/<id>",views.My_products,name="My_products"),
+    path("rating-products/<id>/<pid>",views.rating_products,name="rating_products")
 
 ]

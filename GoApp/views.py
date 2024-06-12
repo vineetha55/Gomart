@@ -1684,7 +1684,7 @@ def update_poster3(request,id):
         return redirect("/poster3/")
 
     else:
-        return render(request,"update_poster1.html",{"d":d})
+        return render(request,"update_poster3.html",{"d":d})
 
 
 def update_poster4(request,id):
@@ -1768,3 +1768,12 @@ def add_subscription(request):
             data.email = request.POST.get("email")
             data.save()
             return redirect("/")
+
+def My_products(request,id):
+    myp=tbl_checkout_products.objects.filter(checkout=id,user=request.session['userid'])
+    return render(request,"My_products.html",{"myp":myp})
+
+
+def rating_products(request,id,pid):
+    return render(request,"")
+
