@@ -120,11 +120,13 @@
                         {% for i in cat %}
                         <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
                             <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden">
-                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative">
-                                    <img src="{{i.image}}" alt="flower" class="img-fluid" style="width:100px;height:100px;">
+                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
+                                     style="width:120px; height:120px;">
+                                    <img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
                                 </div>
                                 <a href="/shop_by_category/{{i.id}}" class="text-dark fs-sm fw-bold d-block mt-3">{{i.name}}</a>
-                                <a href="/shop_by_category/{{i.id}}" class="explore-btn position-absolute"><i class="fa-solid fa-arrow-up"></i></a>
+                                <a class="explore-btn position-absolute" href="/shop_by_category/{{i.id}}"><i
+                                        class="fa-solid fa-arrow-up"></i></a>
                             </div>
                         </div>
                       {% endfor %}
@@ -237,35 +239,37 @@
 <!--                    </div>-->
                 </div>
                 <div class="row justify-content-center g-4 mt-5 filter_group">
-<div class="brands-slider swiper px-2 pt-4 pb-7">
-    <div class="swiper-wrapper">
-        {% for i in prod %}
+                    <div class="brands-slider1 swiper px-2 pt-4 pb-7">
+                        <div class="swiper-wrapper">
+                            {% for i in prod %}
 
-        <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide filter_item beans_peas{{i.category.id}}">
-            <div class="vertical-product-card rounded-2 position-relative">
-                <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
-                <div class="thumbnail position-relative text-center p-4">
-                    <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
-                                    style=" height:250px;"></a>
-                    <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                        <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i class="fa-regular fa-heart"></i></a>
-                    </div>
-                </div>
-                <div class="card-content">
-                    <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh Organic</a>
-                    <a class="card-title fw-bold d-block mb-2" href="/view_product_single/{{i.id}}">{{i.name}}</a>
-                    <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
-                    <div class="card-progressbar mb-2 rounded-pill">
-                        <span class="card-progress bg-primary-light" data-progress="60%"></span>
-                    </div>
-                    <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
-                    </p>
-                </div>
-                <div class="card-btn bg-white">
-                    <a class="btn btn-secondary d-block btn-md rounded-1"
-                       href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
-                </div>
-            </div>
+                            <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide filter_item beans_peas{{i.category.id}}">
+                                <div class="vertical-product-card rounded-2 position-relative">
+                                    <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
+                                    <div class="thumbnail position-relative text-center p-4">
+                                        <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
+                                                        style="width:100%;height:200px;"></a>
+                                        <div class="product-btns position-absolute d-flex gap-2 flex-column">
+                                            <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i
+                                                    class="fa-regular fa-heart"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-content">
+                                        <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
+                                            Organic</a>
+                                        <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                        <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
+                                        <div class="card-progressbar mb-2 rounded-pill">
+                                            <span class="card-progress bg-primary-light" data-progress="60%"></span>
+                                        </div>
+                                        <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
+                                        </p>
+                                    </div>
+                                    <!--                <div class="card-btn bg-white">-->
+                                    <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                       href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                    <!--                </div>-->
+                                </div>
         </div>
 
         {% endfor %}
@@ -277,6 +281,36 @@
             </div>
         </section> <!--trending products end-->
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider1', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+        });
+
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.add-to-cart-btn').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
+
+
+</script>
 
         <!--banner section start-->
         <section class="banner-section position-relative z-1 overflow-hidden bg-white pt-2">
@@ -284,25 +318,28 @@
             <div class="container">
                 <div class="row align-items-center g-4 justify-content-center">
                     <div class="col-xl-4 col-md-6">
-                        <div class="banner-box background-banner rounded-2 overflow-hidden" data-background="{{post1.image}}">
+                        <div class="banner-box background-banner rounded-2 overflow-hidden"
+                             data-background="{{post1.image}}" data-background-style="width:638px;height:346px;">
                             <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
                             <h6 class="mb-0">{{post1.heading}}</h6>
                             <h4 class="mb-6">{{post1.heading2}}</h4>
-                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
+                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i
+                                    class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative banner-color-green z-1">
-                            <img alt="capsicum" class="banner-img" src="{{post2.image}}">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post.subtitle}}</span>
+                            <img alt="capsicum" class="banner-img " src="{{post2.image}}">
+                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post2.subtitle}}</span>
                             <h6 class="mb-0">{{post2.heading}}</h6>
                             <h4 class="mb-6">{{post2.heading2}}</h4>
-                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
+                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i
+                                    class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative z-1 banner-color-secondary">
-                            <img alt="lychee" class="banner-img" src="{{post3.image}}">
+                            <img alt="lychee" class="banner-img " src="{{post3.image}}">
                             <span class="badge bg-danger gshop-subtitle mb-1">{{post3.subtitle}}</span>
                             <h6 class="mb-0">{{post3.heading}}</h6>
                             <h4 class="mb-6">{{post3.heading2}}</h4>
@@ -406,27 +443,30 @@
         </section> <!--banner section end-->
 
         <!--feedback section start-->
-        <section class="ptb-120 bg-shade position-relative overflow-hidden z-1 feedback-section">
-            <img src="{% static 'index/assets/img/shapes/bg-shape-5_new.png' %}" alt="bg shape" class="position-absolute start-0 bottom-0 z--1 w-100">
-            <img src="{% static 'index/assets/img/shapes/map-bg_new.png' %}" alt="map" class="position-absolute start-50 top-50 translate-middle z--1">
-            <img src="{% static 'index/assets/img/shapes/fd-1_new.png' %}" alt="shape" class="position-absolute z--1 fd-1">
-            <img src="{% static 'index/assets/img/shapes/fd-2_new.png' %}" alt="shape" class="position-absolute z--1 fd-2">
-            <img src="{% static 'index/assets/img/shapes/fd-3_new.png' %}" alt="shape" class="position-absolute z--1 fd-3">
-            <img src="{% static 'index/assets/img/shapes/fd-4_new.png' %}" alt="shape" class="position-absolute z--1 fd-4">
-            <img src="{% static 'index/assets/img/shapes/fd-5_new.png' %}" alt="shape" class="position-absolute z--1 fd-5">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-xl-6">
-                        <div class="section-title text-center">
-                            <h2 class="mb-6">What Our Clients Say</h2>
-                        </div>
-                    </div>
-                    <div class="col-xl-8">
-                        <div class="gshop-feedback-slider-wrapper">
-                            <div class="swiper gshop-feedback-thumb-slider">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide control-thumb">
-                                        <img src="{% static 'index/assets/img/shapes/client-1_new.png' %}" alt="clients" class="img-fluid rounded-circle">
+<section class="pt-100 pb-120 bg-shade position-relative overflow-hidden z-1 feedback-section">
+    <img alt="bg shape" class="position-absolute start-0 bottom-0 z--1 w-100"
+         src="{% static 'index/assets/img/shapes/bg-shape-5_new.png' %}">
+    <img alt="map" class="position-absolute start-50 top-50 translate-middle z--1"
+         src="{% static 'index/assets/img/shapes/map-bg_new.png' %}">
+    <img alt="shape" class="position-absolute z--1 fd-1" src="{% static 'index/assets/img/shapes/fd-1_new.png' %}">
+    <img alt="shape" class="position-absolute z--1 fd-2" src="{% static 'index/assets/img/shapes/fd-2_new.png' %}">
+    <img alt="shape" class="position-absolute z--1 fd-3" src="{% static 'index/assets/img/shapes/fd-3_new.png' %}">
+    <img alt="shape" class="position-absolute z--1 fd-4" src="{% static 'index/assets/img/shapes/fd-4_new.png' %}">
+    <img alt="shape" class="position-absolute z--1 fd-5" src="{% static 'index/assets/img/shapes/fd-5_new.png' %}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6">
+                <div class="section-title text-center">
+                    <h2 class="mb-3">What Our Clients Say</h2>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div class="gshop-feedback-slider-wrapper">
+                    <div class="swiper gshop-feedback-thumb-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide control-thumb">
+                                <img src="{% static 'index/assets/img/shapes/client-1_new.png' %}" alt="clients"
+                                     class="img-fluid rounded-circle">
                                     </div>
                                     <div class="swiper-slide control-thumb">
                                         <img src="{% static 'index/assets/img/shapes/client-2_new.png' %}" alt="clients" class="img-fluid rounded-circle">
@@ -442,63 +482,38 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="swiper gshop-feedback-slider mt-4">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide feedback-single text-center">
-                                        <p class="mb-5">“Distinctively unleash business technologies without backend metrics. Conveniently network distributed core competencies. Continually integrate backward-compatible information and backward-compatible” </p>
-                                        <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
-                                        <ul class="star-rating fs-sm d-inline-flex align-items-center text-warning">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="swiper-slide feedback-single text-center">
-                                        <p class="mb-5">“Distinctively unleash business technologies without backend metrics. Conveniently network distributed core competencies. Continually integrate backward-compatible information and backward-compatible” </p>
-                                        <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
-                                        <ul class="star-rating fs-sm d-inline-flex align-items-center text-warning">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="swiper-slide feedback-single text-center">
-                                        <p class="mb-5">“Distinctively unleash business technologies without backend metrics. Conveniently network distributed core competencies. Continually integrate backward-compatible information and backward-compatible” </p>
-                                        <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
-                                        <ul class="star-rating fs-sm d-inline-flex align-items-center text-warning">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="swiper-slide feedback-single text-center">
-                                        <p class="mb-5">“Distinctively unleash business technologies without backend metrics. Conveniently network distributed core competencies. Continually integrate backward-compatible information and backward-compatible” </p>
-                                        <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
-                                        <ul class="star-rating fs-sm d-inline-flex align-items-center text-warning">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
-                                    <div class="swiper-slide feedback-single text-center">
-                                        <p class="mb-5">“Distinctively unleash business technologies without backend metrics. Conveniently network distributed core competencies. Continually integrate backward-compatible information and backward-compatible” </p>
-                                        <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
-                                        <ul class="star-rating fs-sm d-inline-flex align-items-center text-warning">
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                            <li><i class="fas fa-star"></i></li>
-                                        </ul>
-                                    </div>
+                    <div class="swiper gshop-feedback-slider">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide feedback-single text-center">
+                                <p class="mb-2">“Distinctively unleash business technologies without backend
+                                    metrics. Conveniently network distributed core competencies. Continually
+                                    integrate backward-compatible information and backward-compatible” </p>
+                                <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
+                            </div>
+                            <div class="swiper-slide feedback-single text-center">
+                                <p class="mb-2">“Distinctively unleash business technologies without backend
+                                    metrics. Conveniently network distributed core competencies. Continually
+                                    integrate backward-compatible information and backward-compatible” </p>
+                                <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
+                            </div>
+                            <div class="swiper-slide feedback-single text-center">
+                                <p class="mb-2">“Distinctively unleash business technologies without backend
+                                    metrics. Conveniently network distributed core competencies. Continually
+                                    integrate backward-compatible information and backward-compatible” </p>
+                                <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
+                            </div>
+                            <div class="swiper-slide feedback-single text-center">
+                                <p class="mb-2">“Distinctively unleash business technologies without backend
+                                    metrics. Conveniently network distributed core competencies. Continually
+                                    integrate backward-compatible information and backward-compatible” </p>
+                                <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
+                            </div>
+                            <div class="swiper-slide feedback-single text-center">
+                                <p class="mb-2">“Distinctively unleash business technologies without backend
+                                    metrics. Conveniently network distributed core competencies. Continually
+                                    integrate backward-compatible information and backward-compatible” </p>
+                                <span class="clients_name text-dark fw-bold d-block mb-1">Rasmus Geisler</span>
+                            </div>
                                 </div>
                             </div>
                         </div>

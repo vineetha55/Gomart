@@ -21,7 +21,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 
-
+def sample(request):
+    return render(request, "sample.html")
 # Create your views here.
 def index(request):
     cat = tbl_Category.objects.all()
