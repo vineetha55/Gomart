@@ -109,10 +109,11 @@
         </section> <!--hero section end-->
 
         <!--category section start-->
-        <section class="gshop-category-section bg-white pt-120 position-relative z-1 overflow-hidden">
-            <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape" class="position-absolute bottom-0 start-0 w-100 z--1">
+        <section class="gshop-category-section bg-white mb-80 pt-120 position-relative z-1 overflow-hidden">
+            <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape"
+                 class="position-absolute bottom-0 start-0 w-100 z--1">
             <div class="container">
-                <div class="gshop-category-box border-primary rounded-4 bg-white">
+                <div class="gshop-category-box  rounded-4 bg-white" style="border-color:lightgray;border-width:thin;">
                     <div class="text-center section-title">
                         <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
                     </div>
@@ -129,28 +130,37 @@
                                         class="fa-solid fa-arrow-up"></i></a>
                             </div>
                         </div>
-                      {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </section> <!--category section end-->
+<style>
+.brand-wrapper:hover{
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    }
+    .gshop-category-box:hover{
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    }
 
-        <section class="brands-section ptb-120 position-relative z-1 overflow-hidden">
-            <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape" src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
-            <div class="container">
-                <div class="brand-wrapper px-5 rounded-4 border-primary" style="height:50%;">
-                    <h4 class="section-title mb-0">The Most Popular Brands</h4>
-                    <div class="brands-slider swiper px-2 pt-4 pb-7">
-                        <div class="swiper-wrapper">
-                           {% for i in brand %}
-                            <div class="swiper-slide brand-item rounded" style="height:200px;">
+</style>
+<section class="brands-section pt-80 pb-120 position-relative z-1 overflow-hidden">
+    <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape"
+         src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
+    <div class="container">
+        <div class="brand-wrapper px-3 rounded-4" style="border-color:lightgray;border-width:thin;height:50%;">
+            <h4 class="section-title mb-0 ">The Most Popular Brands</h4>
+            <div class="brands-slider swiper px-2 pt-1 pb-7">
+                <div class="swiper-wrapper">
+                    {% for i in brand %}
+                    <div class="swiper-slide brand-item rounded" style="height:200px;">
 
-                                <img alt="brand" class="img-fluid" src="{{i.image}}"  style="height:150px;">
-                            </div>
-                            {% endfor %}
-                        </div>
+                        <img alt="brand" class="img-fluid" src="{{i.image}}" style="height:150px;">
                     </div>
+                    {% endfor %}
                 </div>
+            </div>
+        </div>
             </div>
         </section> <!--brands section end-->
 
@@ -264,10 +274,11 @@
                                         </div>
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
+                                        <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                           href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
-                                    <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                       href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
                                     <!--                </div>-->
                                 </div>
         </div>
