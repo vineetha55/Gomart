@@ -39049,7 +39049,7 @@ body {
   color: #fff !important;
 }
 
-[data-bs-theme=dark] .border, [data-bs-theme=dark] .vertical-product-card, [data-bs-theme=dark] .mobile-toolbar-item, [data-bs-theme=dark] .mobile-toolbar, [data-bs-theme=dark] .mobile-menu ul li a, [data-bs-theme=dark] .social-contact a, [data-bs-theme=dark] .meat-category-tab, [data-bs-theme=dark] .meat-card__cart-btn, [data-bs-theme=dark] .hl-collection-single, [data-bs-theme=dark] .hm3-product-tabs .nav-tabs, [data-bs-theme=dark] .category-list__content, [data-bs-theme=dark] .featured-nav {
+[data-bs-theme=dark] .border,[data-bs-theme=dark] .brands_slide,[data-bs-theme=dark] .cats_slide, [data-bs-theme=dark] .vertical-product-card, [data-bs-theme=dark] .mobile-toolbar-item, [data-bs-theme=dark] .mobile-toolbar, [data-bs-theme=dark] .mobile-menu ul li a, [data-bs-theme=dark] .social-contact a, [data-bs-theme=dark] .meat-category-tab, [data-bs-theme=dark] .meat-card__cart-btn, [data-bs-theme=dark] .hl-collection-single, [data-bs-theme=dark] .hm3-product-tabs .nav-tabs, [data-bs-theme=dark] .category-list__content, [data-bs-theme=dark] .featured-nav {
   border-color: #334155 !important;
 }
 

@@ -1,13 +1,18 @@
 {% load static %}
-<style>
+<head>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <style>
     @media screen and (max-width: 967px) {
         .main_title {
             font-size: 10px; /* Adjust the font size for mobile view */
         }
     }
 
-</style>
-<style>
+
+    </style>
+    <style>
     .vertical-product-card {
         width: 100%; /* Set the width of the product card */
         height: 500px; /* Set the height of the product card */
@@ -15,8 +20,9 @@
 
 
 
-</style>
 
+    </style>
+</head>
 {% include 'indexnavbar.html' %}
 
         <!--hero section start-->
@@ -58,7 +64,9 @@
                                     <h1 class="display-4 mb-3 main_title"  style="color:#2f9140; font-size:100px;">Gomart</h1>
                                     <div class="hero-left-content">
 
-                                        <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
+                                        <h1 class="display-4 mb-3">Online Fresh <br>Fish
+                                            <mark class="p-0 bg-transparent text-secondary">Products</mark>
+                                        </h1>
                                         <p class="mb-7 fs-6">Assertively target market-driven intellectual capital with worldwide human capital holistic.</p>
                                         <div class="hero-btns d-flex align-items-center gap-3 gap-sm-5 flex-wrap">
                                             <a href="/all_products" class="btn btn-secondary">Shop Now<span class="ms-2"><i class="fa-solid fa-arrow-right"></i></span></a>
@@ -68,11 +76,16 @@
                                 </div>
                                 <div class="col-xl-6 col-lg-7">
                                     <div class="hero-right text-center position-relative z-1 mt-8 mt-xl-0">
-                                        <img src="{% static 'index/assets/img/shapes/fruits.png' %}" alt="fruits" class="img-fluid position-absolute end-0 top-50 hero-img">
-                                        <img src="{% static 'index/assets/img/shapes/tree_new.png' %}" alt="tree" class="img-fluid position-absolute tree z-1">
-                                        <img src="{% static 'index/assets/img/shapes/orange_new.png' %}" alt="orange" class="position-absolute orange-1 z-1">
-                                        <img src="{% static 'index/assets/img/shapes/orange-2_new.png' %}" alt="orange" class="position-absolute orange-2 z-1">
-                                        <img src="{% static 'index/assets/img/shapes/hero-circle-lg_new.png' %}" alt="circle shape" class="img-fluid hero-circle">
+                                        <img alt="fruits" class="img-fluid position-absolute end-0 top-50 hero-img"
+                                             src="{% static 'index/assets/img/shapes/fish.png' %}">
+                                        <img alt="tree" class="img-fluid position-absolute tree z-1"
+                                             src="{% static 'index/assets/img/shapes/curry_leves_new.png' %}">
+                                        <img alt="orange" class="position-absolute orange-1 z-1"
+                                             src="{% static 'index/assets/img/shapes/salmon_new.png' %}">
+                                        <img alt="orange" class="position-absolute orange-2 z-1"
+                                             src="{% static 'index/assets/img/shapes/salmon-2_new.png' %}">
+                                        <img src="{% static 'index/assets/img/shapes/hero-circle-lg_new.png' %}"
+                                             alt="circle shape" class="img-fluid hero-circle">
                                     </div>
                                 </div>
                             </div>
@@ -107,13 +120,25 @@
             </div>
             <div class="gshop-hero-slider-pagination theme-slider-control position-absolute top-50 translate-middle-y z-5"></div>
         </section> <!--hero section end-->
+<style>
+.brands_slide:hover{
+    border-color: rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+    }
+    .cats_slide:hover{
+    border-color: rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+    }
 
+</style>
         <!--category section start-->
         <section class="gshop-category-section bg-white mb-80 pt-120 position-relative z-1 overflow-hidden">
             <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape"
                  class="position-absolute bottom-0 start-0 w-100 z--1">
             <div class="container">
-                <div class="gshop-category-box  rounded-4 bg-white" style="border-color:lightgray;border-width:thin;">
+                <div class="gshop-category-box  rounded-4 bg-white cats_slide" style="border: 1px solid #f4f4f4;">
                     <div class="text-center section-title">
                         <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
                     </div>
@@ -135,20 +160,13 @@
                 </div>
             </div>
         </section> <!--category section end-->
-<style>
-.brand-wrapper:hover{
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    }
-    .gshop-category-box:hover{
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    }
 
-</style>
+
 <section class="brands-section pt-80 pb-120 position-relative z-1 overflow-hidden">
     <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape"
          src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
     <div class="container">
-        <div class="brand-wrapper px-3 rounded-4" style="border-color:lightgray;border-width:thin;height:50%;">
+        <div class="brand-wrapper px-3 rounded-4 brands_slide" style="height:50%;border: 1px solid #f4f4f4;">
             <h4 class="section-title mb-0 ">The Most Popular Brands</h4>
             <div class="brands-slider swiper px-2 pt-1 pb-7">
                 <div class="swiper-wrapper">
@@ -243,22 +261,22 @@
 <!--                        <div class="filter-btns gshop-filter-btn-group text-center text-xl-end mt-4 mt-xl-0">-->
 <!--                            <button class="active" data-filter="*">All Products</button>-->
 <!--                            {% for i in cat %}-->
-<!--                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>-->
-<!--                            {% endfor %}-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>-->
+                    <!--                            {% endfor %}-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                 </div>
                 <div class="row justify-content-center g-4 mt-5 filter_group">
-                    <div class="brands-slider1 swiper px-2 pt-4 pb-7">
+                    <div class="brands-slider1 swiper px-2 pt-4 pb-4">
                         <div class="swiper-wrapper">
                             {% for i in prod %}
 
-                            <div class="col-xxl-3 col-lg-4 col-md-6 col-sm-10 swiper-slide filter_item beans_peas{{i.category.id}}">
-                                <div class="vertical-product-card rounded-2 position-relative">
+                            <div class=" swiper-slide ">
+                                <div class="vertical-product-card rounded-2 position-relative border-0">
                                     <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                                     <div class="thumbnail position-relative text-center p-4">
                                         <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
-                                                        style="width:100%;height:200px;"></a>
+                                                        style="max-width:100%;height:200px;"></a>
                                         <div class="product-btns position-absolute d-flex gap-2 flex-column">
                                             <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i
                                                     class="fa-regular fa-heart"></i></a>
@@ -274,8 +292,140 @@
                                         </div>
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
+                                        <a class="btn btn-secondary d-block btn-md mt-5 rounded-1 add-to-cart-btn"
+                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+
+                                    </div>
+                                    <!--                <div class="card-btn bg-white">-->
+                                    <!--                </div>-->
+                                </div>
+                            </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section> <!--trending products end-->
+<section class="pt-6 pb-100 bg-white position-relative overflow-hidden z-1 trending-products-area">
+    <img alt="garlic" class="position-absolute garlic z--1" data-parallax='{"y": 100}'
+         src="{% static 'index/assets/img/shapes/garlic.png' %}">
+    <img alt="carrot" class="position-absolute carrot z--1" data-parallax='{"y": -100}'
+         src="{% static 'index/assets/img/shapes/carrot.png' %}">
+    <img alt="mashrom" class="position-absolute mashrom z--1" data-parallax='{"x": 100}'
+         src="{% static 'index/assets/img/shapes/mashrom.png' %}">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-5">
+                <div class="section-title text-center text-xl-start">
+                    <h3 class="mb-0">Top Trending Vegetables</h3>
+                </div>
+            </div>
+            <!--                    <div class="col-xl-7">-->
+            <!--                        <div class="filter-btns gshop-filter-btn-group text-center text-xl-end mt-4 mt-xl-0">-->
+            <!--                            <button class="active" data-filter="*">All Products</button>-->
+            <!--                            {% for i in cat %}-->
+            <!--                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>-->
+            <!--                            {% endfor %}-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+        </div>
+        <div class="row justify-content-center g-4 mt-5 filter_group">
+            <div class="brands-slider2 swiper px-2 pt-4 pb-7">
+                <div class="swiper-wrapper">
+                    {% for i in veg %}
+
+                    <div class=" swiper-slide ">
+                        <div class="vertical-product-card rounded-2 position-relative">
+                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
+                            <div class="thumbnail position-relative text-center p-4">
+                                <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
+                                                style="max-width:100%;height:200px;"></a>
+                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
+                                    <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i
+                                            class="fa-regular fa-heart"></i></a>
+                                </div>
+                            </div>
+                            <div class="card-content">
+                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
+                                    Organic</a>
+                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
+                                <div class="card-progressbar mb-2 rounded-pill">
+                                    <span class="card-progress bg-primary-light" data-progress="60%"></span>
+                                </div>
+                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
+                                </p>
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+
+                            </div>
+                            <!--                <div class="card-btn bg-white">-->
+                            <!--                </div>-->
+                        </div>
+                    </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section> <!--trending products end-->
+<section class="pt-6 pb-100 bg-white position-relative overflow-hidden z-1 trending-products-area">
+    <img alt="garlic" class="position-absolute garlic z--1" data-parallax='{"y": 100}'
+         src="{% static 'index/assets/img/shapes/garlic.png' %}">
+    <img alt="carrot" class="position-absolute carrot z--1" data-parallax='{"y": -100}'
+         src="{% static 'index/assets/img/shapes/carrot.png' %}">
+    <img alt="mashrom" class="position-absolute mashrom z--1" data-parallax='{"x": 100}'
+         src="{% static 'index/assets/img/shapes/mashrom.png' %}">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-xl-5">
+                <div class="section-title text-center text-xl-start">
+                    <h3 class="mb-0">Top Trending Meats</h3>
+                </div>
+            </div>
+            <!--                    <div class="col-xl-7">-->
+            <!--                        <div class="filter-btns gshop-filter-btn-group text-center text-xl-end mt-4 mt-xl-0">-->
+            <!--                            <button class="active" data-filter="*">All Products</button>-->
+            <!--                            {% for i in cat %}-->
+            <!--                            <button data-filter=".beans_peas{{i.id}}">{{i.name}}</button>-->
+            <!--                            {% endfor %}-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+        </div>
+        <div class="row justify-content-center g-4 mt-5 filter_group">
+            <div class="brands-slider2 swiper px-2 pt-4 pb-7">
+                <div class="swiper-wrapper">
+                    {% for i in meat %}
+
+                    <div class=" swiper-slide ">
+                        <div class="vertical-product-card rounded-2 position-relative">
+                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
+                            <div class="thumbnail position-relative text-center p-4">
+                                <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
+                                                style="max-width:100%;height:200px;"></a>
+                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
+                                    <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i
+                                            class="fa-regular fa-heart"></i></a>
+                                </div>
+                            </div>
+                                    <div class="card-content">
+                                        <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
+                                            Organic</a>
+                                        <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                        <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
+                                        <div class="card-progressbar mb-2 rounded-pill">
+                                            <span class="card-progress bg-primary-light" data-progress="60%"></span>
+                                        </div>
+                                        <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
+                                        </p>
                                         <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                           href="//add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
 
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
@@ -302,6 +452,119 @@
                 delay: 2500,
                 disableOnInteraction: false,
             },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
+        });
+
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.add-to-cart-btn').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
+
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider2', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
+        });
+
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.add-to-cart-btn').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
+
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider3', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
         });
 
         // Ensure the swiper instance is properly initialized before attaching hover event
@@ -445,8 +708,8 @@
                         </div>
                     </div>
                     <div class="col-xl-4">
-                        <div class="banner-img rounded-3 overflow-hidden">
-                            <img alt="banner" class="img-fluid" src="{{post6.image}}">
+                        <div class="banner-img  background-banner rounded-2 banner-lg">
+                            <img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:280px;width:100%;">
                         </div>
                     </div>
                 </div>

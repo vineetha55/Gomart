@@ -15,7 +15,7 @@
 
     <!--build:css-->
   <!--build:css-->
-<link rel="stylesheet" href="{% static 'index/assets/css/main.css' %}">
+<link href="{% static 'index/assets/css/style.css' %}" rel="stylesheet">
 
     <!-- endbuild -->
 </head>
@@ -32,11 +32,11 @@
 
         <!--header section start-->
         <header class="gheader position-relative z-2 header-sticky">
-            <div class="ghead-topbar bg-primary d-none d-lg-block">
+            <div class="ghead-topbar bg-primary-light d-none d-lg-block">
                 <div class="container">
                     <div class="row align-items-center">
                         <div class="col-xxl-4 col-xl-3">
-Welcome {{user}}
+
                         </div>
                         <div class="col-xxl-8 col-xl-9">
                             <ul class="d-flex align-items-center justify-content-center justify-content-xl-end topbar-info-right">
@@ -108,12 +108,14 @@ Welcome {{user}}
                                         <ul class="category-dropdown-menu">
                                             {% for category in cat %}
                                             <li>
-                            <a href="/shop_by_category/{{category.id}}" class="d-flex align-items-center">
-                                    <div class="me-2 avatar-icon">
-                                         <img src="{{category.image}}" alt="vegetables" class="w-100 h-100 rounded-circle">
-                                    </div>
-                                <span >{{ category.name }}</span>
-                            </a>
+                                                <a class="d-flex align-items-center"
+                                                   href="/shop_by_category_user/{{category.id}}">
+                                                    <div class="me-2 avatar-icon">
+                                                        <img src="{{category.image}}" alt="vegetables"
+                                                             class="w-100 h-100 rounded-circle">
+                                                    </div>
+                                                    <span>{{ category.name }}</span>
+                                                </a>
                         </li>
                                             {% endfor %}
                     </ul>
@@ -241,8 +243,8 @@ Welcome {{user}}
                 <div class="offcanvas-contact mt-5">
                     <h5 class="mb-20">Contact Info</h5>
                     <address>
-                        LetterKenny, Co.Donegal,Ireland<br />
-                        <a href="tel:+8801682648101">+8801682648101</a> <br />
+                        LetterKenny, Co.Donegal,Ireland<br/>
+                        <a href="tel:+8801682648101">+353 (74) 920 2265</a> <br/>
                         <a href="mailto:info@example.com">info@example.com</a>
                     </address>
                 </div>

@@ -158,14 +158,52 @@
 
                                             <a href="/view_product_single/{{i.product.id}}"
                                                class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.product.name}}</a>
-                                                <h6 class="price text-danger mb-4">Quantity:{{i.quantity}}</h6>
-                                            <a href="/rating-products/{{i.id}}/{{i.product.id}}"
-                                               class="btn btn-outline-secondary d-block btn-md">Rate this Product</a>
+                                            <h6 class="price text-danger mb-4">Quantity:{{i.quantity}}</h6>
+
+                                            <a class="btn btn-outline-secondary d-block btn-md"
+                                               data-bs-target="#ratingModal" data-bs-toggle="modal" href="#">Rate this
+                                                Product</a>
                                         </div>
-                                    </div>
+                        </div>
 
                     </div>
-                   {% endfor %}
+
+                    <!-- Rating Modal -->
+                    <div aria-hidden="true" aria-labelledby="ratingModalLabel" class="modal fade" id="ratingModal"
+                         tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ratingModalLabel">Rate this Product</h5>
+                                    <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+                                            type="button"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/rating-products/{{i.id}}/{{i.product.id}}" method="POST">{%
+                                        csrf_token %}
+                                        <input id="productId" name="product_id" type="hidden">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="rating">Rating</label>
+                                            <select class="form-select" id="rating" name="rating">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="comment">Comment</label>
+                                            <textarea class="form-control" id="comment" name="comment"></textarea>
+                                        </div>
+                                        <button class="btn btn-primary" type="submit">Submit Rating</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
                 </div>
             </div>
         </section>

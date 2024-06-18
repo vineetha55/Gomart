@@ -31,21 +31,23 @@ def index(request):
     best = tbl_Product.objects.filter(best_score__gte=10)
     prod = tbl_Product.objects.all()
     deal = tbl_Deals.objects.filter(status="Start")
-    post1=tbl_poster1.objects.get()
-    post2=tbl_poster2.objects.get()
-    post3=tbl_poster3.objects.get()
-    post4=tbl_poster4.objects.get()
-    post5=tbl_poster5.objects.get()
-    post6=tbl_poster6.objects.get()
-    post7=tbl_poster7.objects.get()
-    new_pdt=tbl_Product.objects.all().order_by('-id')[:3]
+    post1 = tbl_poster1.objects.get()
+    post2 = tbl_poster2.objects.get()
+    post3 = tbl_poster3.objects.get()
+    post4 = tbl_poster4.objects.get()
+    post5 = tbl_poster5.objects.get()
+    post6 = tbl_poster6.objects.get()
+    post7 = tbl_poster7.objects.get()
+    new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
     organic = tbl_Product.objects.all()[:3]
+    veg = tbl_Product.objects.filter(category__name="Vegetables")
+    meat = tbl_Product.objects.filter(category__name="Meats")
     return render(request, "index.html",
                   {"cat": cat, "coun": coun, "brand": brand, "best": best,
-                   "prod": prod, "deal": deal,"post1":post1,
-                   "post2":post2,"post3":post3,"post4":post4,
-                   "post5":post5,"post6":post6,"post7":post7,
-                   "new_pdt":new_pdt,"organic":organic})
+                   "prod": prod, "deal": deal, "post1": post1,
+                   "post2": post2, "post3": post3, "post4": post4,
+                   "post5": post5, "post6": post6, "post7": post7,
+                   "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
 
 
 def Admin_login(request):
@@ -323,7 +325,27 @@ def HomePage(request):
             cat = tbl_Category.objects.all()
             coun = tbl_Country.objects.all()
             brand = tbl_Brand.objects.all()
-            return render(request, "HomePage.html", {"user": user, "cat": cat, "coun": coun, "brand": brand})
+            best = tbl_Product.objects.filter(best_score__gte=10)
+            prod = tbl_Product.objects.all()
+            deal = tbl_Deals.objects.filter(status="Start")
+            post1 = tbl_poster1.objects.get()
+            post2 = tbl_poster2.objects.get()
+            post3 = tbl_poster3.objects.get()
+            post4 = tbl_poster4.objects.get()
+            post5 = tbl_poster5.objects.get()
+            post6 = tbl_poster6.objects.get()
+            post7 = tbl_poster7.objects.get()
+            new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
+            organic = tbl_Product.objects.all()[:3]
+            veg = tbl_Product.objects.filter(category__name="Vegetables")
+            meat = tbl_Product.objects.filter(category__name="Meats")
+
+            return render(request, "HomePage.html",
+                          {"user": user, "cat": cat, "coun": coun, "brand": brand, "best": best,
+                           "prod": prod, "deal": deal, "post1": post1,
+                           "post2": post2, "post3": post3, "post4": post4,
+                           "post5": post5, "post6": post6, "post7": post7,
+                           "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
         else:
             return redirect("/")
     except:
@@ -639,7 +661,8 @@ def get_location_from_eircode(eircode):
 
 
 def about(request):
-    return render(request, "about.html")
+    brand = tbl_Brand.objects.all()
+    return render(request, "about.html", {"brand": brand})
 
 
 def save_ship_address(request):
@@ -1770,11 +1793,19 @@ def add_subscription(request):
             data.save()
             return redirect("/")
 
-def My_products(request,id):
-    myp=tbl_checkout_products.objects.filter(checkout=id,user=request.session['userid'])
-    return render(request,"My_products.html",{"myp":myp})
+
+def My_products(request, id):
+    myp = tbl_checkout_products.objects.filter(checkout=id, user=request.session['userid'])
+    return render(request, "My_products.html", {"myp": myp})
 
 
-def rating_products(request,id,pid):
-    return render(request,"")
-
+def rating_products(request, id, pid):
+    obj = tbl_Rating()
+    obj.user_id = request.session['userid']
+    obj.comment = request.POST.get("comment")
+    obj.rating = request.POST.get("rating")
+    obj.product_id = pid
+    obj.checkout_product_id = id
+    obj.status = "Rated"
+    obj.save()
+    return redirect("/my_account/")

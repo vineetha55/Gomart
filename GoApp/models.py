@@ -228,9 +228,19 @@ class tbl_poster7(models.Model):
     image = models.ImageField(upload_to="media", null=True)
     title = models.CharField(max_length=100, null=True)
     subtitle = models.CharField(max_length=100, null=True)
-    subtitle2 =models.CharField(max_length=500,null=True)
+    subtitle2 = models.CharField(max_length=500, null=True)
 
 
 class tbl_Subscribe(models.Model):
     email = models.EmailField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class tbl_Rating(models.Model):
+    comment = models.TextField(null=True)
+    rating = models.IntegerField(null=True)
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    product = models.ForeignKey(tbl_Product, on_delete=models.CASCADE, null=True)
+    checkout_product = models.ForeignKey(tbl_checkout_products, on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=200, null=True)
