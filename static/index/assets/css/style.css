@@ -40791,7 +40791,7 @@ blockquote::before {
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  height: 98px;
+  height: 200px;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   overflow: hidden;

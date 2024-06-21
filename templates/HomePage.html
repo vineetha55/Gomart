@@ -172,7 +172,7 @@
     <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape"
          src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
     <div class="container">
-        <div class="brand-wrapper px-3 rounded-4 brands_slide" style="height:50%;border: 1px solid #f4f4f4;">
+        <div class="brand-wrapper px-3 rounded-4 brands_slide" style="height:300px;border: 1px solid #f4f4f4;">
             <h4 class="section-title mb-0 ">The Most Popular Brands</h4>
             <div class="brands-slider swiper px-2 pt-1 pb-7">
                 <div class="swiper-wrapper">
@@ -342,7 +342,7 @@
             <!--                    </div>-->
         </div>
         <div class="row justify-content-center g-4 mt-5 filter_group">
-            <div class="brands-slider1 swiper px-2 pt-4 pb-7">
+            <div class="brands-slider2 swiper px-2 pt-4 pb-7">
                 <div class="swiper-wrapper">
                     {% for i in veg %}
 
@@ -408,7 +408,7 @@
             <!--                    </div>-->
         </div>
         <div class="row justify-content-center g-4 mt-5 filter_group">
-            <div class="brands-slider1 swiper px-2 pt-4 pb-7">
+            <div class="brands-slider3 swiper px-2 pt-4 pb-7">
                 <div class="swiper-wrapper">
                     {% for i in meat %}
 
@@ -496,6 +496,101 @@
         }
     });
 
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider2', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
+        });
+
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.add-to-cart-btn').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
+
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider3', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
+        });
+
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.add-to-cart-btn').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
 
 
 </script>
@@ -624,7 +719,7 @@
             <div class="container">
                 <div class="row g-4">
                     <div class="col-xl-8">
-                        <div class="banner-box background-banner rounded-2 banner-lg" data-background="{{post5.image}}">
+                        <div class="banner-box background-banner rounded-2 banner-lg" style="height:300px;width:100%;" data-background="{{post5.image}}">
                             <span class="badge bg-danger mb-2">{{post5.title}}</span>
                             <h3 class="mb-6 text-white gshop-title">{{post5.heading}}<br class="d-none d-sm-block"> Food
                                 <mark class="position-relative text-secondary position-relative bg-transparent">Special
@@ -637,7 +732,7 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="banner-img rounded-3 overflow-hidden">
-                            <img alt="banner" class="img-fluid" src="{{post6.image}}">
+                            <img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;">
                         </div>
                     </div>
                 </div>
@@ -906,7 +1001,7 @@
                     <form action="/add-subscription/"
                           class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
                         {% csrf_token %}
-                        <input class="form-control" name="email" placeholder="Enter Email Address" type="email">
+                        <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
                         <button class="btn btn-primary flex-shrink-0" type="submit">Subscribe Now</button>
                     </form>
                 </div>
@@ -927,9 +1022,9 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a class="logo" href="/"><img alt="logo" class="img-fluid"
+                                <a class="logo" href="#"><img alt="logo" class="img-fluid"
                                                               src="{% static 'index/assets/img/gomart_logo.png' %}"
-                                                              width="100"></a>
+                                                              width="164"></a>
                             </div>
                         </div>
 
@@ -992,7 +1087,7 @@
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
                 <a class="d-inline-block mb-5" href="#"><img alt="logo"
                                                              src="{% static 'index/assets/img/gomart_logo.png' %}"
-                                                             width="100"></a>
+                                                             width="164"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         {% for i in cat %}

@@ -280,15 +280,21 @@ def save_signup(request):
         if not user:
             user = User.objects.create_user(username=fullname, email=email, password=password)
 
-        signup = tbl_SignUp.objects.create(
-            user=user,
-            mobile=mobile,
-            fullname=fullname,
-            email=email,
-            password=password,
+            signup = tbl_SignUp.objects.create(
+                user=user,
+                mobile=mobile,
+                fullname=fullname,
+                email=email,
+                password=password,
 
-        )
-        return redirect("/Login/")
+            )
+            messages.success(request,"Successfully Registered Please Login.")
+            return redirect("/Login/")
+        else:
+            messages.error(request,"You are already registered with this email id")
+            return redirect("/signup/")
+
+
 
 
 def check_email(request):

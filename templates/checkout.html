@@ -239,6 +239,9 @@
             <!-- A Stripe Element will be inserted here. -->
         </div>
 
+<div id="sepa-element">
+            <!-- A Stripe Element will be inserted here. -->
+        </div>
         <!-- Used to display form errors. -->
         <div id="card-errors" role="alert"></div>
       {% if not d %}
@@ -614,18 +617,25 @@
 <!--        e.preventDefault();-->
 <!--    }-->
 <!--</script>-->
-<script src="https://js.stripe.com/v3/"></script>
+
 <script src="https://js.stripe.com/v3/"></script>
 <script>
-    var stripe = Stripe('pk_test_51P6RmX022XTem7DHs7vHF7SEZPxNyEsdmD6XUUcse8g8U9uukCXAH4zkwDDcQPj0T8vAp9t4zGBKf256r2JIyOct00tkAwI2hZ'); // Replace with your Stripe publishable key
-    var elements = stripe.elements();
+    // Replace with your live Stripe publishable key
+        var stripe = Stripe('pk_test_51P6RmX022XTem7DHs7vHF7SEZPxNyEsdmD6XUUcse8g8U9uukCXAH4zkwDDcQPj0T8vAp9t4zGBKf256r2JIyOct00tkAwI2hZ'); // Replace with your Stripe publishable key
+        var elements = stripe.elements();
 
+    // Card Element
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
 
+    // SEPA Element (example for SEPA Direct Debit)
+    var sepaElement = elements.create('iban', {
+        supportedCountries: ['SEPA'],
+    });
+    sepaElement.mount('#sepa-element');
+
     var form = document.getElementById('payment-form');
 
-    // Function to toggle loading state of the button
     function toggleLoading(isLoading) {
         var submitButton = document.getElementById('submit');
         if (isLoading) {
@@ -639,55 +649,74 @@
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();
-
-        // Toggle loading state
         toggleLoading(true);
 
+        var selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
+
+        if (selectedPaymentMethod === 'card') {
+            handleCardPayment();
+        } else if (selectedPaymentMethod === 'sepa') {
+            handleSepaPayment();
+        }
+    });
+
+    function handleCardPayment() {
         stripe.createPaymentMethod({
             type: 'card',
             card: cardElement,
         }).then(function(result) {
             if (result.error) {
-                // Show error to your customer
-                var errorElement = document.getElementById('card-errors');
-                errorElement.textContent = result.error.message;
-                // Toggle loading state back to false
+                showError(result.error.message);
                 toggleLoading(false);
             } else {
-                // Send payment method ID to your server to process the payment
-                var paymentMethodId = result.paymentMethod.id;
-
-                // Send paymentMethodId to your Django backend using fetch or any other method
-                fetch('/process_payment/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token for security
-                    },
-                    body: JSON.stringify({
-                        payment_method_id: paymentMethodId,
-                        ship:{{d.id}},
-                        total_items:{{total_items}},
-                        item_price:{{item_price}},
-                        ship_charge:{{ship_charge}},
-                        total_after_ship:{{total_after_ship}}
-                    })
-                }).then(response => response.json())
-                .then(data => {
-                    // Access the id property from the response
-                    console.log(data['id']); // or console.log(data.id);
-                    // Use the id property here
-                    window.location.href = "/payment_success/" + data['id']; // or data.id
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    // Toggle loading state back to false
-                    toggleLoading(false);
-                });
+                processPayment(result.paymentMethod.id);
             }
         });
-    });
+    }
 
+    function handleSepaPayment() {
+        stripe.createPaymentMethod({
+            type: 'sepa_debit',
+            sepa_debit: sepaElement,
+            billing_details: {
+                name: document.getElementById('name').value,
+            },
+        }).then(function(result) {
+            if (result.error) {
+                showError(result.error.message);
+                toggleLoading(false);
+            } else {
+                processPayment(result.paymentMethod.id);
+            }
+        });
+    }
+
+    function processPayment(paymentMethodId) {
+        fetch('/process_payment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({
+                payment_method_id: paymentMethodId,
+                ship: {{ d.id }},
+                total_items: {{ total_items }},
+                item_price: {{ item_price }},
+                ship_charge: {{ ship_charge }},
+                total_after_ship: {{ total_after_ship }}
+            })
+        }).then(response => response.json())
+        .then(data => {
+            window.location.href = "/payment_success/" + data['id'];
+        }).catch(error => {
+            console.error('Error:', error);
+            toggleLoading(false);
+        });
+    }
+
+    function showError(message) {
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = message;
+    }
 </script>
-
-

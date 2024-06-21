@@ -16,10 +16,10 @@
     <link rel="icon" href="{% static 'index/assets/img/logo_new.png' %}" type="image/png" sizes="16x16">
 
     <!--title-->
-    <title>Gomart -- SignUp</title>
+    <title>Gomart -- Login</title>
 
     <!--build:css-->
-    <link rel="stylesheet" href="{% static 'index/assets/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'index/assets/css/style.css' %}">
          <style>
         .alert {
             padding: 10px;
@@ -59,7 +59,7 @@
                         <form class="tt-login-form-wrap p-3 p-md-6 p-lg-6 py-7 w-100" action="/check_login/" method="POST">{% csrf_token %}
                             <div class="mb-7">
                                 <a href="index.html">
-                                    <img src="{% static 'index/assets/img/logo_new.png' %}" alt="logo" width="100">
+                                    <img src="{% static 'index/assets/img/gomart_logo.png' %}" alt="logo" width="164">
                                 </a>
                             </div>
                             <h2 class="mb-4 h3">Hey there! <br>Welcome back <span class="text-secondary">Gomart</span>
@@ -148,7 +148,7 @@
             alerts.forEach(function(alert) {
                 setTimeout(function() {
                     alert.classList.add('fade');
-                }, 3000); // Adjust the time as needed (in milliseconds)
+                }, 4000); // Adjust the time as needed (in milliseconds)
             });
         });
     </script>

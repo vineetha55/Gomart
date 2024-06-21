@@ -15,11 +15,28 @@
     <link rel="icon" href="{% static 'index/assets/img/logo_new.png' %}" type="image/png" sizes="16x16">
 
     <!--title-->
-    <title>Grostore - Signup - Grostore Grocery eCommerce HTML Template</title>
+    <title>Gomart - Signup</title>
 
     <!--build:css-->
-    <link rel="stylesheet" href="{% static 'index/assets/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'index/assets/css/style.css' %}">
     <!-- endbuild -->
+             <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #FF0000;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -41,9 +58,14 @@
                     <div class="col-lg-5 col-12 bg-white d-flex p-0 tt-login-col shadow">
                         <form class="tt-login-form-wrap p-3 p-md-6 p-lg-6 py-7 w-100" action="/save_signup/" method="POST">{% csrf_token %}
                             <div class="text-center mb-7">
-                                <a href=""><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo"></a>
+                                <a href=""><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo"></a>
                             </div>
                             <p class="fs-xs">Already have an account? <a href="/Login/" class="text-secondary">Sign in</a></p>
+                             {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
                             <div class="row g-3">
                                <div class="col-sm-12">
                                     <div class="input-field">
@@ -108,6 +130,17 @@
     <script src="{% static 'index/assets/js/vendors/typer.js' %}"></script>
     <script src="{% static 'index/assets/js/app.js' %}"></script>
     <!--endbuild-->
+ <script>
+        // Add fade-out effect to alert messages after some time
+        window.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('fade');
+                }, 4000); // Adjust the time as needed (in milliseconds)
+            });
+        });
+    </script>
 </body>
 
 </html>
