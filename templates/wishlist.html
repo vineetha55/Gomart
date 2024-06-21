@@ -101,14 +101,16 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
-                            <h4 class="text-white gshop-title">Subscribe to the G-Shop
+                            <h4 class="text-white gshop-title">Subscribe to the GoMart
                                 <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
                                         alt="border line" class="position-absolute border-line"
                                         src="{% static 'index/assets/img/shapes/border-line_new.svg' %}"></mark>
                                 <br class="d-none d-sm-block">& Other Information.
                             </h4>
-                            <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
-                                <input type="email" class="form-control" placeholder="Enter Email Address">
+                            <form action="/add-subscription/"
+                                  class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
                             </form>
                         </div>
@@ -129,9 +131,9 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a class="logo" href="index.html"><img alt="logo" class="img-fluid"
-                                                                       src="{% static 'index/assets/img/logo_new.png' %}"
-                                                                       width="150"></a>
+                                <a class="logo" href="#"><img alt="logo" class="img-fluid"
+                                                                       src="{% static 'index/assets/img/gomart_logo.png' %}"
+                                                                       width="164"></a>
                             </div>
                         </div>
 
@@ -193,8 +195,8 @@
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
                 <a class="d-inline-block mb-5" href="#"><img alt="logo"
-                                                             src="{% static 'index/assets/img/logo_new.png' %}"
-                                                             width="100"></a>
+                                                             src="{% static 'index/assets/img/gomart_logo.png' %}"
+                                                             width="164"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         {% for i in cat %}

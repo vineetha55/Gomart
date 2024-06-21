@@ -73,6 +73,9 @@ urlpatterns = [
     path("all_products_sort/", views.all_products_sort, name="all_products_sort"),
     path("filter_by_price_category/<id>", views.filter_by_price_category, name="filter_by_price_category"),
     path("shop_by_category_sort/<id>", views.shop_by_category_sort, name="shop_by_category_sort"),
+
+    path("shop_by_category_user_sort/<id>", views.shop_by_category_user_sort, name="shop_by_category_user_sort"),
+
     path("out_for_delivery/<id>", views.out_for_delivery, name="out_for_delivery"),
     path("cancel_order/<id>", views.cancel_order, name="cancel_order"),
     path("cancelled_orders/", views.cancelled_orders, name="cancelled_orders"),

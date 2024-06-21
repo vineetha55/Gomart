@@ -186,8 +186,10 @@
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
                             <h4 class="text-white gshop-title">Subscribe to the G-Shop <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img src="{% static 'index/assets/img/shapes/border-line_new.svg' %}"  class="position-absolute border-line"></mark><br class="d-none d-sm-block">& Other Information.</h4>
-                            <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
-                                <input type="email" class="form-control" placeholder="Enter Email Address">
+                            <form action="/add-subscription/"
+                                  class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
                             </form>
                         </div>
@@ -260,7 +262,7 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="index.html" class="logo"><img src="{% static 'index/assets/img/logo_new.png' %}" alt="logo" class="img-fluid"></a>
+                                <a href="#" class="logo"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -333,7 +335,7 @@
         <div class="offcanvas-left-menu position-fixed">
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo_new.png" width="100" alt="logo"></a>
+                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png" width="164" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         {% for i in cat %}

@@ -540,8 +540,9 @@ def shop_by_category_user(request, id):
         cat = tbl_Category.objects.all()
         coun = tbl_Country.objects.all()
         brand = tbl_Brand.objects.all()
+        c = tbl_Category.objects.get(id=id)
         return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
-                                                              "table_count": table_count})
+                                                              "table_count": table_count,"c":c})
     except:
         return redirect("/Login/")
 
@@ -894,6 +895,26 @@ def shop_by_category_sort(request, id):
     return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
                                                      'page_range': page_range, "brand": brand, "c": c})
 
+def shop_by_category_user_sort(request, id):
+    d = tbl_Product.objects.filter(category=id).order_by('price')
+    c = tbl_Category.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+
+    p_count = d.count()
+    paginator = Paginator(d, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                     'page_range': page_range, "brand": brand, "c": c})
 
 @never_cache
 def my_account(request):
@@ -1495,6 +1516,7 @@ def edit_category(request, id):
         d.name = request.POST.get("category")
         try:
             img = request.FILES['image']
+            print()
             fs = FileSystemStorage()
             file = fs.save(img.name, img)
             url = fs.url(file)
