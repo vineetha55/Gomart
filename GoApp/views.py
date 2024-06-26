@@ -67,9 +67,29 @@ def login_check(request):
 
 @never_cache
 def Admin_Home(request):
+    current_date=date.today()
+    comp_orders=tbl_Checkout.objects.filter(status="Completed")
+    pend_orders=tbl_Checkout.objects.filter(status="Pending")
+    deli_now=tbl_Checkout.objects.filter(status="Delivery")
+    today_orders=tbl_Checkout.objects.filter(created_at=current_date)
     return render(request, "Admin_Home.html")
 
+def change_password_owner(request):
+    data=tbl_admin_login.objects.get()
+    return render(request,"change_password_owner.html",{"data":data})
 
+def update_password(request):
+    n_password = request.POST.get("new_pass")
+    password=request.POST.get("old_pass")
+    user=authenticate(request,username="gomart",password=password)
+    print(user)
+    user.set_password(n_password)
+    user.save()
+    d = tbl_admin_login.objects.get()
+    d.password = request.POST.get("new_pass")
+    d.save()
+    messages.success(request,"Password Changed successfully")
+    return redirect("/Admin_Home/")
 @never_cache
 def country(request):
     d = tbl_Country.objects.all()
@@ -87,7 +107,23 @@ def add_country(request):
     else:
         return render(request, "add_country.html")
 
+def edit_country(request,id):
+    if request.method=="POST":
+        d = tbl_Country.objects.get(id=id)
+        d.name=request.POST.get("country")
+        d.status = request.POST.get("status")
+        d.save()
+        return redirect("/country/")
 
+    else:
+        d=tbl_Country.objects.get(id=id)
+        return render(request,"edit_country.html",{"d":d})
+
+def delete_country(request,id):
+    data=tbl_Country.objects.get(id=id)
+    print(data)
+    data.delete()
+    return redirect("/country/")
 @never_cache
 def brands(request):
     d = tbl_Brand.objects.all()
@@ -1106,13 +1142,13 @@ def view_check_products_invoice(request, id):
     d = date.today()
     return render(request, "view_check_products_invoice.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
-
+@never_cache
 def completed_orders(request):
     pend = tbl_Checkout.objects.filter(status="Complete")
     return render(request, "pending_orders.html", {"pend": pend})
 
 
-stripe.api_key = "sk_test_51P6RmX022XTem7DHqwFRVz2gu5TTcapnV2FPnNg8vIaaLl1NT5olr5QQNxcGXB7zztaPMcC1DkxXEjqmYhVOt1nm004SicdbKv"  # Replace with your Stripe secret key
+stripe.api_key = "sk_test_51PFfzqRvW5dEfnEOBDa78GrVV7xUTpINko6aWd9TwxdqgpVHXaeGZ3BhJcgdNmSWtaXV6Nio2ZK1CPsGW3Q4d6gm00yxWY42f9"  # Replace with your Stripe secret key
 
 
 @csrf_exempt
@@ -1288,13 +1324,18 @@ def save_assign(request):
     try:
         checkout = request.POST.get("out")
         partner = request.POST.get("name")
+        print("hii")
         if tbl_Order_Assign.objects.filter(delivery=partner, pdt_checkout=checkout).exists():
+            print("helloo")
             messages.error(request, "This order is already assigned to the same person.")
             return redirect("out_for_delivery", id=checkout)
+
         elif tbl_Order_Assign.objects.filter(pdt_checkout=checkout).exists():
+            print("elif one")
             messages.error(request, "This order is already assigned.")
             return redirect("out_for_delivery", id=checkout)
         else:
+            print("else")
             g = tbl_Order_Assign()
             g.delivery_id = partner
             g.pdt_checkout_id = checkout
@@ -1464,9 +1505,10 @@ def delivered_orders(request, id):
     email = f.user.email
     subject = "Delivery Notification"
     message = "Your Order " + str(orderid) + " is delivered successfully, Amount is " + str(total)
-    message1 = "Order " + str(orderid) + " is delivered successfully, Amount is " + str(total) + "<br>"
-    +" Delivery Partner : " + d.delivery.name
-
+    message1 = (
+        f"Order {orderid} is delivered successfully, Amount is {total}\n"
+        f"Delivery Partner: {d.delivery.name}"
+    )
     send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
     send_mail(subject, message1, d.delivery.email, [settings.EMAIL_HOST_USER])
     return redirect("/delivery_orders/")

@@ -126,6 +126,10 @@ urlpatterns = [
     path("update_poster7/<id>", views.update_poster7, name="update_poster7"),
     path("add-subscription/", views.add_subscription, name="add_subscription"),
     path("My-products/<id>",views.My_products,name="My_products"),
-    path("rating-products/<id>/<pid>",views.rating_products,name="rating_products")
+    path("rating-products/<id>/<pid>",views.rating_products,name="rating_products"),
+    path("edit_country/<id>",views.edit_country,name="edit_country"),
+    path("delete_country/<id>",views.delete_country,name="delete_country"),
+    path("change_password_owner/",views.change_password_owner,name="change_password_owner"),
+    path("update_password/",views.update_password,name="update_password")
 
 ]

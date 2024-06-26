@@ -1,11 +1,33 @@
 {% include 'left_nav.html' %}
+<style>
+     .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #FF0000;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+</style>
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
-                        <h4 class="page-title">Add Category</h4>
+                        <h4 class="page-title">Assign</h4>
                     </div>
                 </div>
+                {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
                 <div class="row">
                     <div class="col-lg-8 offset-lg-2">
                         <form action="/save_assign/" method="post" enctype="multipart/form-data">{% csrf_token %}
@@ -238,3 +260,16 @@
             </div>
         </div>
     </div>
+
+
+     <script>
+        // Add fade-out effect to alert messages after some time
+        window.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('fade');
+                }, 4000); // Adjust the time as needed (in milliseconds)
+            });
+        });
+    </script>

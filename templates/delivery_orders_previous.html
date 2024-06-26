@@ -3,7 +3,7 @@
     <div class="content">
         <div class="row">
             <div class="col-sm-5 col-5">
-                <h4 class="page-title">Orders</h4>
+                <h4 class="page-title">Previous Orders</h4>
             </div>
 
 
@@ -28,12 +28,12 @@
                         {% for i in orders %}
                         <tr>
                             <td>{{forloop.counter}}</td>
-                            <td>{{i.orderid}}</td>
-                            <td>{{i.ship_address.street_address}}</td>
-                            <td>{{i.total_items}}</td>
-                            <td>{{i.ship_charge}}</td>
-                            <td>{{i.total_after_ship}}</td>
-                            <td>{{i.payment_method}}</td>
+                            <td>{{i.pdt_checkout.orderid}}</td>
+                            <td>{{i.pdt_checkout.ship_address.street_address}}</td>
+                            <td>{{i.pdt_checkout.total_items}}</td>
+                            <td>{{i.pdt_checkout.ship_charge}}</td>
+                            <td>{{i.pdt_checkout.total_after_ship}}</td>
+                            <td>{{i.pdt_checkout.payment_method}}</td>
                             <td>
                                 Delivered
                             </td>

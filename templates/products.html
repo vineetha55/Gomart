@@ -57,12 +57,12 @@
                                        aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
                                             <a class="dropdown-item" href="/edit_products/{{ product.id }}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_product"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_product{{product.id}}"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                                         </div>
                                     </div>
                             </td>
                         </tr>
-                        <div class="modal fade delete-modal" id="delete_product" role="dialog">
+                        <div class="modal fade delete-modal" id="delete_product{{product.id}}" role="dialog">
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body text-center">

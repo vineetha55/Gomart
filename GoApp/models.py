@@ -2,6 +2,10 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+class tbl_admin_login(models.Model):
+    username=models.CharField(max_length=100,null=True)
+    password=models.CharField(max_length=50,null=True)
+
 # Create your models here.
 class tbl_Country(models.Model):
     name = models.CharField(max_length=100)
@@ -130,7 +134,8 @@ class tbl_Checkout(models.Model):
     ship_charge = models.FloatField(null=True)
     total_after_ship = models.FloatField(null=True)
     discount = models.CharField(max_length=100, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True,null=True)
+    created_time=models.TimeField(auto_now_add=True,null=True)
     ship_address = models.ForeignKey(tbl_Shipment_Address, on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=100, null=True)
     payment_method = models.CharField(max_length=100, null=True)
