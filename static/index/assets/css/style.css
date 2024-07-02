@@ -40801,10 +40801,12 @@ blockquote::before {
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   display: block;
-  filter: grayscale(1);
-  -webkit-filter: grayscale(1);
+  -webkit-filter: grayscale(0);
 }
-
+.brand-item:hover img {
+  filter: none;
+  -webkit-filter: grayscale(0);
+}
 .brand-item:hover {
   -webkit-box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
   box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
@@ -40812,10 +40814,7 @@ blockquote::before {
   transform: translateY(-3px);
 }
 
-.brand-item:hover img {
-  filter: none;
-  -webkit-filter: grayscale(0);
-}
+
 
 .grostore-team-section {
   padding-bottom: 295px;

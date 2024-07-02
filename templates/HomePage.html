@@ -1,8 +1,48 @@
 {% load static %}
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<style>
+    .brand-item img {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  -webkit-filter: grayscale(0);
+}
+.brand-item:hover img {
+  filter: none;
+  -webkit-filter: grayscale(0);
+}
+
+.brands_slide{
+position: relative;
+  border: 1px solid #e7e7e7;
 
 
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.cats_slide{
+position: relative;
+  border: 1px solid #e7e7e7;
+
+
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.brands_slide:hover{
+    -webkit-box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+    }
+    .cats_slide:hover{
+  -webkit-box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+    }
+
+</style>
     <style>
     @media screen and (max-width: 967px) {
         .main_title {
@@ -129,45 +169,36 @@
 
 <!--category section start-->
 <section class="gshop-category-section bg-white mb-80 pt-120 position-relative z-1 overflow-hidden">
-    <img alt="bg shape" class="position-absolute bottom-0 start-0 w-100 z--1"
-         src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}">
+<!--    <img alt="bg shape" class="position-absolute bottom-0 start-0 w-100 z&#45;&#45;1"-->
+<!--         src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}">-->
     <div class="container">
         <div class="gshop-category-box  rounded-4 bg-white cats_slide" style="border: 1px solid #f4f4f4;">
             <div class="text-center section-title">
                 <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
             </div>
-            <div class="row justify-content-center g-4">
-                {% for i in cat %}
-                <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
-                    <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden">
-                        <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
-                             style="width:120px; height:120px;">
-                            <img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
+             <div class=" swiper row justify-content-center g-4">
+                        <div class="swiper-wrapper">
+                        {% for i in cat %}
+                            <div class=" swiper-slide ">
+                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden" >
+                                <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
+                                     style="width:120px; height:120px;border-style:solid;">
+                                    <a href="/shop_by_category_user/{{i.id}}"><img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
+                                    </a>
+                                </div>
+                                <a href="/shop_by_category_user/{{i.id}}" class="text-dark fs-sm fw-bold d-block mt-3">{{i.name}}</a>
+                                <a class="explore-btn position-absolute" href="/shop_by_category_user/{{i.id}}"><i
+                                        class="fa-solid fa-arrow-up"></i></a>
+                            </div>
                         </div>
-                        <a class="text-dark fs-sm fw-bold d-block mt-3" href="/shop_by_category_user/{{i.id}}">{{i.name}}</a>
-                        <a class="explore-btn position-absolute" href="/shop_by_category_user/{{i.id}}"><i
-                                class="fa-solid fa-arrow-up"></i></a>
+
+                        {% endfor %}
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-            </div>
-        </div>
     </div>
 </section> <!--category section end-->
 
-<style>
-.brands_slide:hover{
-    border-color: rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-    }
-    .cats_slide:hover{
-    border-color: rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-    }
 
-</style>
 <section class="brands-section pt-80 pb-120 position-relative z-1 overflow-hidden">
     <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape"
          src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
@@ -177,7 +208,7 @@
             <div class="brands-slider swiper px-2 pt-1 pb-7">
                 <div class="swiper-wrapper">
                     {% for i in brand %}
-                    <div class="swiper-slide brand-item rounded" style="height:200px;">
+                    <div class="swiper-slide brand-item rounded bg-white" style="height:200px;">
 
                         <img alt="brand" class="img-fluid" src="{{i.image}}" style="height:150px;">
                     </div>
@@ -604,7 +635,7 @@
             <div class="col-xl-4 col-md-6">
                 <div class="banner-box background-banner rounded-2 overflow-hidden"
                      data-background="{{post1.image}}" data-background-style="width:638px;height:346px;">
-                    <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
+                    <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block badge bg-secondary">{{post1.subtitle}}</span>
                     <h6 class="mb-0">{{post1.heading}}</h6>
                     <h4 class="mb-6">{{post1.heading2}}</h4>
                     <a class="explore-btn fw-bold text-dark" href="/all_products_user">Shop Now<span class="ms-1"><i
@@ -614,7 +645,7 @@
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative banner-color-green z-1">
                             <img alt="capsicum" class="banner-img " src="{{post2.image}}">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post2.subtitle}}</span>
+                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block badge badge-success text-white">{{post2.subtitle}}</span>
                             <h6 class="mb-0">{{post2.heading}}</h6>
                             <h4 class="mb-6">{{post2.heading2}}</h4>
                             <a class="explore-btn fw-bold text-dark" href="/all_products_user">Shop Now<span
@@ -989,27 +1020,27 @@
     <img alt="tomato" class="position-absolute tomato-half z--1 vector-shape"
          src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6">
-                <div class="gshop_subscribe_form text-center">
-                    <h4 class="text-white gshop-title">Subscribe to the GOMART
-                        <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
-                                alt="border line" class="position-absolute border-line"
-                                src="{% static 'index/assets/img/shapes/border-line.svg' %}"></mark>
-                        <br class="d-none d-sm-block">& Other Information.
-                    </h4>
-                    <form action="/add-subscription/"
-                          class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
-                        {% csrf_token %}
-                        <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
-                        <button class="btn btn-primary flex-shrink-0" type="submit">Subscribe Now</button>
-                    </form>
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="gshop_subscribe_form text-center">
+                            <h4 class="text-white gshop-title">Subscribe to the GOMART
+                                <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
+                                        alt="border line" class="position-absolute border-line"
+                                        src="{% static 'index/assets/img/shapes/border-line.svg' %}"></mark>
+                                <br class="d-none d-sm-block">& Other Information.
+                            </h4>
+                            <form action="/add-subscription/"
+                                  class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
+                                <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <span class="gradient-spacer my-8 d-block"></span>
+                <span class="gradient-spacer my-8 d-block"></span>
 
-    </div>
+            </div>
     <div class="footer-copyright pt-120 pb-3">
         <span class="gradient-spacer d-block mb-3"></span>
         <div class="container">

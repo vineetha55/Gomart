@@ -1,12 +1,55 @@
 {% load static %}
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<style>
+.brands_slide{
+position: relative;
+  border: 1px solid #e7e7e7;
 
+
+-webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.cats_slide{
+position: relative;
+  border: 1px solid #e7e7e7;
+
+-webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+.brands_slide:hover{
+   border-color: rgba(0, 0, 0, 0);
+  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
+    }
+    .cats_slide:hover{
+  -webkit-box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  box-shadow: 0px 14px 20px rgba(0, 4, 94, 0.04);
+  -webkit-transform: translateY(-3px);
+  transform: translateY(-3px);
+    }
+
+
+        .brand-item img {
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  display: block;
+  -webkit-filter: grayscale(0);
+}
+.brand-item:hover img {
+  filter: none;
+  -webkit-filter: grayscale(0);
+}
+    </style>
 
     <style>
+     .main_title {
+            font-size: 100px; /* Adjust the font size for mobile view */
+        }
     @media screen and (max-width: 967px) {
         .main_title {
-            font-size: 10px; /* Adjust the font size for mobile view */
+            font-size: 70px; /* Adjust the font size for mobile view */
         }
     }
 
@@ -36,7 +79,7 @@
                         <div class="swiper-slide gshop-hero-single">
                             <div class="row align-items-center justify-content-between">
                                 <div class="col-xl-5 col-lg-8">
-                                    <h1 class="display-4 mb-3 main_title" style="color:#2f9140; font-size:100px;">Gomart</h1>
+                                    <h1 class="mb-3 main_title" style="color:#2f9140;">Gomart</h1>
                                     <div class="hero-left-content">
 
                                         <h1 class="display-4 mb-3">Online Fresh <br>Grocery <mark class="p-0 bg-transparent text-secondary">Products</mark></h1>
@@ -108,7 +151,7 @@
                                     <div class="hero-right text-center position-relative z-1 mt-8 mt-xl-0">
                                         <img src="{% static 'index/assets/img/shapes/Veg.png' %}" alt="fruits" class="img-fluid position-absolute end-0 top-50 hero-img">
                                         <img src="{% static 'index/assets/img/shapes/leves.png' %}" alt="tree" class="img-fluid position-absolute tree z-1">
-                                        <img src="{% static 'index/assets/img/shapes/veg1.png' %}" alt="orange" class="position-absolute orange-1 z-1">
+                                        <img src="{% static 'index/assets/img/shapes/Veg1.png' %}" alt="orange" class="position-absolute orange-1 z-1">
                                         <img src="{% static 'index/assets/img/shapes/veg2.png' %}" alt="orange" class="position-absolute orange-2 z-1">
                                         <img src="{% static 'index/assets/img/shapes/hero-circle-lg_new.png' %}" alt="circle shape" class="img-fluid hero-circle">
                                     </div>
@@ -120,48 +163,42 @@
             </div>
             <div class="gshop-hero-slider-pagination theme-slider-control position-absolute top-50 translate-middle-y z-5"></div>
         </section> <!--hero section end-->
-<style>
-.brands_slide:hover{
-    border-color: rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-    }
-    .cats_slide:hover{
-    border-color: rgba(0, 0, 0, 0);
-  -webkit-box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-  box-shadow: 0px 20px 30px rgba(120, 120, 120, 0.1);
-    }
 
-</style>
+
         <!--category section start-->
-        <section class="gshop-category-section bg-white mb-80 pt-120 position-relative z-1 overflow-hidden">
-            <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape"
-                 class="position-absolute bottom-0 start-0 w-100 z--1">
+        <section class="gshop-category-section bg-white mb-80 pt-80 position-relative z-1 overflow-hidden">
+<!--            <img src="{% static 'index/assets/img/shapes/bg-shape_new.png' %}" alt="bg shape"-->
+<!--                 class="position-absolute bottom-0 start-0 w-100 z&#45;&#45;1">-->
             <div class="container">
-                <div class="gshop-category-box  rounded-4 bg-white cats_slide" style="border: 1px solid #f4f4f4;">
+                <div class="gshop-category-box  rounded-4 bg-white cats_slide" style="border: 1px solid #f4f4f4;;">
                     <div class="text-center section-title">
                         <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
                     </div>
-                    <div class="row justify-content-center g-4">
+                    <div class="brands-slider swiper row justify-content-center g-4">
+                        <div class="swiper-wrapper">
                         {% for i in cat %}
-                        <div class="col-xxl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class=" swiper-slide ">
                             <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden" >
                                 <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
                                      style="width:120px; height:120px;border-style:solid;">
-                                    <img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
+                                    <a href="/shop_by_category/{{i.id}}"><img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
+                                    </a>
                                 </div>
                                 <a href="/shop_by_category/{{i.id}}" class="text-dark fs-sm fw-bold d-block mt-3">{{i.name}}</a>
                                 <a class="explore-btn position-absolute" href="/shop_by_category/{{i.id}}"><i
                                         class="fa-solid fa-arrow-up"></i></a>
                             </div>
                         </div>
+
                         {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </section> <!--category section end-->
 
-
+<br>
+<br>
 <section class="brands-section pt-80 pb-120 position-relative z-1 overflow-hidden">
     <img alt="bg shape" class="position-absolute start-0 bottom-0 w-100 z--1 bg-shape"
          src="{% static 'index/assets/img/authors/bg-shape-4_new.png' %}">
@@ -171,7 +208,7 @@
             <div class="brands-slider swiper px-2 pt-1 pb-7">
                 <div class="swiper-wrapper">
                     {% for i in brand %}
-                    <div class="swiper-slide brand-item rounded" style="height:200px;">
+                    <div class="swiper-slide brand-item rounded bg-white" style="height:200px;">
 
                         <img alt="brand" class="img-fluid" src="{{i.image}}" style="height:150px;">
                     </div>
@@ -285,7 +322,9 @@
                                     <div class="card-content">
                                         <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
                                             Organic</a>
+
                                         <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                       <span class="fw-bold h6 deleted me-1">€{{i.o_price}}</span>
                                         <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                         <div class="card-progressbar mb-2 rounded-pill">
                                             <span class="card-progress bg-primary-light" data-progress="60%"></span>
@@ -352,6 +391,8 @@
                                 <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
                                     Organic</a>
                                 <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                <span class="fw-bold h6 deleted me-1">€{{i.o_price}}</span>
+
                                 <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
                                     <span class="card-progress bg-primary-light" data-progress="60%"></span>
@@ -418,6 +459,8 @@
                                         <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
                                             Organic</a>
                                         <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                        <span class="fw-bold h6 deleted me-1">€{{i.o_price}}</span>
+
                                         <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                         <div class="card-progressbar mb-2 rounded-pill">
                                             <span class="card-progress bg-primary-light" data-progress="60%"></span>
@@ -594,7 +637,7 @@
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box background-banner rounded-2 overflow-hidden"
                              data-background="{{post1.image}}" data-background-style="width:638px;height:346px;">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
+                            <span class=" badge bg-secondary text-white gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
                             <h6 class="mb-0">{{post1.heading}}</h6>
                             <h4 class="mb-6">{{post1.heading2}}</h4>
                             <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i
@@ -604,7 +647,7 @@
                     <div class="col-xl-4 col-md-6">
                         <div class="banner-box rounded-2 overflow-hidden position-relative banner-color-green z-1">
                             <img alt="capsicum" class="banner-img " src="{{post2.image}}">
-                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post2.subtitle}}</span>
+                            <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block badge bg-success text-white">{{post2.subtitle}}</span>
                             <h6 class="mb-0">{{post2.heading}}</h6>
                             <h4 class="mb-6">{{post2.heading2}}</h4>
                             <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i

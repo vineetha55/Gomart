@@ -1,6 +1,8 @@
 import json
 
 from datetime import date, datetime
+
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 
 from django.template.loader import render_to_string
@@ -24,6 +26,7 @@ from .models import *
 def sample(request):
     return render(request, "sample.html")
 # Create your views here.
+@never_cache
 def index(request):
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
@@ -40,8 +43,8 @@ def index(request):
     post7 = tbl_poster7.objects.get()
     new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
     organic = tbl_Product.objects.all()[:3]
-    veg = tbl_Product.objects.filter(category__name="Vegetables")
-    meat = tbl_Product.objects.filter(category__name="Meats")
+    veg = tbl_Product.objects.filter(category__name="Fruit & Vegetables")
+    meat = tbl_Product.objects.filter(category__name="Fish & Meats")
     return render(request, "index.html",
                   {"cat": cat, "coun": coun, "brand": brand, "best": best,
                    "prod": prod, "deal": deal, "post1": post1,
@@ -49,11 +52,11 @@ def index(request):
                    "post5": post5, "post6": post6, "post7": post7,
                    "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
 
-
+@never_cache
 def Admin_login(request):
     return render(request, "Admin_login.html")
 
-
+@never_cache
 def login_check(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -66,6 +69,7 @@ def login_check(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def Admin_Home(request):
     current_date=date.today()
     comp_orders=tbl_Checkout.objects.filter(status="Completed")
@@ -73,11 +77,11 @@ def Admin_Home(request):
     deli_now=tbl_Checkout.objects.filter(status="Delivery")
     today_orders=tbl_Checkout.objects.filter(created_at=current_date)
     return render(request, "Admin_Home.html")
-
+@never_cache
 def change_password_owner(request):
     data=tbl_admin_login.objects.get()
     return render(request,"change_password_owner.html",{"data":data})
-
+@never_cache
 def update_password(request):
     n_password = request.POST.get("new_pass")
     password=request.POST.get("old_pass")
@@ -91,12 +95,14 @@ def update_password(request):
     messages.success(request,"Password Changed successfully")
     return redirect("/Admin_Home/")
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def country(request):
     d = tbl_Country.objects.all()
     return render(request, "country.html", {"d": d})
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_country(request):
     if request.method == "POST":
         d = tbl_Country()
@@ -106,7 +112,8 @@ def add_country(request):
         return redirect("/country/")
     else:
         return render(request, "add_country.html")
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def edit_country(request,id):
     if request.method=="POST":
         d = tbl_Country.objects.get(id=id)
@@ -118,19 +125,22 @@ def edit_country(request,id):
     else:
         d=tbl_Country.objects.get(id=id)
         return render(request,"edit_country.html",{"d":d})
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def delete_country(request,id):
     data=tbl_Country.objects.get(id=id)
     print(data)
     data.delete()
     return redirect("/country/")
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def brands(request):
     d = tbl_Brand.objects.all()
     return render(request, "brands.html", {"d": d})
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_brands(request):
     if request.method == "POST":
         d = tbl_Brand()
@@ -148,12 +158,14 @@ def add_brands(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def category(request):
     d = tbl_Category.objects.all()
     return render(request, "category.html", {"d": d})
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_category(request):
     if request.method == "POST":
         d = tbl_Category()
@@ -171,17 +183,20 @@ def add_category(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def products(request):
     products = tbl_Product.objects.all()
     return render(request, "products.html", {"products": products})
 
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_product(request):
     if request.method == "POST":
         name = request.POST.get('name')
         description = request.POST.get('description')
         price = request.POST.get('price')
+        o_price = request.POST.get('price')
         country_id = request.POST.get('country')
         brand_id = request.POST.get('brand')
         category_id = request.POST.get('category')
@@ -217,6 +232,7 @@ def add_product(request):
             product_measure=weight_measure,
             tax_rate=tax_rate,
             tax_amount=tax_amount,
+            o_price=o_price
 
         )
         product.save()
@@ -252,7 +268,7 @@ def show_by_country(request, id):
     brand = tbl_Brand.objects.all()
     return render(request, "show_by_country.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
 
-
+@never_cache
 def show_by_brand(request, id):
     d = tbl_Product.objects.filter(brand=id)
     cat = tbl_Category.objects.all()
@@ -263,7 +279,7 @@ def show_by_brand(request, id):
     return render(request, "show_by_brand.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
                                                   "latest": latest, "n": n})
 
-
+@never_cache
 def shop_by_category(request, id):
     d = tbl_Product.objects.filter(category=id).order_by("-price")
     c = tbl_Category.objects.get(id=id)
@@ -285,23 +301,23 @@ def shop_by_category(request, id):
     return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
                                                      'page_range': page_range, "brand": brand, "c": c})
 
-
+@never_cache
 def logout_admin(request):
     logout(request)
     return redirect("/Gomart_Admin/")
 
-
+@never_cache
 def contact(request):
     cat = tbl_Category.objects.all()
     coun = tbl_Country.objects.all()
     brand = tbl_Brand.objects.all()
     return render(request, "contact.html", {"cat": cat, "coun": coun, "brand": brand})
 
-
+@never_cache
 def Login(request):
     return render(request, "Login_new.html")
 
-
+@never_cache
 def save_signup(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -332,7 +348,7 @@ def save_signup(request):
 
 
 
-
+@never_cache
 def check_email(request):
     email = request.GET.get('email', None)
     data = {
@@ -340,7 +356,7 @@ def check_email(request):
     }
     return JsonResponse(data)
 
-
+@never_cache
 def check_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -413,7 +429,7 @@ def add_to_wishlist(request, id):
         print("hiii")
         return redirect("/Login/")
 
-
+@never_cache
 def add_vat_gst(request):
     if request.method == "POST":
         f = tbl_Tax()
@@ -425,7 +441,7 @@ def add_vat_gst(request):
         coun = tbl_Country.objects.all()
         return render(request, "add_vat_gst.html", {"coun": coun})
 
-
+@never_cache
 def view_product_single(request, id):
     try:
         single = tbl_Product.objects.get(id=id)
@@ -458,7 +474,7 @@ def wishlist(request):
     wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
     return render(request, "wishlist.html", {"wish": wish})
 
-
+@never_cache
 def all_products(request):
     d = tbl_Product.objects.all()
     d2 = tbl_Product.objects.all()
@@ -474,9 +490,10 @@ def all_products(request):
     page_range = range(start_page, end_page + 1)
     print(page_range)
     d = page_obj.object_list
+    cou=tbl_Country.objects.all()
 
     return render(request, "all_products.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                 'page_range': page_range, })
+                                                 'page_range': page_range,"cou":cou })
 
 
 @never_cache
@@ -562,7 +579,7 @@ def add_to_cart_products_single(request, id, price, q):
     except:
         return redirect("/Login/")
 
-
+@never_cache
 def signup(request):
     return render(request, "signup.html")
 
@@ -582,12 +599,12 @@ def shop_by_category_user(request, id):
     except:
         return redirect("/Login/")
 
-
+@never_cache
 def signout_user(request):
     del request.session['userid']
     return redirect("/")
 
-
+@never_cache
 def update_cart_products(request):
     q = request.GET.get("q")
     tp = request.GET.get("tp")
@@ -600,7 +617,7 @@ def update_cart_products(request):
     data['message'] = "success"
     return JsonResponse(data)
 
-
+@never_cache
 def update_cart_total(request):
     ts = request.GET.get("ts")
     id = request.GET.get("id")
@@ -680,7 +697,7 @@ def get_address_from_coordinates(latitude, longitude):
         print("Error:", response.status_code)
         return None
 
-
+@never_cache
 def get_location_from_eircode(eircode):
     url = f"https://nominatim.openstreetmap.org/search?q={eircode}&format=json"
     headers = {
@@ -750,7 +767,7 @@ def checkout1(request, id):
     except:
         return render(request, "checkout.html")
 
-
+@never_cache
 def save_bill_address(request):
     if request.method == "POST":
         data = tbl_Billing_Address()
@@ -891,9 +908,10 @@ def all_products_user(request):
         page_range = range(start_page, end_page + 1)
         print(page_range)
         d = page_obj.object_list
+        coun=tbl_Country.objects.all()
 
         return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                          'page_range': page_range, })
+                                                          'page_range': page_range,"coun":coun })
     except:
         return redirect("/Login/")
 
@@ -909,7 +927,7 @@ def all_products_sort(request):
     cat = tbl_Category.objects.all()
     return render(request, "all_products.html", {"d": d, "cat": cat})
 
-
+@never_cache
 def shop_by_category_sort(request, id):
     d = tbl_Product.objects.filter(category=id).order_by('price')
     c = tbl_Category.objects.get(id=id)
@@ -930,7 +948,7 @@ def shop_by_category_sort(request, id):
 
     return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
                                                      'page_range': page_range, "brand": brand, "c": c})
-
+@never_cache
 def shop_by_category_user_sort(request, id):
     d = tbl_Product.objects.filter(category=id).order_by('price')
     c = tbl_Category.objects.get(id=id)
@@ -1005,18 +1023,18 @@ def remove_product(request):
     else:
         return JsonResponse({'success': False, 'message': 'Invalid request method'})
 
-
+@never_cache
 def save_password(request):
     f = tbl_SignUp.objects.get(id=request.session['userid'])
     f.password = request.POST.get("new_password")
     f.save()
     return redirect("/my_account/")
 
-
+@never_cache
 def forgot_password(request):
     return render(request, "forgot_password.html")
 
-
+@never_cache
 def password_send(request):
     email = request.POST.get("email")
     if tbl_SignUp.objects.filter(email=email).exists():
@@ -1038,20 +1056,20 @@ def view_product_single_user(request, id):
     print(interest)
     return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
 
-
+@never_cache
 def remove_from_wishlist(request, id):
     d = tbl_Wishlist.objects.get(id=id)
     d.delete()
     return redirect("/wishlist/")
 
-
+@never_cache
 def payment_success(request, id):
     inv = tbl_Checkout.objects.get(id=id)
     inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
     d = date.today()
     return render(request, "payment_success.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
-
+@never_cache
 def cod_invoice(request):
     order_id = generate_order_id(6)
     invoice_number = generate_invoice_number(6)
@@ -1107,35 +1125,41 @@ def cod_invoice_view(request, id):
     d = date.today()
     return render(request, "cod_invoice_view.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def pending_orders(request):
     pend = tbl_Checkout.objects.filter(status="Pending")
     return render(request, "pending_orders.html", {"pend": pend})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def out_for_delivery(request, id):
     out = tbl_Checkout.objects.get(id=id)
     del_part = tbl_Delivery_Partner.objects.all()
     return render(request, "assign_delivery_partner.html", {"out": out, "del_part": del_part})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def cancel_order(request, id):
     can = tbl_Checkout.objects.get(id=id)
     can.status = "Cancel"
     can.save()
     return redirect("/pending_orders/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def our_for_delivery_orders(request):
     out = tbl_Checkout.objects.filter(status="Delivery")
     return render(request, "our_for_delivery_orders.html", {"out": out})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def cancelled_orders(request):
     can = tbl_Checkout.objects.filter(status="Cancel")
     return render(request, "cancelled_orders.html", {"can": can})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def view_check_products_invoice(request, id):
     inv = tbl_Checkout.objects.get(id=id)
     inv_pdt = tbl_checkout_products.objects.filter(checkout=id)
@@ -1143,6 +1167,7 @@ def view_check_products_invoice(request, id):
     return render(request, "view_check_products_invoice.html", {"inv": inv, "inv_pdt": inv_pdt, "d": d})
 
 @never_cache
+@login_required(login_url='/Gomart_Admin/')
 def completed_orders(request):
     pend = tbl_Checkout.objects.filter(status="Complete")
     return render(request, "pending_orders.html", {"pend": pend})
@@ -1150,7 +1175,7 @@ def completed_orders(request):
 
 stripe.api_key = "sk_test_51PFfzqRvW5dEfnEOBDa78GrVV7xUTpINko6aWd9TwxdqgpVHXaeGZ3BhJcgdNmSWtaXV6Nio2ZK1CPsGW3Q4d6gm00yxWY42f9"  # Replace with your Stripe secret key
 
-
+@never_cache
 @csrf_exempt
 def process_payment(request):
     print("hii")
@@ -1238,18 +1263,20 @@ def process_payment(request):
     # If the request method is not POST, return a method not allowed response
     return JsonResponse({'error': 'Method not allowed'}, status=405)
 
-
+@never_cache
 def view_check_products(request, id):
     d = tbl_checkout_products.objects.filter(checkout=id)
     return render(request, "view_check_products.html", {"d": d})
 
-
+@never_cache
+@login_required(login_url="/Gomart_Admin/")
 def edit_products(request, id):
     d = tbl_Product.objects.get(id=id)
     if request.method == "POST":
         d.name = request.POST.get('name')
         d.description = request.POST.get('description')
         d.price = request.POST.get('price')
+        d.o_price = request.POST.get('o_price')
         d.country_id = request.POST.get('country')
         d.brand_id = request.POST.get('brand')
         d.category_id = request.POST.get('category')
@@ -1274,9 +1301,13 @@ def edit_products(request, id):
         d.save()
         return redirect("/products/")
     else:
-        return render(request, "edit_products.html", {"d": d})
+        cou = tbl_Country.objects.all()
+        cat = tbl_Category.objects.all()
+        brand = tbl_Brand.objects.all()
 
+        return render(request, "edit_products.html", {"d": d,"cou":cou,"cat":cat,"brand":brand})
 
+@login_required(login_url='/Gomart_Admin/')
 def delete_product(request, id):
     d = tbl_Product.objects.get(id=id)
     d.delete()
@@ -1309,7 +1340,7 @@ def filter_by_price(request):
     brand = tbl_Brand.objects.all()
     return render(request, "all_products.html", {"d": d, "cat": cat, "brand": brand})
 
-
+@never_cache
 def filter_by_price_category(request, id):
     min_price = request.POST.get("min_price")
     max_price = request.POST.get("max_price")
@@ -1319,7 +1350,8 @@ def filter_by_price_category(request, id):
     c = tbl_Category.objects.get(id=id)
     return render(request, "shop_by_category.html", {"d": d, "cat": cat, "brand": brand, "c": c})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def save_assign(request):
     try:
         checkout = request.POST.get("out")
@@ -1348,17 +1380,19 @@ def save_assign(request):
     except:
         return redirect("/error_page/")
 
-
+@never_cache
 def error_page(request):
     return render(request, "error_page.html")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def partner_details(request):
     part = tbl_Delivery_Partner.objects.all()
 
     return render(request, "partner_details.html", {"part": part})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_new_delivery(request):
     if request.method == "POST":
         dp = tbl_Delivery_Partner()
@@ -1390,7 +1424,8 @@ def add_new_delivery(request):
 
     return render(request, "add_new_delivery.html", {"p_id": p_id})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def edit_partner(request, id):
     dp = tbl_Delivery_Partner.objects.get(id=id)
     if request.method == "POST":
@@ -1413,22 +1448,23 @@ def edit_partner(request, id):
     else:
         return render(request, "edit_partner.html", {"d": dp})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def delete_partner(request, id):
     d = tbl_Delivery_Partner.objects.get(id=id)
     d.delete()
     return redirect("/partner_details/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def log_in_off_info(request):
     logg = tbl_login_info.objects.all()
     return render(request, "log_in_off_info.html", {"logg": logg})
-
-
+@never_cache
 def GoMartDelivery(request):
     return render(request, "GoMartDelivery.html")
 
-
+@never_cache
 def login_check_delivery(request):
     username = request.POST.get("username")
     password = request.POST.get("password")
@@ -1447,6 +1483,7 @@ def login_check_delivery(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def Delivery_Home(request):
     try:
         ic = request.session['deli']
@@ -1456,6 +1493,7 @@ def Delivery_Home(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def delivery_orders(request):
     try:
         ic = request.session['deli']
@@ -1466,6 +1504,7 @@ def delivery_orders(request):
 
 
 @never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def delivery_orders_previous(request):
     try:
         ic = request.session['deli']
@@ -1474,17 +1513,20 @@ def delivery_orders_previous(request):
     except:
         return redirect("/GoMartDelivery/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def logout_delivery(request):
     del request.session['deli']
     return redirect("/GoMartDelivery/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def change_password_delivery(request):
     password = tbl_Delivery_Partner.objects.get(id=request.session['deli'])
     return render(request, "change_password_delivery.html", {"password": password})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def save_change_password(request):
     new = request.POST.get("new")
     p = tbl_Delivery_Partner.objects.get(id=request.session['deli'])
@@ -1492,7 +1534,8 @@ def save_change_password(request):
     p.save()
     return redirect("/Delivery_Home/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Delivery/')
 def delivered_orders(request, id):
     d = tbl_Order_Assign.objects.get(id=id)
     d.status = "complete"
@@ -1533,7 +1576,7 @@ def send_email_with_invoice(request):
 
     return JsonResponse({"status": 200})
 
-
+@never_cache
 def send_to_email_invoice(request):
     inv = request.GET.get("inv")
     print(inv, "inv")
@@ -1551,7 +1594,8 @@ def send_to_email_invoice(request):
 
     return JsonResponse({"status": 200})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def edit_category(request, id):
     d = tbl_Category.objects.get(id=id)
     if request.method == "POST":
@@ -1570,13 +1614,15 @@ def edit_category(request, id):
     else:
         return render(request, "edit_category.html", {"d": d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def delete_category(request, id):
     d = tbl_Category.objects.get(id=id)
     d.delete()
     return redirect("/category/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def edit_brands(request, id):
     d = tbl_Brand.objects.get(id=id)
     if request.method == "POST":
@@ -1594,18 +1640,21 @@ def edit_brands(request, id):
     else:
         return render(request, "edit_brands.html", {"d": d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def delete_brands(request, id):
     d = tbl_Brand.objects.get(id=id)
     d.delete()
     return redirect("/brands/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def deals(request):
     deal = tbl_Deals.objects.all()
     return render(request, "deals.html", {"deal": deal})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def add_deal(request):
     if request.method == "POST":
         de = tbl_Deals()
@@ -1623,7 +1672,7 @@ def add_deal(request):
         pdt = tbl_Product.objects.all()
         return render(request, "add_deal.html", {"pdt": pdt})
 
-
+@never_cache
 def Get_pdt_actual_price(request):
     pid = request.GET.get("pid")
     d = tbl_Product.objects.get(id=pid)
@@ -1632,7 +1681,8 @@ def Get_pdt_actual_price(request):
     data['message'] = price
     return JsonResponse(data)
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def edit_deal(request, id):
     deal = tbl_Deals.objects.get(id=id)
     pdt = tbl_Product.objects.all()
@@ -1651,20 +1701,22 @@ def edit_deal(request, id):
     else:
         return render(request, "edit_deal.html", {"deal": deal, "pdt": pdt})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def close_deal(request, id):
     deal = tbl_Deals.objects.get(id=id)
     deal.status = "Closed"
     deal.save()
     return redirect("/deals/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def delete_deal(request, id):
     deal = tbl_Deals.objects.get(id=id)
     deal.delete()
     return redirect("/deals/")
 
-
+@never_cache
 def checking_deal_time(request, pid, id):
     deal = tbl_Deals.objects.get(id=id)
     current_time = datetime.now().strftime("%H:%M:%S")
@@ -1678,55 +1730,63 @@ def checking_deal_time(request, pid, id):
         messages.error(request, "Deal is not started")
         return redirect("/")
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster1(request):
     d1=tbl_poster1.objects.get()
     d2=d1.id
     d=tbl_poster1.objects.get(id=d2)
     return render(request, "poster1.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster2(request):
     d1 = tbl_poster2.objects.get()
     d2 = d1.id
     d = tbl_poster2.objects.get(id=d2)
     return render(request, "poster2.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster3(request):
     d1 = tbl_poster3.objects.get()
     d2 = d1.id
     d = tbl_poster3.objects.get(id=d2)
     return render(request, "poster3.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster4(request):
     d1 = tbl_poster4.objects.get()
     d2 = d1.id
     d = tbl_poster4.objects.get(id=d2)
     return render(request, "poster4.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster5(request):
     d1 = tbl_poster5.objects.get()
     d2 = d1.id
     d = tbl_poster5.objects.get(id=d2)
     return render(request, "poster5.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster6(request):
     d1 = tbl_poster6.objects.get()
     d2 = d1.id
     d = tbl_poster6.objects.get(id=d2)
     return render(request, "poster6.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def poster7(request):
     d1 = tbl_poster7.objects.get()
     d2 = d1.id
     d = tbl_poster7.objects.get(id=d2)
     return render(request, "poster7.html",{"d":d})
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster1(request,id):
     d=tbl_poster1.objects.get(id=id)
     if request.method=="POST":
@@ -1744,7 +1804,8 @@ def update_poster1(request,id):
     else:
         return render(request,"update_poster1.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster2(request,id):
     d=tbl_poster2.objects.get(id=id)
     if request.method=="POST":
@@ -1762,7 +1823,8 @@ def update_poster2(request,id):
     else:
         return render(request,"update_poster2.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster3(request,id):
     d=tbl_poster3.objects.get(id=id)
     if request.method=="POST":
@@ -1780,7 +1842,8 @@ def update_poster3(request,id):
     else:
         return render(request,"update_poster3.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster4(request,id):
     d=tbl_poster4.objects.get(id=id)
     if request.method=="POST":
@@ -1800,7 +1863,8 @@ def update_poster4(request,id):
     else:
         return render(request,"update_poster4.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster5(request,id):
     d=tbl_poster5.objects.get(id=id)
     if request.method=="POST":
@@ -1817,7 +1881,8 @@ def update_poster5(request,id):
     else:
         return render(request,"update_poster5.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster6(request,id):
     d=tbl_poster6.objects.get(id=id)
     if request.method=="POST":
@@ -1832,7 +1897,8 @@ def update_poster6(request,id):
     else:
         return render(request,"update_poster6.html",{"d":d})
 
-
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
 def update_poster7(request,id):
     d=tbl_poster7.objects.get(id=id)
     if request.method=="POST":
@@ -1850,7 +1916,7 @@ def update_poster7(request,id):
     else:
         return render(request, "update_poster7.html", {"d": d})
 
-
+@never_cache
 def add_subscription(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -1863,12 +1929,12 @@ def add_subscription(request):
             data.save()
             return redirect("/")
 
-
+@never_cache
 def My_products(request, id):
     myp = tbl_checkout_products.objects.filter(checkout=id, user=request.session['userid'])
     return render(request, "My_products.html", {"myp": myp})
 
-
+@never_cache
 def rating_products(request, id, pid):
     obj = tbl_Rating()
     obj.user_id = request.session['userid']
@@ -1879,3 +1945,47 @@ def rating_products(request, id, pid):
     obj.status = "Rated"
     obj.save()
     return redirect("/my_account/")
+
+@never_cache
+def admin_product_feedback(request):
+    data=tbl_Rating.objects.all()
+    return render(request,"admin_product_feedback.html",{"data":data})
+@never_cache
+def delete_product_feedback(request,id):
+    data=tbl_Rating.objects.get(id=id)
+    data.delete()
+    return redirect("/admin_product_feedback/")
+
+@never_cache
+def admin_site_feedback(request):
+    data=tbl_Site_Rating.objects.all()
+    return render(request,"admin_site_feedback.html",{"data":data})
+@never_cache
+def confirm_feedback(request,id):
+    data = tbl_Site_Rating.objects.get(id=id)
+    data.status="Approved"
+    data.save()
+    return redirect("/admin_site_feedback/")
+
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
+def all_enquiries(request):
+    data=tbl_Enquiry.objects.all()
+    return render(request,"all_enquiries.html",{"data":data})
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
+def delete_enquiry(request,id):
+    data = tbl_Enquiry.objects.get(id=id)
+    data.delete()
+    return redirect("/all_enquiries/")
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
+def all_subscription(request):
+    data=tbl_Subscribe.objects.all()
+    return render(request,"all_subscription.html",{"data":data})
+@never_cache
+@login_required(login_url='/Gomart_Admin/')
+def delete_subscription(request,id):
+    data=tbl_Subscribe.objects.get(id=id)
+    data.delete()
+    return redirect("/all_subscription/")

@@ -45,7 +45,7 @@ class tbl_Product(models.Model):
     name = models.CharField(max_length=255, null=True)
     description = models.TextField(null=True)
     price = models.FloatField(null=True)
-    our_price = models.FloatField(null=True)
+    o_price = models.FloatField(null=True)
     country = models.ForeignKey(tbl_Country, on_delete=models.CASCADE, null=True)
     brand = models.ForeignKey(tbl_Brand, on_delete=models.CASCADE, null=True)
     category = models.ForeignKey(tbl_Category, on_delete=models.CASCADE, null=True)
@@ -249,3 +249,12 @@ class tbl_Rating(models.Model):
     checkout_product = models.ForeignKey(tbl_checkout_products, on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=200, null=True)
+
+class tbl_Site_Rating(models.Model):
+    comment = models.TextField(null=True)
+    user = models.ForeignKey(tbl_SignUp, on_delete=models.CASCADE, null=True)
+    fullname = models.CharField(max_length=200, null=True)
+    email = models.CharField(max_length=200, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=200, null=True)
+

@@ -22,20 +22,25 @@
                         <textarea class="form-control" name="description">{{d.description}}</textarea>
                     </div>
 
-<!--                    <div class="form-group">-->
-<!--                        <label>Country</label>-->
-<!--                        <select class="form-control" name="country" id="country">-->
-<!--                            <option value="{{i.id}}">Select Country</option>-->
-<!--                            &lt;!&ndash; Populate options dynamically from database &ndash;&gt;-->
-<!--                            {% for country in cou %}-->
-<!--                                <option value="{{ country.id }}">{{ country.name }}</option>-->
-<!--                            {% endfor %}-->
-<!--                        </select>-->
-<!--                    </div>-->
-                      <div class="form-group">
-                        <label>Price</label>
+                    <div class="form-group">
+                        <label>Country</label>
+                        <select class="form-control" name="country" id="country">
+                            <option value="{{d.country.id}}">{{d.country.name}}</option>
+                            <!-- Populate options dynamically from database -->
+                            {% for country in cou %}
+                                <option value="{{ country.id }}">{{ country.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Original Price</label>
+                        <input class="form-control" type="text" name="o_price" id="o_price" value="{{d.o_price}}">
+                    </div>
+                     <div class="form-group">
+                        <label>Our Price</label>
                         <input class="form-control" type="text" name="price" id="price" value="{{d.price}}">
                     </div>
+
                     <div class="form-group">
                         <label>Tax Rate</label>
                         <select class="form-control" name="tax_rate" id="tax_rate">
@@ -55,7 +60,7 @@
                         <label>Brand</label>
                         <select class="form-control" name="brand">
                             <option value="{{d.brand.id}}">{{d.brand.name}}</option>
-                            {% for brand in bran %}
+                            {% for brand in brand %}
                                 <option value="{{ brand.id }}">{{ brand.name }}</option>
                             {% endfor %}
                         </select>

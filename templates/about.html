@@ -446,7 +446,7 @@
             <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
             <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
             <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
-            <div class="container">
+             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
@@ -459,7 +459,7 @@
                             <form action="/add-subscription/"
                                   class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
                                 {% csrf_token %}
-                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email">
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
                             </form>
                         </div>

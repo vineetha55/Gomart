@@ -62,7 +62,7 @@
                                 <ul class="widget-nav mt-4">
                                     {% for i in coun %}
                                     <li><a class="d-flex justify-content-between align-items-center"
-                                           href="/shop_by_country/{{i.id}}">{{i.name}}</a></li>
+                                           href="/show_by_country/{{i.id}}">{{i.name}}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -218,13 +218,20 @@
             <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs-2 z--1 vector-shape">
             <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato slice" class="position-absolute tomato-slice vector-shape z--1">
             <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute tomato-half z--1 vector-shape">
-         <div class="container">
+        <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-xl-5 col-lg-6">
                         <div class="gshop_subscribe_form text-center">
-                            <h4 class="text-white gshop-title">Subscribe to the G-Shop <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img src="{% static 'index/assets/img/shapes/border-line_new.svg' %}" alt="border line" class="position-absolute border-line"></mark><br class="d-none d-sm-block">& Other Information.</h4>
-                            <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
-                                <input type="email" class="form-control" placeholder="Enter Email Address">
+                            <h4 class="text-white gshop-title">Subscribe to the GOMART
+                                <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
+                                        alt="border line" class="position-absolute border-line"
+                                        src="{% static 'index/assets/img/shapes/border-line.svg' %}"></mark>
+                                <br class="d-none d-sm-block">& Other Information.
+                            </h4>
+                            <form action="/add-subscription/"
+                                  class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
                                 <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
                             </form>
                         </div>

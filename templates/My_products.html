@@ -235,22 +235,24 @@
          src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}">
     <img alt="tomato" class="position-absolute tomato-half z--1 vector-shape"
          src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-xl-5 col-lg-6">
-                <div class="gshop_subscribe_form text-center">
-                    <h4 class="text-white gshop-title">Subscribe to the G-Shop
-                        <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
-                                alt="border line" class="position-absolute border-line"
-                                src="{% static 'index/assets/img/shapes/border-line_new.svg' %}"></mark>
-                        <br class="d-none d-sm-block">& Other Information.
-                    </h4>
-                    <form class="mt-5 d-flex align-items-center bg-white rounded subscribe_form">
-                        <input type="email" class="form-control" placeholder="Enter Email Address">
-                        <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
-                    </form>
-                </div>
-            </div>
+   <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-5 col-lg-6">
+                        <div class="gshop_subscribe_form text-center">
+                            <h4 class="text-white gshop-title">Subscribe to the GOMART
+                                <mark class="p-0 position-relative text-secondary bg-transparent">New Arrivals <img
+                                        alt="border line" class="position-absolute border-line"
+                                        src="{% static 'index/assets/img/shapes/border-line.svg' %}"></mark>
+                                <br class="d-none d-sm-block">& Other Information.
+                            </h4>
+                            <form action="/add-subscription/"
+                                  class="mt-5 d-flex align-items-center bg-white rounded subscribe_form" method="POST">
+                                {% csrf_token %}
+                                <input class="form-control" name="email" placeholder="Enter Email Address" type="email" required>
+                                <button type="submit" class="btn btn-primary flex-shrink-0">Subscribe Now</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <span class="gradient-spacer my-8 d-block"></span>
 

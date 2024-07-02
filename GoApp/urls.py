@@ -3,7 +3,7 @@ from . import views
 urlpatterns = [
     path('', views.sample),
     path("index/", views.index),
-    path("Gomart_Admin/", views.Admin_login),
+    path("Gomart_Admin/", views.Admin_login,name="Gomart_Admin"),
     path("login/check/", views.login_check),
     path("Admin_Home/", views.Admin_Home),
     path("country/", views.country),
@@ -130,6 +130,14 @@ urlpatterns = [
     path("edit_country/<id>",views.edit_country,name="edit_country"),
     path("delete_country/<id>",views.delete_country,name="delete_country"),
     path("change_password_owner/",views.change_password_owner,name="change_password_owner"),
-    path("update_password/",views.update_password,name="update_password")
+    path("update_password/",views.update_password,name="update_password"),
+    path("admin_product_feedback/",views.admin_product_feedback,name="admin_product_feedback"),
+    path("delete_product_feedback/<id>",views.delete_product_feedback,name="delete_product_feedback"),
+    path("admin_site_feedback/",views.admin_site_feedback,name="admin_site_feedback"),
+    path("confirm_feedback/<id>",views.confirm_feedback,name="confirm_feedback"),
+    path("all_enquiries/",views.all_enquiries,name="all_enquiries"),
+    path("delete_enquiry/<id>",views.delete_enquiry,name="delete_enquiry"),
+    path("all_subscription/",views.all_subscription,name="all_subscription"),
+    path("delete_subscription/<id>",views.delete_subscription,name="delete_subscription")
 
 ]
