@@ -72,11 +72,20 @@ def login_check(request):
 @login_required(login_url='/Gomart_Admin/')
 def Admin_Home(request):
     current_date=date.today()
-    comp_orders=tbl_Checkout.objects.filter(status="Completed")
-    pend_orders=tbl_Checkout.objects.filter(status="Pending")
-    deli_now=tbl_Checkout.objects.filter(status="Delivery")
-    today_orders=tbl_Checkout.objects.filter(created_at=current_date)
-    return render(request, "Admin_Home.html")
+    comp_orders=tbl_Checkout.objects.filter(status="Complete").count()
+    pend_orders=tbl_Checkout.objects.filter(status="Pending").count()
+    deli_now=tbl_Checkout.objects.filter(status="Delivery").count()
+    today_orders=tbl_Checkout.objects.filter(created_at=current_date).count()
+    recent=tbl_Checkout.objects.all().order_by('-id')[:6]
+    context={
+        "comp_orders":comp_orders,
+        "pend_orders":pend_orders,
+        "deli_now":deli_now,
+        "today_orders":today_orders,
+        "recent":recent
+
+    }
+    return render(request, "Admin_Home.html",context)
 @never_cache
 def change_password_owner(request):
     data=tbl_admin_login.objects.get()
@@ -199,6 +208,7 @@ def add_product(request):
         o_price = request.POST.get('price')
         country_id = request.POST.get('country')
         brand_id = request.POST.get('brand')
+
         category_id = request.POST.get('category')
         opening_stock = request.POST.get('opening_stock')
         current_stock = request.POST.get('current_stock')
@@ -215,27 +225,49 @@ def add_product(request):
         tax_amount = request.POST.get("tax_amount")
 
         # Create and save a new Product object
-        product = tbl_Product(
-            name=name,
-            description=description,
-            price=price,
-            country_id=country_id,
-            brand_id=brand_id,
-            category_id=category_id,
-            opening_stock=opening_stock,
-            current_stock=current_stock,
-            product_code=product_code,
-            status=status,
-            image=url,
-            gross_total=gross_total,
-            product_weight=weight,
-            product_measure=weight_measure,
-            tax_rate=tax_rate,
-            tax_amount=tax_amount,
-            o_price=o_price
+        if  brand_id:
+            product = tbl_Product(
+                name=name,
+                description=description,
+                price=price,
+                country_id=country_id,
+                brand_id=brand_id,
+                category_id=category_id,
+                opening_stock=opening_stock,
+                current_stock=current_stock,
+                product_code=product_code,
+                status=status,
+                image=url,
+                gross_total=gross_total,
+                product_weight=weight,
+                product_measure=weight_measure,
+                tax_rate=tax_rate,
+                tax_amount=tax_amount,
+                o_price=o_price
 
-        )
-        product.save()
+            )
+            product.save()
+        else:
+            product = tbl_Product(
+                name=name,
+                description=description,
+                price=price,
+                country_id=country_id,
+                category_id=category_id,
+                opening_stock=opening_stock,
+                current_stock=current_stock,
+                product_code=product_code,
+                status=status,
+                image=url,
+                gross_total=gross_total,
+                product_weight=weight,
+                product_measure=weight_measure,
+                tax_rate=tax_rate,
+                tax_amount=tax_amount,
+                o_price=o_price
+
+            )
+            product.save()
         sub = tbl_Subscribe.objects.all()
         for i in sub:
             send_mail("New Product Alert",
@@ -338,6 +370,7 @@ def save_signup(request):
                 fullname=fullname,
                 email=email,
                 password=password,
+                status="Allow"
 
             )
             messages.success(request,"Successfully Registered Please Login.")
@@ -361,7 +394,7 @@ def check_login(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        user = tbl_SignUp.objects.filter(email=email, password=password)
+        user = tbl_SignUp.objects.filter(email=email, password=password,status="Allow")
         if user:
             us = tbl_SignUp.objects.get(email=email, password=password)
             request.session['userid'] = us.id
@@ -1989,3 +2022,25 @@ def delete_subscription(request,id):
     data=tbl_Subscribe.objects.get(id=id)
     data.delete()
     return redirect("/all_subscription/")
+
+def all_customers(request):
+    dta=tbl_SignUp.objects.all()
+    return render(request,"all_customers.html",{"data":dta})
+
+def block_customer(request,id):
+    data=tbl_SignUp.objects.get(id=id)
+    data.status="Block"
+    data.save()
+    return redirect("/all_customers/")
+
+def email_to_subscribers(request):
+    return render(request,"email_to_subscribers.html")
+
+def send_email_sub(request):
+    subject=request.POST.get("subject")
+    message=request.POST.get("message")
+    d=tbl_Subscribe.objects.all()
+    for i in d:
+        send_mail(subject,message,settings.EMAIL_HOST_USER,[i.email])
+    messages.success(request,"Email Sent Successfully")
+    return redirect("/email_to_subscribers/")

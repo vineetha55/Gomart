@@ -1,73 +1,56 @@
+    <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #2c9444;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+    </style>
 {% include 'left_nav.html' %}
+
         <div class="page-wrapper">
             <div class="content">
                 <div class="row">
-                    <div class="col-sm-5 col-5">
-                        <h4 class="page-title">Subscriptions</h4>
-                    </div>
-                    <div class="col-sm-7 col-7 text-right m-b-30">
-                    <a class="btn btn-primary btn-rounded" href="/email_to_subscribers"><i class="fa fa-plus"></i> Create Email</a>
-
+                     {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
+                    <div class="col-lg-8 offset-lg-2">
+                        <h4 class="page-title">Create Email</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="table-responsive">
-                            <table class="table table-striped custom-table mb-0 datatable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>email</th>
-                                        <th>created at</th>
-                                        <th class="text-right">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {% for i in data %}
-                                    <tr>
-                                        <td>{{forloop.counter}}</td>
-                                        <td>{{i.email}}</td>
-										<td>{{i.created_at}}</td>
-
-                                        <td class="text-right">
-                                            <div class="dropdown dropdown-action">
-                                                <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown"
-                                                   aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="col-lg-8 offset-lg-2">
+                        <form action="/send_email_sub/" method="post" enctype="multipart/form-data">{% csrf_token %}
+							<div class="form-group">
+								<label>Subject</label>
+								<input class="form-control" type="text" name="subject">
+							</div>
+                            <div class="form-group">
+								<label>Message</label>
+                                <textarea class="form-control" name="message"></textarea>
+							</div>
 
 
-                                                    <a class="dropdown-item" href="#" data-toggle="modal"
-                                                       data-target="#delete_department{{i.id}}"><i
-                                                            class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                <div class="modal fade delete-modal" id="delete_department{{i.id}}" role="dialog">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-body text-center">
-                                                <img alt="" height="46" src="assets/img/sent.png" width="50">
-                                                <h3>Are you sure want to delete this Enquiry?</h3>
-                                                <div class="m-t-20"><a class="btn btn-white" data-dismiss="modal"
-                                                                       href="#">Close</a>
-                                                    <a class="btn btn-danger"
-                                                       href="/delete_subscription/{{i.id}}">Delete</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
 
-                        {% endfor %}
-                        </tbody>
-                        </table>
-                    </div>
+                            <div class="m-t-20 text-center">
+                                <button class="btn btn-primary submit-btn">Send Email</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="notification-box">
+			<div class="notification-box">
                 <div class="msg-sidebar notifications msg-noti">
                     <div class="topnav-dropdown-header">
                         <span>Messages</span>
@@ -277,3 +260,18 @@
                 </div>
             </div>
         </div>
+    </div>
+       <script>
+        // Add fade-out effect to alert messages after some time
+        window.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('fade');
+                }, 3000); // Adjust the time as needed (in milliseconds)
+            });
+
+        });
+    </script>
+
+

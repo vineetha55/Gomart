@@ -3,11 +3,9 @@
             <div class="content">
                 <div class="row">
                     <div class="col-sm-5 col-5">
-                        <h4 class="page-title">Subscriptions</h4>
+                        <h4 class="page-title">Customers</h4>
                     </div>
                     <div class="col-sm-7 col-7 text-right m-b-30">
-                    <a class="btn btn-primary btn-rounded" href="/email_to_subscribers"><i class="fa fa-plus"></i> Create Email</a>
-
                     </div>
                 </div>
                 <div class="row">
@@ -17,8 +15,10 @@
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>email</th>
-                                        <th>created at</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Mobile</th>
+                                        <th>Image</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                 </thead>
@@ -26,8 +26,15 @@
                                 {% for i in data %}
                                     <tr>
                                         <td>{{forloop.counter}}</td>
-                                        <td>{{i.email}}</td>
-										<td>{{i.created_at}}</td>
+                                        <td>{{i.fullname}}</td>
+										<td>{{i.email}}</td>
+                                        <td>{{i.mobile}}</td>
+                                        {% if i.dp %}
+                                        <td><img src="{{i.dp}}" width="100" height="150"></td>
+                                        {% else %}
+                                        <td>No Image Uploaded</td>
+                                        {% endif %}
+
 
                                         <td class="text-right">
                                             <div class="dropdown dropdown-action">
@@ -38,7 +45,7 @@
 
                                                     <a class="dropdown-item" href="#" data-toggle="modal"
                                                        data-target="#delete_department{{i.id}}"><i
-                                                            class="fa fa-trash-o m-r-5"></i> Delete</a>
+                                                            class="fa fa-trash-o m-r-5"></i> Block</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -48,11 +55,11 @@
                                         <div class="modal-content">
                                             <div class="modal-body text-center">
                                                 <img alt="" height="46" src="assets/img/sent.png" width="50">
-                                                <h3>Are you sure want to delete this Enquiry?</h3>
+                                                <h3>Are you sure want to Block this customer?</h3>
                                                 <div class="m-t-20"><a class="btn btn-white" data-dismiss="modal"
                                                                        href="#">Close</a>
                                                     <a class="btn btn-danger"
-                                                       href="/delete_subscription/{{i.id}}">Delete</a>
+                                                       href="/block_customer/{{i.id}}">Delete</a>
                                                 </div>
                                             </div>
                                         </div>

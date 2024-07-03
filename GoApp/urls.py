@@ -138,6 +138,9 @@ urlpatterns = [
     path("all_enquiries/",views.all_enquiries,name="all_enquiries"),
     path("delete_enquiry/<id>",views.delete_enquiry,name="delete_enquiry"),
     path("all_subscription/",views.all_subscription,name="all_subscription"),
-    path("delete_subscription/<id>",views.delete_subscription,name="delete_subscription")
-
+    path("delete_subscription/<id>",views.delete_subscription,name="delete_subscription"),
+    path("all_customers/",views.all_customers,name="all_customers"),
+    path("block_customer/<id>",views.block_customer,name="block_customer"),
+    path("email_to_subscribers/",views.email_to_subscribers,name="email_to_subscribers"),
+    path("send_email_sub/",views.send_email_sub,name="send_email_sub")
 ]
