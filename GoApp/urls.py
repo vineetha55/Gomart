@@ -70,6 +70,8 @@ urlpatterns = [
     path("filter_by_price/", views.filter_by_price, name="filter_by_price"),
     path("add_to_cart_products_single/<id>/<price>/<q>", views.add_to_cart_products_single,
          name="add_to_cart_products_single"),
+path("add_to_cart_products_single1/<id>/<price>/<q>", views.add_to_cart_products_single1,
+         name="add_to_cart_products_single1"),
     path("all_products_sort/", views.all_products_sort, name="all_products_sort"),
     path("filter_by_price_category/<id>", views.filter_by_price_category, name="filter_by_price_category"),
     path("shop_by_category_sort/<id>", views.shop_by_category_sort, name="shop_by_category_sort"),
@@ -142,5 +144,6 @@ urlpatterns = [
     path("all_customers/",views.all_customers,name="all_customers"),
     path("block_customer/<id>",views.block_customer,name="block_customer"),
     path("email_to_subscribers/",views.email_to_subscribers,name="email_to_subscribers"),
-    path("send_email_sub/",views.send_email_sub,name="send_email_sub")
+    path("send_email_sub/",views.send_email_sub,name="send_email_sub"),
+    path("view_product_single1/<id>/<deal>",views.view_product_single1,name="view_product_single1")
 ]

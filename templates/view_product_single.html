@@ -82,10 +82,17 @@
                                     <div class="col-xl-6">
                                         <div class="product-info">
                                             <h4 class="mt-1 mb-3">{{single.name}}</h4>
+                                            {% if deals %}
+                                            <div class="pricing mt-2">
+                                                <span class="fw-bold h4 deleted me-1">€{{single.gross_total}}</span>
 
+                                                <span class="fw-bold fs-xs text-danger" id="gross_total">€{{deals.deal_price}}</span>
+                                            </div>
+                                            {% else %}
                                             <div class="pricing mt-2">
                                                 <span class="fw-bold fs-xs text-danger" id="gross_total">€{{single.gross_total}}</span>
                                             </div>
+                                            {% endif %}
                                             <div class="widget-title d-flex mt-4">
                                                 <h6 class="mb-1 flex-shrink-0">Description</h6>
                                                 <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
@@ -102,14 +109,30 @@
                                             </ul>
                                             <div class="d-flex align-items-center gap-4 flex-wrap">
                                                 <div class="product-qty d-inline-flex align-items-center">
-                                        <button class="decrese" onclick="decrease(this)">-</button>
+                                                    {% if deals %}
+                                        <button class="decrese" onclick="decrease_deals(this)">-</button>
+                                        <input type="text" value="1" id="quantity">
+                                        <button class="increase" onclick="increase_deals(this)">+</button>
+                                                    {% else %}
+                                                    <button class="decrese" onclick="decrease(this)">-</button>
                                         <input type="text" value="1" id="quantity">
                                         <button class="increase" onclick="increase(this)">+</button>
+                                                    {% endif %}
+                                                    {% if deals %}
+                                                    <input type="hidden" value="{{deals.deal_price}}" id="gross">
+                                                    {% else %}
                                                     <input type="hidden" value="{{single.gross_total}}" id="gross">
-                                    </div>
-                                                <a href="#" id="addToCartBtn" class="btn btn-secondary btn-md" onclick="add_to_cart();"><span class="me-2"><i
+                                                    {% endif %}
+                                                </div>
+                                                {% if deals %}
+                                                <a href="#" id="addToCartBtn" class="btn btn-secondary btn-md" onclick="add_to_cart_deals();"><span class="me-2"><i
                                                 class="fa-solid fa-bag-shopping"></i></span>Add to Cart</a>
+                                                {% else %}
+                                                 <a href="#" id="addToCartBtn" class="btn btn-secondary btn-md" onclick="add_to_cart();"><span class="me-2"><i
+                                                class="fa-solid fa-bag-shopping"></i></span>Add to Cart</a>
+                                                {% endif %}
                                             </div>
+
 
                                         </div>
                                     </div>
@@ -435,5 +458,45 @@ var addToCartBtn = document.getElementById("addToCartBtn");
              totalAmount=document.getElementById("gross").value;
 
             addToCartBtn.href = "/add_to_cart_products_single/" + {{single.id}} + "/" + totalAmount + "/" + q;
+}
+</script>
+
+<script>
+
+
+function increase_deals(button) {
+    var quantityInput = document.getElementById("quantity");
+    var currentQuantity = parseInt(quantityInput.value);
+    quantityInput.value = currentQuantity + 1;
+    var quantityInput1 = document.getElementById("quantity").value;
+    tt=quantityInput1 * {{deals.deal_price}};
+    document.getElementById("gross_total").innerHTML="€"+tt.toFixed(2);
+    document.getElementById("gross").value=tt.toFixed(2);
+
+}
+
+function decrease_deals(button) {
+    var quantityInput = document.getElementById("quantity");
+    var currentQuantity = parseInt(quantityInput.value);
+    if (currentQuantity > 1) {
+        quantityInput.value = currentQuantity - 1;
+        var quantityInput1 = document.getElementById("quantity").value;
+        tt=quantityInput1 * {{deals.deal_price}};
+        document.getElementById("gross_total").innerHTML="€"+tt.toFixed(2);
+        document.getElementById("gross").value=tt.toFixed(2);
+
+    }
+}
+
+
+</script>
+<script>
+     function add_to_cart_deals(){
+var addToCartBtn = document.getElementById("addToCartBtn");
+             q = document.getElementById("quantity").value;
+
+             totalAmount=document.getElementById("gross").value;
+
+            addToCartBtn.href = "/add_to_cart_products_single1/" + {{deals.product.id}} + "/" + totalAmount + "/" + q;
 }
 </script>

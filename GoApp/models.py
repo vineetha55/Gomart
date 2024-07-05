@@ -102,6 +102,7 @@ class tbl_Cart_Products(models.Model):
     total_price = models.CharField(max_length=100, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deal_price=models.FloatField(null=True)
 
 
 class tbl_Shipment_Address(models.Model):
@@ -200,18 +201,21 @@ class tbl_poster1(models.Model):
     subtitle = models.CharField(max_length=100, null=True)
     heading = models.CharField(max_length=100, null=True)
     heading2=models.CharField(max_length=500,null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 class tbl_poster2(models.Model):
     image = models.ImageField(upload_to="media", null=True)
     subtitle = models.CharField(max_length=100, null=True)
     heading = models.CharField(max_length=100, null=True)
     heading2=models.CharField(max_length=500,null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 class tbl_poster3(models.Model):
     image = models.ImageField(upload_to="media", null=True)
     subtitle = models.CharField(max_length=100, null=True)
     heading = models.CharField(max_length=100, null=True)
     heading2=models.CharField(max_length=500,null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 
 class tbl_poster4(models.Model):
@@ -220,21 +224,26 @@ class tbl_poster4(models.Model):
     heading2=models.CharField(max_length=500,null=True)
     sentence=models.CharField(max_length=600,null=True)
     image=models.ImageField(upload_to="media",null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 class tbl_poster5(models.Model):
     image = models.ImageField(upload_to="media", null=True)
     subtitle = models.CharField(max_length=100, null=True)
     heading = models.CharField(max_length=100, null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 
 class tbl_poster6(models.Model):
     image = models.ImageField(upload_to="media", null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
+
 
 class tbl_poster7(models.Model):
     image = models.ImageField(upload_to="media", null=True)
     title = models.CharField(max_length=100, null=True)
     subtitle = models.CharField(max_length=100, null=True)
     subtitle2 = models.CharField(max_length=500, null=True)
+    link = models.ForeignKey(tbl_Category,on_delete=models.CASCADE,null=True)
 
 
 class tbl_Subscribe(models.Model):

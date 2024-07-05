@@ -34,6 +34,17 @@
                             <th>Heading</th>
                             <td><input name="heading" type="text" value="{{ d.heading }}"></td>
                         </tr>
+                        <tr>
+                            <th>Link</th>
+                            <td>
+                                <select name="category">
+                                    <option value="{{d.link.id}}">{{d.link}}</option>
+
+                                {% for i in cat %}
+                                <option value="{{i.id}}">{{i.name}}</option>
+                                {% endfor %}
+                            </select></td>
+                        </tr>
                          <tr>
                             <td><input class="btn btn-primary" type="submit" value="Create"></td>
                         </tr>

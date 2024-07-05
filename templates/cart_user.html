@@ -51,6 +51,7 @@
                             <th>Product Name</th>
                             <th>Quantity</th>
                             <th>Unit Price</th>
+                            <th>Deal Price</th>
                             <th>Price</th>
                         </thead>
                         <tbody>
@@ -75,12 +76,22 @@
                                     <span class="text-dark fw-bold unit-price">{{i.product.gross_total}}</span>
                                 </td>
                                 <td>
+
+                                    <span class="text-dark fw-bold me-2 d-lg-none">Deal Price:</span>
+                                    {% if i.deal_price%}
+                                    <span class="text-dark fw-bold deal-price">{{i.deal_price}}</span>
+                                    {% else %}
+                                     <span class="text-dark fw-bold deal-price">Not Applicable</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+
                                     <span class="text-dark fw-bold me-2 d-lg-none">Total Price:</span>
                                     <span class="text-dark fw-bold total-price">{{i.total_price}}</span>
 
                                 </td>
                                 <td> <!-- New column for remove icon -->
-                    <button class="remove-product" onclick="removeProduct('{{i.id}}')">Remove</button>
+                    <button class="remove-product text-white" style="background-color:#FF1133;padding:4px;border-radius:4px;" onclick="removeProduct('{{i.id}}')">Remove</button>
                 </td>
                             </tr>
                             {% endfor %}
@@ -395,31 +406,44 @@ function updateTotalPrice(button) {
         return;
     }
 
+    var b = button.closest('tr').querySelector('.deal-price');
+
     var unitPrice = parseFloat(unitPriceElement.innerText);
     var currentQuantity = parseInt(quantityInput.value);
-    var totalPrice = unitPrice * currentQuantity;
+    var totalPrice;
+    var b_value = parseFloat(b.innerText);
+    alert(b_value);
+    if (isNaN(b_value)) {
+
+    totalPrice = unitPrice * currentQuantity;
+
+    } else {
+        totalPrice = b_value * currentQuantity;
+    }
+
     totalElement.innerText = totalPrice.toFixed(2);
 
-    p_id = button.closest('tr').querySelector('.pid').value;
+    var p_id = button.closest('tr').querySelector('.pid').value;
     $.ajax({
-    url: "/update_cart_products/",
-    method: "GET", // Specify the HTTP method
-    data: {
-        "q": currentQuantity,
-        "tp": totalPrice,
-        "id": p_id
-    },
-    success: function(data) {
-        if (data.message == "success") {
-            return true;
+        url: "/update_cart_products/",
+        method: "GET",
+        data: {
+            "q": currentQuantity,
+            "tp": totalPrice,
+            "id": p_id
+        },
+        success: function(data) {
+            if (data.message == "success") {
+                return true;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
         }
-    },
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-});
-updateTotalSum();
+    });
+    updateTotalSum();
 }
+
 function updateTotalSum() {
     var totalSum = 0;
     var totalElements = document.querySelectorAll('.total-price');
@@ -429,22 +453,21 @@ function updateTotalSum() {
     document.getElementById('totalSumValue').innerText = totalSum.toFixed(2);
     document.getElementById('totalSumValue1').innerText = totalSum.toFixed(2);
     $.ajax({
-    url: "/update_cart_total/",
-    method: "GET", // Specify the HTTP method
-    data: {
-        "ts": totalSum,
-        "id": {{c.id}},
-
-    },
-    success: function(data) {
-        if (data.message == "success") {
-            return true;
+        url: "/update_cart_total/",
+        method: "GET",
+        data: {
+            "ts": totalSum,
+            "id": "{{c.id}}",
+        },
+        success: function(data) {
+            if (data.message == "success") {
+                return true;
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error(error);
         }
-    },
-    error: function(xhr, status, error) {
-        console.error(error);
-    }
-});
+    });
 }
 
 function increase(button) {

@@ -332,7 +332,7 @@ position: relative;
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
                                         <a class="btn btn-secondary d-block btn-md mt-5 rounded-1 add-to-cart-btn"
-                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
@@ -640,7 +640,7 @@ position: relative;
                             <span class=" badge bg-secondary text-white gshop-subtitle fs-xxs mb-1 text-dark d-inline-block">{{post1.subtitle}}</span>
                             <h6 class="mb-0">{{post1.heading}}</h6>
                             <h4 class="mb-6">{{post1.heading2}}</h4>
-                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i
+                            <a class="explore-btn fw-bold text-dark" href="/shop_by_category/{{post1.link.id}}">Shop Now<span class="ms-1"><i
                                     class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
@@ -650,7 +650,7 @@ position: relative;
                             <span class="gshop-subtitle fs-xxs mb-1 text-dark d-inline-block badge bg-success text-white">{{post2.subtitle}}</span>
                             <h6 class="mb-0">{{post2.heading}}</h6>
                             <h4 class="mb-6">{{post2.heading2}}</h4>
-                            <a class="explore-btn fw-bold text-dark" href="/all_products">Shop Now<span class="ms-1"><i
+                            <a class="explore-btn fw-bold text-dark" href="/shop_by_category/{{post2.link.id}}">Shop Now<span class="ms-1"><i
                                     class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
@@ -660,7 +660,7 @@ position: relative;
                             <span class="badge bg-danger gshop-subtitle mb-1">{{post3.subtitle}}</span>
                             <h6 class="mb-0">{{post3.heading}}</h6>
                             <h4 class="mb-6">{{post3.heading2}}</h4>
-                            <a href="product-details.html" class="explore-btn fw-bold text-dark">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
+                            <a href="/shop_by_category/{{post3.link.id}}" class="explore-btn fw-bold text-dark">Shop Now<span class="ms-1"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                 </div>
@@ -677,7 +677,7 @@ position: relative;
                             <h6 class="mb-0">{{post4.heading}}</h6>
                             <h4 class="mb-2">{{post4.heading2}}</h4>
                             <p class="fw-medium mb-5">{{post4.sentence}}</p>
-                            <a class="btn btn-primary btn-md" href="/all_products/">Show Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                            <a class="btn btn-primary btn-md" href="/shop_by_category/{{post4.link.id}}">Show Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                             <div class="banner-img-wrapper text-end mt--40">
                                 <img alt="vegetables" class="" src="{{post4.image}}">
                             </div>
@@ -723,8 +723,8 @@ position: relative;
                                             <div class="pricing mt-2">
                                                 <span class="fw-bold h4 deleted me-1">€{{i.product.gross_total}}</span>
                                                 <span class="fw-bold h4 text-danger">€{{i.deal_price}}</span>
-                                                <p>Deal Starts: {{ i.deal_start_date }} - Ends: {{ i.deal_end_date }}</p>
-                                                <p>From{{ i.deal_start_time }} - Ends: {{ i.deal_end_time }}</p>
+                                                <p class="fw-light text-danger" style="font-size:12px;"> Starts: {{ i.deal_start_date }} at {{ i.deal_start_time }}  Ends: {{ i.deal_end_date }} at {{ i.deal_end_time }}</p>
+
                                             </div>
                                             <a class="fs-xs fw-bold mt-3 d-inline-block explore-btn" href="/checking_deal_time/{{i.product.id}}/{{i.id}}">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
                                         </div>
@@ -747,12 +747,12 @@ position: relative;
                         <div class="banner-box background-banner rounded-2 banner-lg" data-background="{{post5.image}}" style="height:300px;width:100%;" >
                             <span class="badge bg-danger mb-2">{{post5.title}}</span>
                             <h3 class="mb-6 text-white gshop-title">{{post5.heading}}<br class="d-none d-sm-block"> Food <mark class="position-relative text-secondary position-relative bg-transparent">Special Offer<img alt="border line" class="position-absolute start-0 border-line w-100" src="{% static 'index/assets/img/shapes/border-line_new.png' %}"></mark></h3>
-                            <a href="product-details.html" class="btn btn-secondary btn-md">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                            <a href="/shop_by_category/{{post5.link.id}}" class="btn btn-secondary btn-md">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                     </div>
                     <div class="col-xl-4">
                         <div class="banner-img  background-banner rounded-2 banner-lg">
-                            <img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;">
+                            <a href="/shop_by_category/{{post6.link.id}}"><img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;"></a>
                         </div>
                     </div>
                 </div>
@@ -936,7 +936,7 @@ position: relative;
                                 <span class="hot-badge bg-danger fw-bold fs-xs position-relative text-white">{{post7.subtitle}}</span>
                                 <span class="offer-title text-danger fw-bold">{{post7.subtitle2}}</span>
                             </div>
-                            <a href="product-details.html" class="explore-btn text-primary fw-bold">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
+                            <a href="/shop_by_category/{{post7.link.id}}" class="explore-btn text-primary fw-bold">Shop Now<span class="ms-2"><i class="fas fa-arrow-right"></i></span></a>
                         </div>
                         <div class="counter-box bg-white rounded-2 mt-4">
                             <div class="horizontal-counter d-flex align-items-center gap-3">

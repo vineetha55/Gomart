@@ -225,13 +225,12 @@ def add_product(request):
         tax_amount = request.POST.get("tax_amount")
 
         # Create and save a new Product object
-        if  brand_id:
+        if  brand_id == "No Specific Brand":
             product = tbl_Product(
                 name=name,
                 description=description,
                 price=price,
                 country_id=country_id,
-                brand_id=brand_id,
                 category_id=category_id,
                 opening_stock=opening_stock,
                 current_stock=current_stock,
@@ -254,6 +253,7 @@ def add_product(request):
                 price=price,
                 country_id=country_id,
                 category_id=category_id,
+                brand_id=brand_id,
                 opening_stock=opening_stock,
                 current_stock=current_stock,
                 product_code=product_code,
@@ -488,15 +488,52 @@ def view_product_single(request, id):
         cat = tbl_Category.objects.all()
         return render(request, "view_product_single.html", {"single": single, "cat": cat})
 
+def view_product_single1(request, id,deal):
+    try:
+
+            single = tbl_Product.objects.get(id=id)
+            cat = tbl_Category.objects.all()
+
+            interest = tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
+            deals=tbl_Deals.objects.get(id=deal)
+
+            return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest,"deals":deals})
+
+    except:
+            single = tbl_Product.objects.get(id=id)
+            cat = tbl_Category.objects.all()
+            deals = tbl_Deals.objects.get(id=deal)
+            return render(request, "view_product_single.html", {"single": single, "cat": cat, "deals": deals})
+
 
 @never_cache
 def cart_user(request):
     try:
-        c = tbl_Cart.objects.get(user=request.session["userid"])
-        cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
-        cat = tbl_Category.objects.all()
 
-        return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
+        try:
+
+            b=request.session['b']
+
+
+
+            c = tbl_Cart.objects.get(user=request.session["userid"])
+            cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
+            cat = tbl_Category.objects.all()
+            cart_details1 = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c).last()
+            if cart_details1:
+                cart_details1.deal_price = b
+                cart_details1.save()
+            del request.session['b']
+
+
+            return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
+
+        except:
+            c = tbl_Cart.objects.get(user=request.session["userid"])
+            cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
+            cat = tbl_Category.objects.all()
+
+            return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
     except:
         cat = tbl_Category.objects.all()
         return render(request, "cart_user.html", {"cat": cat})
@@ -577,12 +614,12 @@ def add_to_cart_products_single(request, id, price, q):
         if request.session['userid']:
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
-                s = int(cart.sub_total)
-                s += int(price)
-                cart.sub_total = s
-                t = int(cart.total)
-                t += int(price)
-                cart.total = t
+                s = cart.sub_total
+                s += float(price)
+                cart.sub_total = round(s, 2)
+                t = cart.total
+                t += float(price)
+                cart.total = round(t, 2)
                 cart.save()
                 c = tbl_Cart_Products()
                 c.cart_id = cart.id
@@ -606,6 +643,48 @@ def add_to_cart_products_single(request, id, price, q):
                 c.total_price = price
                 c.user_id = request.session['userid']
                 c.save()
+                return redirect("/cart_user/")
+        else:
+            return redirect("/Login/")
+    except:
+        return redirect("/Login/")
+
+def add_to_cart_products_single1(request, id, price, q):
+    try:
+        if request.session['userid']:
+            if tbl_Cart.objects.filter(user=request.session['userid']).exists():
+                cart = tbl_Cart.objects.get(user=request.session['userid'])
+                s = cart.sub_total
+                s += float(price)
+                cart.sub_total = round(s, 2)
+                t = cart.total
+                t += float(price)
+                cart.total = round(t, 2)
+                cart.save()
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
+                c.product_id = id
+                c.quantity = q
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                request.session['b'] = price
+                return redirect("/cart_user/")
+            else:
+
+                cart = tbl_Cart()
+                cart.user_id = request.session['userid']
+                cart.sub_total = price
+                cart.total = price
+                cart.save()
+                c = tbl_Cart_Products()
+                c.cart_id = cart.id
+                c.product_id = id
+                c.quantity = q
+                c.total_price = price
+                c.user_id = request.session['userid']
+                c.save()
+                request.session['b'] = price
                 return redirect("/cart_user/")
         else:
             return redirect("/Login/")
@@ -1046,8 +1125,8 @@ def remove_product(request):
         product = tbl_Cart_Products.objects.get(id=pid)
 
         c = tbl_Cart.objects.get(user=request.session['userid'])
-        c.total = int(c.total) - int(product.total_price)
-        c.sub_total = int(c.sub_total) - int(product.total_price)
+        c.total = float(c.total) - float(product.total_price)
+        c.sub_total = float(c.sub_total) - float(product.total_price)
         c.save()
         product.delete()
         return JsonResponse({'success': True, 'message': 'Product removed successfully'})
@@ -1752,16 +1831,19 @@ def delete_deal(request, id):
 @never_cache
 def checking_deal_time(request, pid, id):
     deal = tbl_Deals.objects.get(id=id)
-    current_time = datetime.now().strftime("%H:%M:%S")
+    current_time = datetime.now().time()
+    print("current",type(current_time))
+    print(type(deal.deal_start_time))
+
     if deal.deal_start_date <= date.today() and deal.deal_end_date >= date.today():
         if deal.deal_start_time <= current_time and deal.deal_end_time >= current_time:
-            return redirect("view_product_single", id=pid)
+            return redirect("view_product_single1", id=pid,deal=id)
         else:
             messages.error(request, "Deal is not started")
-            return redirect("/")
+            return redirect("/index/")
     else:
         messages.error(request, "Deal is not started")
-        return redirect("/")
+        return redirect("/index/")
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1826,16 +1908,22 @@ def update_poster1(request,id):
         d.subtitle=request.POST.get("subtitle")
         d.heading=request.POST.get("heading")
         d.heading2=request.POST.get("heading2")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
-        d.save()
+        d.link_id = request.POST.get("category")
+
+        try:
+            image=request.FILES['image']
+            fs=FileSystemStorage()
+            file=fs.save(image.name,image)
+            url=fs.url(file)
+            d.image=url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster1/")
 
     else:
-        return render(request,"update_poster1.html",{"d":d})
+        cat=tbl_Category.objects.all()
+        return render(request,"update_poster1.html",{"d":d,"cat":cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1845,16 +1933,23 @@ def update_poster2(request,id):
         d.subtitle=request.POST.get("subtitle")
         d.heading=request.POST.get("heading")
         d.heading2=request.POST.get("heading2")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
-        d.save()
+
+        d.link_id = request.POST.get("category")
+        try:
+            image=request.FILES['image']
+            fs=FileSystemStorage()
+            file=fs.save(image.name,image)
+            url=fs.url(file)
+            d.image=url
+            d.save()
+        except:
+            d.save()
+
         return redirect("/poster2/")
 
     else:
-        return render(request,"update_poster2.html",{"d":d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster2.html", {"d": d, "cat": cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1864,16 +1959,22 @@ def update_poster3(request,id):
         d.subtitle=request.POST.get("subtitle")
         d.heading=request.POST.get("heading")
         d.heading2=request.POST.get("heading2")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
-        d.save()
+
+        d.link_id = request.POST.get("category")
+        try:
+            image=request.FILES['image']
+            fs=FileSystemStorage()
+            file=fs.save(image.name,image)
+            url=fs.url(file)
+            d.image=url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster3/")
 
     else:
-        return render(request,"update_poster3.html",{"d":d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster3.html", {"d": d, "cat": cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1884,17 +1985,22 @@ def update_poster4(request,id):
         d.heading=request.POST.get("heading")
         d.heading2=request.POST.get("heading2")
         d.sentence = request.POST.get("sentence")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file = fs.save(image.name, image)
-        file = fs.save(image.name, image)
-        url = fs.url(file)
-        d.image=url
-        d.save()
+
+        d.link_id = request.POST.get("category")
+        try:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(image.name, image)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster4/")
 
     else:
-        return render(request,"update_poster4.html",{"d":d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster4.html", {"d": d, "cat": cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1903,32 +2009,44 @@ def update_poster5(request,id):
     if request.method=="POST":
         d.subtitle=request.POST.get("subtitle")
         d.heading=request.POST.get("heading")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
-        d.save()
+
+        d.link_id = request.POST.get("category")
+        try:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(image.name, image)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster5/")
 
     else:
-        return render(request,"update_poster5.html",{"d":d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster5.html", {"d": d, "cat": cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
 def update_poster6(request,id):
     d=tbl_poster6.objects.get(id=id)
     if request.method=="POST":
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file=fs.save(image.name,image)
-        url=fs.url(file)
-        d.image=url
-        d.save()
+
+        d.link_id = request.POST.get("category")
+        try:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(image.name, image)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster6/")
 
     else:
-        return render(request,"update_poster6.html",{"d":d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster6.html", {"d": d, "cat": cat})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')
@@ -1938,16 +2056,22 @@ def update_poster7(request,id):
         d.subtitle=request.POST.get("subtitle")
         d.title=request.POST.get("title")
         d.subtitle2=request.POST.get("subtitle2")
-        image=request.FILES['image']
-        fs=FileSystemStorage()
-        file = fs.save(image.name, image)
-        url = fs.url(file)
-        d.image = url
-        d.save()
+
+        d.link_id=request.POST.get("category")
+        try:
+            image = request.FILES['image']
+            fs = FileSystemStorage()
+            file = fs.save(image.name, image)
+            url = fs.url(file)
+            d.image = url
+            d.save()
+        except:
+            d.save()
         return redirect("/poster7/")
 
     else:
-        return render(request, "update_poster7.html", {"d": d})
+        cat = tbl_Category.objects.all()
+        return render(request, "update_poster7.html", {"d": d, "cat": cat})
 
 @never_cache
 def add_subscription(request):
@@ -2042,5 +2166,6 @@ def send_email_sub(request):
     d=tbl_Subscribe.objects.all()
     for i in d:
         send_mail(subject,message,settings.EMAIL_HOST_USER,[i.email])
+    messages.success(request,"Email Sent Successfully")
     messages.success(request,"Email Sent Successfully")
     return redirect("/email_to_subscribers/")
