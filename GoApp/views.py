@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 
 from django.template.loader import render_to_string
+from django.urls import reverse
 from django.views.decorators.cache import never_cache
 
 import requests
@@ -33,6 +34,10 @@ def index(request):
     brand = tbl_Brand.objects.all()
     best = tbl_Product.objects.filter(best_score__gte=10)
     prod = tbl_Product.objects.all()
+
+    expired_deals = tbl_Deals.objects.filter(status="Start", deal_end_date__lt=date.today())
+    expired_deals.update(status="Closed")
+
     deal = tbl_Deals.objects.filter(status="Start")
     post1 = tbl_poster1.objects.get()
     post2 = tbl_poster2.objects.get()
@@ -1829,7 +1834,9 @@ def delete_deal(request, id):
     return redirect("/deals/")
 
 @never_cache
-def checking_deal_time(request, pid, id):
+def checking_deal_time(request):
+    pid = request.GET.get("pid")
+    id = request.GET.get("id")
     deal = tbl_Deals.objects.get(id=id)
     current_time = datetime.now().time()
     print("current",type(current_time))
@@ -1837,13 +1844,29 @@ def checking_deal_time(request, pid, id):
 
     if deal.deal_start_date <= date.today() and deal.deal_end_date >= date.today():
         if deal.deal_start_time <= current_time and deal.deal_end_time >= current_time:
-            return redirect("view_product_single1", id=pid,deal=id)
+            return JsonResponse({'status': 'redirect', 'url': reverse("view_product_single1", args=[pid, id])})
         else:
-            messages.error(request, "Deal is not started")
-            return redirect("/index/")
+            return JsonResponse({'status': 'error', 'message': 'Deal is not started'})
     else:
-        messages.error(request, "Deal is not started")
-        return redirect("/index/")
+        return JsonResponse({'status': 'error', 'message': 'Deal is not started'})
+
+
+@never_cache
+def checking_deal_time_user(request):
+    pid=request.GET.get("pid")
+    id=request.GET.get("id")
+    deal = tbl_Deals.objects.get(id=id)
+    current_time = datetime.now().time()
+    print("current",type(current_time))
+    print(type(deal.deal_start_time))
+
+    if deal.deal_start_date <= date.today() and deal.deal_end_date >= date.today():
+        if deal.deal_start_time <= current_time and deal.deal_end_time >= current_time:
+            return JsonResponse({'status': 'redirect', 'url': reverse("view_product_single1", args=[pid, id])})
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Deal is not started'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Deal is not started'})
 
 @never_cache
 @login_required(login_url='/Gomart_Admin/')

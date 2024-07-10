@@ -176,7 +176,7 @@ position: relative;
             <div class="text-center section-title">
                 <h4 class="d-inline-block px-2 bg-white mb-4">Our Top Category</h4>
             </div>
-             <div class=" swiper row justify-content-center g-4">
+             <div class="brands-slider swiper row justify-content-center g-4">
                         <div class="swiper-wrapper">
                         {% for i in cat %}
                             <div class=" swiper-slide ">
@@ -726,13 +726,12 @@ position: relative;
                                             <div class="pricing mt-2">
                                                 <span class="fw-bold h4 deleted me-1">€{{i.product.gross_total}}</span>
                                                 <span class="fw-bold h4 text-danger">€{{i.deal_price}}</span>
-                                                <p>Deal Starts: {{ i.deal_start_date }} - Ends: {{ i.deal_end_date }}</p>
-                                                <p>From{{ i.deal_start_time }} - Ends: {{ i.deal_end_time }}</p>
+                                                <p class="fw-light text-danger" style="font-size:12px;"> Starts: {{ i.deal_start_date }} at {{ i.deal_start_time }}  Ends: {{ i.deal_end_date }} at {{ i.deal_end_time }}</p>
+
                                             </div>
-                                            <a class="fs-xs fw-bold mt-3 d-inline-block explore-btn"
-                                               href="/checking_deal_time/{{i.product.id}}/{{i.id}}">Shop Now<span
-                                                    class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
-                                        </div>
+                                            <button class="fs-xs fw-bold mt-3 d-inline-block explore-btn" onclick="check_deal_time({{i.product.id}},{{i.id}})">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></button>
+
+                                                                                   </div>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -1271,3 +1270,29 @@ position: relative;
 </button>
 <!--scroll bottom to top button end-->
     <!--build:js-->
+<script>
+
+    function check_deal_time(pid,id){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/checking_deal_time_user/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                pid: pid,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+                if (response.status === 'redirect') {
+                    window.location.href = response.url;
+                } else if (response.status === 'error') {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+
+</script>

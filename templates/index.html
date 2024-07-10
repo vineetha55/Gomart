@@ -1,6 +1,23 @@
 {% load static %}
 <head>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+      <style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #2c9444;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+    </style>
 <style>
 .brands_slide{
 position: relative;
@@ -70,6 +87,12 @@ position: relative;
 
         <!--hero section start-->
         <section class="gshop-hero pt-120 bg-white position-relative z-1 overflow-hidden">
+             {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
+
             <img src="{% static 'index/assets/img/shapes/leaf-shadow_new.png' %}" alt="leaf" class="position-absolute leaf-shape z--1 rounded-circle">
             <img src="{% static 'index/assets/img/shapes/mango_new.png' %}" alt="mango" class="position-absolute mango z--1" data-parallax='{"y": -120}'>
             <img src="{% static 'index/assets/img/shapes/circle1.png' %}" alt="circle" class="position-absolute hero-circle circle-sm z--1">
@@ -400,7 +423,7 @@ position: relative;
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
                                 <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -468,7 +491,7 @@ position: relative;
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
                                         <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
@@ -629,6 +652,8 @@ position: relative;
 
 </script>
 
+
+
         <!--banner section start-->
         <section class="banner-section position-relative z-1 overflow-hidden bg-white pt-2">
             <img src="{% static 'index/assets/img/products/bg-shape-3_new.png' %}" alt="bg shape" class="position-absolute start-0 bottom-0 z--1 w-100">
@@ -726,7 +751,7 @@ position: relative;
                                                 <p class="fw-light text-danger" style="font-size:12px;"> Starts: {{ i.deal_start_date }} at {{ i.deal_start_time }}  Ends: {{ i.deal_end_date }} at {{ i.deal_end_time }}</p>
 
                                             </div>
-                                            <a class="fs-xs fw-bold mt-3 d-inline-block explore-btn" href="/checking_deal_time/{{i.product.id}}/{{i.id}}">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></a>
+                                            <button class="fs-xs fw-bold mt-3 d-inline-block explore-btn" onclick="check_deal_time({{i.product.id}},{{i.id}})">Shop Now<span class="ms-1"><i class="fa-solid fa-arrow-right"></i></span></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1213,3 +1238,29 @@ position: relative;
     </button>
     <!--scroll bottom to top button end-->
     <!--build:js-->
+<script>
+
+    function check_deal_time(pid,id){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/checking_deal_time/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                pid: pid,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+                if (response.status === 'redirect') {
+                    window.location.href = response.url;
+                } else if (response.status === 'error') {
+                    alert(response.message);
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+
+</script>

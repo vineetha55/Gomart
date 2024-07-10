@@ -61,7 +61,7 @@
                                     <img src="{{i.product.image}}" alt="product-thumb" class="img-fluid" width="200" height="150">
                                 </td>
                                 <td class="text-start product-title">
-                                    <h6 class="mb-0">{{i.product.name}}</h6>
+                                    <h6 class="mb-0">{{i.product.name}}&nbsp;&nbsp;{{i.product.product_weight}}{{i.product.product_measure}}</h6>
                                 </td>
                                 <td>
                                     <div class="product-qty d-inline-flex align-items-center">
@@ -412,7 +412,6 @@ function updateTotalPrice(button) {
     var currentQuantity = parseInt(quantityInput.value);
     var totalPrice;
     var b_value = parseFloat(b.innerText);
-    alert(b_value);
     if (isNaN(b_value)) {
 
     totalPrice = unitPrice * currentQuantity;
