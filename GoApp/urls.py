@@ -146,5 +146,7 @@ path("add_to_cart_products_single1/<id>/<price>/<q>", views.add_to_cart_products
     path("block_customer/<id>",views.block_customer,name="block_customer"),
     path("email_to_subscribers/",views.email_to_subscribers,name="email_to_subscribers"),
     path("send_email_sub/",views.send_email_sub,name="send_email_sub"),
-    path("view_product_single1/<id>/<deal>",views.view_product_single1,name="view_product_single1")
+    path("view_product_single1/<id>/<deal>",views.view_product_single1,name="view_product_single1"),
+    path("edit_shipping_address/<id>",views.edit_shipping_address,name="edit_shipping_address"),
+    path("edit_billing_address/<id>",views.edit_billing_address,name="edit_billing_address")
 ]

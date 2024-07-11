@@ -433,8 +433,8 @@ def HomePage(request):
             post7 = tbl_poster7.objects.get()
             new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
             organic = tbl_Product.objects.all()[:3]
-            veg = tbl_Product.objects.filter(category__name="Vegetables")
-            meat = tbl_Product.objects.filter(category__name="Meats")
+            veg = tbl_Product.objects.filter(category__name="Fruit & Vegetables")
+            meat = tbl_Product.objects.filter(category__name="Fish & Meats")
 
             return render(request, "HomePage.html",
                           {"user": user, "cat": cat, "coun": coun, "brand": brand, "best": best,
@@ -854,7 +854,32 @@ def save_ship_address(request):
     data.Eircode = request.POST.get("eircode")
     data.save()
     return redirect("checkout1", id=data.id)
-
+def edit_shipping_address(request,id):
+    if request.method=="POST":
+        print("hellooo")
+        data=tbl_Shipment_Address.objects.get(id=id)
+        data.first_name = request.POST.get("firstname")
+        data.last_name = request.POST.get("lastname")
+        data.email = request.POST.get("email")
+        data.mobile = request.POST.get("mobile")
+        data.state = request.POST.get("state")
+        data.street_address = request.POST.get("street")
+        data.user_id = request.session['userid']
+        data.Eircode = request.POST.get("eircode")
+        data.save()
+        return redirect("/my_account/")
+def edit_billing_address(request,id):
+    data = tbl_Billing_Address.objects.get(id=id)
+    data.first_name = request.POST.get("firstname")
+    data.last_name = request.POST.get("lastname")
+    data.email = request.POST.get("email")
+    data.mobile = request.POST.get("mobile")
+    data.state = request.POST.get("state")
+    data.street_address = request.POST.get("street")
+    data.user_id = request.session['userid']
+    data.Eircode = request.POST.get("eircode")
+    data.save()
+    return redirect("my_account")
 
 @never_cache
 def checkout1(request, id):

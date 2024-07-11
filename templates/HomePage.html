@@ -333,7 +333,7 @@ position: relative;
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
                                 <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -360,7 +360,7 @@ position: relative;
         <div class="row align-items-center">
             <div class="col-xl-5">
                 <div class="section-title text-center text-xl-start">
-                    <h3 class="mb-0">Top Trending Vegetables</h3>
+                    <h3 class="mb-0">Vegetables</h3>
                 </div>
             </div>
             <!--                    <div class="col-xl-7">-->
@@ -399,7 +399,7 @@ position: relative;
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
                                 <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -426,7 +426,7 @@ position: relative;
         <div class="row align-items-center">
             <div class="col-xl-5">
                 <div class="section-title text-center text-xl-start">
-                    <h3 class="mb-0">Top Trending Meats</h3>
+                    <h3 class="mb-0">Fresh Meats</h3>
                 </div>
             </div>
             <!--                    <div class="col-xl-7">-->
@@ -465,7 +465,7 @@ position: relative;
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
                                 <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}/">Add to Cart</a>
+                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -514,7 +514,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -562,7 +562,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -610,7 +610,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -761,7 +761,8 @@ position: relative;
                     </div>
                     <div class="col-xl-4">
                         <div class="banner-img rounded-3 overflow-hidden">
-                            <a href="/shop_by_category_user/{{post6.link.id}}"><img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;">
+                            <a href="/shop_by_category_user/{{post6.link.id}}">
+                                <img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;">
                             </a>
                         </div>
                     </div>

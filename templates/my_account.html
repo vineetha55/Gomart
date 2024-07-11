@@ -301,20 +301,69 @@
                                             <div class="address-book-content pe-md-4 border-right position-relative">
                                                 <div class="d-flex align-items-center gap-5 mb-4">
                                                     <h6 class="mb-0">Address Book</h6>
-                                                    <a href="#">Edit</a>
+
                                                 </div>
                                                 <p class="text-uppercase fw-medium mb-3">
                                                     Default Shipping Address
                                                 </p>
                                                 {% for i in ship %}
                                                 <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}}</p>
+
+                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}}&nbsp;&nbsp;{{ i.last_name}}</p>
                                                     <p class="mb-0">
                                                         {{i.street_address}},{{i.state}},{{i.Eircode}}
                                                         <br />
                                                         {{i.mobile}}
                                                     </p>
                                                 </div>
+                                                <a  data-bs-target="#ratingModal{{i.id}}" data-bs-toggle="modal" href="#"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+               <div aria-hidden="true" aria-labelledby="ratingModalLabel" class="modal fade" id="ratingModal{{i.id}}"
+                         tabindex="-1">
+                   <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3 class="text-center">Edit Shipment Address</h3>
+            <form method="POST" action="/edit_shipping_address/{{ i.id }}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ i.first_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ i.last_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ i.email }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" value="{{ i.mobile }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" value="{{ i.state }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Street Address</label>
+                    <input type="text" class="form-control" id="street" name="street" value="{{ i.street_address }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="eircode">Eircode</label>
+                    <input type="text" class="form-control" id="eircode" name="eircode" value="{{ i.Eircode }}" required>
+                </div>
+                <div class="text-center m-t-20">
+                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+		</div>
+
                                                 {% endfor %}
                                             </div>
                                         </div>
@@ -325,12 +374,59 @@
                                                 </p>
                                                {% for i in bill %}
                                                 <div class="address">
-                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}}</p>
+                                                    <p class="text-dark fw-bold mb-1">{{i.first_name}} &nbsp;&nbsp;{{i.last_name}}</p>
                                                     <p class="mb-0">
                                                         {{i.street_address}},{{i.state}},{{i.Eircode}}
                                                         <br />
                                                         {{i.mobile}}
                                                     </p>
+                                                    <a  data-bs-target="#ratingModal1{{i.id}}" data-bs-toggle="modal" href="#"><i class="fa fa-pencil m-r-5"></i> Edit</a>
+               <div aria-hidden="true" aria-labelledby="ratingModalLabel" class="modal fade" id="ratingModal1{{i.id}}"
+                         tabindex="-1">
+                   <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3 class="text-center">Edit Billing Address</h3>
+            <form method="POST" action="/edit_billing_address/{{ i.id }}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="firstname">First Name</label>
+                    <input type="text" class="form-control" id="firstname" name="firstname" value="{{ i.first_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" name="lastname" value="{{ i.last_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ i.email }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" value="{{ i.mobile }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" value="{{ i.state }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Street Address</label>
+                    <input type="text" class="form-control" id="street" name="street" value="{{ i.street_address }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="eircode">Eircode</label>
+                    <input type="text" class="form-control" id="eircode" name="eircode" value="{{ i.Eircode }}" required>
+                </div>
+                <div class="text-center m-t-20">
+                    <button type="button" class="btn btn-white" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+		</div>
                                                 </div>
                                                 {% endfor %}
                                             </div>
@@ -466,12 +562,12 @@
                                                 <tr>
                                                     <td> 14 Feb 2023 - 13:19 </td>
                                                     <td>Your package has been delivered. Thank
-                                                        you for shopping at Grostore!</td>
+                                                        you for shopping at Gomart!</td>
                                                 </tr>
                                                 <tr>
                                                     <td> 13 Feb 2023 - 13:39</td>
                                                     <td>Your package has been handed over to
-                                                        Grostore Delivery.</td>
+                                                        Gomart Delivery.</td>
                                                 </tr>
                                                 <tr>
                                                     <td> 12 Feb 2023 - 14:50</td>
@@ -485,7 +581,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td>12 Feb 2023 - 13:05</td>
-                                                    <td>Thank you for shopping at GroStore! Your
+                                                    <td>Thank you for shopping at Gomart! Your
                                                         order is being verified.</td>
                                                 </tr>
                                             </tbody>

@@ -87,11 +87,7 @@ position: relative;
 
         <!--hero section start-->
         <section class="gshop-hero pt-120 bg-white position-relative z-1 overflow-hidden">
-             {% if messages %}
-                            {% for message in messages %}
-                                <p class="alert">{{ message }}</p>
-                            {% endfor %}
-                            {% endif %}
+
 
             <img src="{% static 'index/assets/img/shapes/leaf-shadow_new.png' %}" alt="leaf" class="position-absolute leaf-shape z--1 rounded-circle">
             <img src="{% static 'index/assets/img/shapes/mango_new.png' %}" alt="mango" class="position-absolute mango z--1" data-parallax='{"y": -120}'>
@@ -540,7 +536,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -588,7 +584,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -636,7 +632,7 @@ position: relative;
         // Ensure the swiper instance is properly initialized before attaching hover event
         if (swiper && swiper.autoplay) {
             // Handle hover event
-            $('.add-to-cart-btn').hover(
+            $('.swiper-slide').hover(
                 function() {
                     swiper.autoplay.stop();
                 },
@@ -776,8 +772,10 @@ position: relative;
                         </div>
                     </div>
                     <div class="col-xl-4">
-                        <div class="banner-img  background-banner rounded-2 banner-lg">
-                            <a href="/shop_by_category/{{post6.link.id}}"><img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;"></a>
+                        <div class="banner-img rounded-3 overflow-hidden">
+                            <a href="/shop_by_category/{{post6.link.id}}">
+                                <img alt="banner" class="img-fluid" src="{{post6.image}}" style="height:300px;width:100%;">
+                            </a>
                         </div>
                     </div>
                 </div>
