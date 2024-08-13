@@ -1,5 +1,23 @@
 {% load static %}
+
 {% include 'indexnavbar.html' %}
+<style>
+        .alert {
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            color: #2c9444;
+            background-color:white;
+            border-color: #ebccd1;
+            transition: opacity 0.5s ease;
+            opacity: 1;
+        }
+
+        .alert.fade {
+            opacity: 0;
+        }
+    </style>
 
         <!--contact us section start-->
         <section class="contact-us-section position-relative overflow-hidden z-1 pt-80 pb-120">
@@ -36,6 +54,11 @@
 
                         <div class="col-xl-7">
                             <form class="contact-form ps-5 ps-xl-4 py-6 pe-6" action="/save_enquiry/" method="POST">{% csrf_token %}
+                                 {% if messages %}
+                            {% for message in messages %}
+                                <p class="alert">{{ message }}</p>
+                            {% endfor %}
+                            {% endif %}
                                 <h3 class="mb-6">Need Help? Send Message</h3>
                                 <div class="row g-4">
                                     <div class="col-sm-8">
@@ -320,3 +343,14 @@
 <button class="scroll-top-btn">
     <i class="fa-regular fa-hand-pointer"></i>
 </button>
+<script>
+        // Add fade-out effect to alert messages after some time
+        window.addEventListener('DOMContentLoaded', function() {
+            var alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    alert.classList.add('fade');
+                }, 4000); // Adjust the time as needed (in milliseconds)
+            });
+        });
+    </script>

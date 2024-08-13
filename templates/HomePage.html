@@ -180,7 +180,7 @@ position: relative;
                         <div class="swiper-wrapper">
                         {% for i in cat %}
                             <div class=" swiper-slide ">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden" >
+                            <div class="gshop-animated-iconbox bg-white py-5 px-4 text-center border rounded-3 position-relative overflow-hidden" >
                                 <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
                                      style="width:120px; height:120px;border-style:solid;">
                                     <a href="/shop_by_category_user/{{i.id}}"><img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
@@ -312,7 +312,7 @@ position: relative;
                     {% for i in prod %}
 
                     <div class=" swiper-slide ">
-                        <div class="vertical-product-card rounded-2 position-relative">
+                        <div class="vertical-product-card rounded-2 position-relative bg-white">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
                                 <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -323,17 +323,24 @@ position: relative;
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
-                                    Organic</a>
-                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+
+                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
+                                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                 <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
                                     <span class="card-progress bg-primary-light" data-progress="60%"></span>
                                 </div>
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
-                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                                {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn-{{i.id}}"
+                                    onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
+
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -360,7 +367,7 @@ position: relative;
         <div class="row align-items-center">
             <div class="col-xl-5">
                 <div class="section-title text-center text-xl-start">
-                    <h3 class="mb-0">Vegetables</h3>
+                    <h3 class="mb-0">Fresh Vegetables</h3>
                 </div>
             </div>
             <!--                    <div class="col-xl-7">-->
@@ -378,7 +385,7 @@ position: relative;
                     {% for i in veg %}
 
                     <div class=" swiper-slide ">
-                        <div class="vertical-product-card rounded-2 position-relative">
+                        <div class="vertical-product-card rounded-2 position-relative bg-white">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
                                 <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -389,17 +396,23 @@ position: relative;
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
-                                    Organic</a>
-                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+
+                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
+                                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                 <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
                                     <span class="card-progress bg-primary-light" data-progress="60%"></span>
                                 </div>
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
-                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                               {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn2-{{i.id}}"
+                                    onclick="add_to_cart_products2({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn2-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -444,7 +457,7 @@ position: relative;
                     {% for i in meat %}
 
                     <div class=" swiper-slide ">
-                        <div class="vertical-product-card rounded-2 position-relative">
+                        <div class="vertical-product-card rounded-2 position-relative bg-white">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
                                 <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -455,17 +468,23 @@ position: relative;
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs" href="">Fresh
-                                    Organic</a>
-                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+
+                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
+                                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                 <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
                                     <span class="card-progress bg-primary-light" data-progress="60%"></span>
                                 </div>
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
-                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                              {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -893,13 +912,13 @@ position: relative;
                                     <!--                                        <span class="flex-shrink-0">(5.2k Reviews)</span>-->
                                     <!--                                    </div>-->
                                     <a class="fw-bold text-heading title d-block fs-sm"
-                                       href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                       href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
                                     <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
+                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                         <span class="fw-bold h4 text-danger">€{{i.gross_total}}</span>
                                     </div>
                                     <a class="fs-xs fw-bold mt-10 d-inline-block explore-btn"
-                                       href="/view_product_single/{{i.id}}">Shop Now<span class="ms-1"><i
+                                       href="/view_product_single_user/{{i.id}}">Shop Now<span class="ms-1"><i
                                             class="fa-solid fa-arrow-right"></i></span></a>
                                 </div>
                             </div>
@@ -941,13 +960,13 @@ position: relative;
                                     <!--                                        <span class="flex-shrink-0">(5.2k Reviews)</span>-->
                                     <!--                                    </div>-->
                                     <a class="fw-bold text-heading title d-block fs-sm"
-                                       href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                       href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
                                     <div class="pricing mt-2">
-                                        <span class="fw-bold h4 deleted me-1">€240.00</span>
+                                        <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                         <span class="fw-bold h4 text-danger">€{{i.gross_total}}</span>
                                     </div>
                                     <a class="fs-xs fw-bold mt-10 d-inline-block explore-btn"
-                                       href="/view_product_single/{{i.id}}">Shop Now<span class="ms-1"><i
+                                       href="/view_product_single_user/{{i.id}}">Shop Now<span class="ms-1"><i
                                             class="fa-solid fa-arrow-right"></i></span></a>
                                 </div>
                             </div>
@@ -1083,10 +1102,11 @@ position: relative;
                         <span class="mobile-toolbar-label">Search</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-start border-0">
-                        <form class="search-form d-flex align-items-center" action="#">
-                            <input type="text" placeholder="Search products..." class="w-100">
-                            <button type="submit" class="submit-icon-btn-secondary"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
+                         <form class="search-form d-flex align-items-center" method="post" action="/search-results/">{% csrf_token %}
+                                                <input type="text" placeholder="Search products..." name="search" class="w-100">
+                                                <button type="submit" class="submit-icon-btn-secondary"><i
+                                                      class="fa-solid fa-magnifying-glass"></i></button>
+                                            </form>
                     </div>
                 </div>
                 <a class="d-table-cell mobile-toolbar-item" href="/my_account">
@@ -1271,6 +1291,123 @@ position: relative;
 </button>
 <!--scroll bottom to top button end-->
     <!--build:js-->
+
+<script>
+
+    function add_to_cart_products(id,gross_total){
+        event.preventDefault();
+
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+
+               else if (response.status === 'success') {
+
+
+                    const button = document.getElementById(`add-to-cart-btn-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+
+                if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+
+
+        function add_to_cart_products2(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn2-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+
+
+                if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+
+        function add_to_cart_products3(id,gross_total){
+        event.preventDefault();
+
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id ,    // Replace with your actual id
+
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+
+               else if (response.status === 'success') {
+
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+
+                if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+
+</script>
+
 <script>
 
     function check_deal_time(pid,id){

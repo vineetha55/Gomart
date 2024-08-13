@@ -77,11 +77,11 @@
                                         <div>English </div>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="" >
-                                        <div>€ Euro </div>
-                                    </a>
-                                </li>
+<!--                                <li class="nav-item">-->
+<!--                                    <a href="" >-->
+<!--                                        <div>€ Euro </div>-->
+<!--                                    </a>-->
+<!--                                </li>-->
                                  <li class="nav-item">
                                     <a href="javascript:void(0)" class="btn btn-link p-0 tt-theme-toggle fw-normal">
                                         <div class="tt-theme-light" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Dark">Dark <i class="fas fa-moon fs-lg ms-1"></i></div>
@@ -150,8 +150,8 @@
                                             </svg>
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-end border-0">
-                                            <form class="search-form d-flex align-items-center" action="#">
-                                                <input type="text" placeholder="Search products..." class="w-100">
+                                            <form class="search-form d-flex align-items-center" method="post" action="/search-results/">{% csrf_token %}
+                                                <input type="text" placeholder="Search products..." name="search" class="w-100">
                                                 <button type="submit" class="submit-icon-btn-secondary"><i
                                                       class="fa-solid fa-magnifying-glass"></i></button>
                                             </form>
@@ -226,7 +226,7 @@
         <div class="offcanvas_menu position-fixed">
             <div class="tt-short-info d-none d-md-none d-lg-none d-xl-block">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="logo-wrapper d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" /></a>
+                <a href="/" class="logo-wrapper d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" /></a>
                 <div class="offcanvas-content">
                     <h4 class="mb-4">About Us</h4>
                     <p>
@@ -257,7 +257,7 @@
             </div>
             <div class="mobile-menu d-md-block d-lg-block d-xl-none">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" /></a>
+                <a href="/" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" /></a>
                 <nav class="mobile-menu-wrapper mt-4">
                     <ul>
 <li class="has-submenu"><a href="/"><span class="me-2"></span>Home</a></li>

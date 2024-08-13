@@ -1,5 +1,5 @@
 {% load static %}
-{% include 'indexnavbar.html' %}
+{% include 'loggedin_nav.html' %}
 <!--offcanvas menu end-->
 
 <!--breadcrumb section start-->
@@ -192,13 +192,21 @@
                                     <span>{{i.brand.name}}</span>
 
                                     <a class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2"
-                                       href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                       href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
                                     <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
 
                                     <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-          <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
-                                </div>
+                                     {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
+
+
+                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -486,8 +494,7 @@
 
 </script>
 <script>
-
-    function add_to_cart_products(id,gross_total){
+    function add_to_cart_products3(id,gross_total){
         event.preventDefault();
 
         $.ajax({
@@ -497,20 +504,29 @@
                 gross_total: gross_total,  // Replace with your actual pid
                 id: id     // Replace with your actual id
             },
-             success: function(response) {
-            if (response.status === 'success') {
-                console.log("success");
-            } else {
-                window.location.href = '/Login/';  // Replace with your cart URL
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+                 if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: ", status, error);
-            window.location.href = '/Login/';  // Replace with your cart URL
-        }
         });
     }
-
-
 </script>
+
+
 

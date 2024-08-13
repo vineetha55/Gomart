@@ -12,7 +12,7 @@
     <meta name="author" content="ThemeTags">
     <meta name="keywords" content="Grostore Grocery  ecommerce, admin template, online shop, e-commerce, ecommerce template, marketplace, modern, responsive,  business, mobile, bootstrap, html5, css3, js, gallery, slider, touch, creative, clean">
     <!--favicon icon-->
-    <link rel="icon" href="{% static 'index/assets/img/logo_new.png' %}" type="image/png" sizes="16x16">
+    <link rel="icon" href="{% static 'index/assets/img/Fav_Icon.png' %}" type="image/png" sizes="16x16">
 
     <!--title-->
     <title>Gomart - Signup</title>
@@ -69,12 +69,14 @@
                             <div class="row g-3">
                                <div class="col-sm-12">
                                     <div class="input-field">
-                                        <input type="text" placeholder="Fullname" class="theme-input" name="fullname" required>
+                                        <input type="text" placeholder="Fullname" class="theme-input" name="fullname" required oninput="validateInput(this)">
+                                        <p id="error-message" style="color: red; display: none;">Please enter a valid name (letters and spaces only).</p>
+
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="input-field">
-                                        <input type="email" placeholder="Email address" class="theme-input" name="email" required>
+                                        <input type="email" placeholder="Email address" class="theme-input" name="email" required autocomplete="off">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -85,7 +87,9 @@
 
                                 <div class="col-sm-12">
                                     <div class="input-field check-password">
-                                        <input type="password" placeholder="Password" class="theme-input" name="password" required>
+                                        <input type="password" placeholder="Password" class="theme-input" name="password"  oninput="validatePassword(this)" required>
+                                        <p id="password-error-message" style="color: red; display: none;">Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a number, and a special character.</p>
+
                                         <span class="eye eye-icon"><i class="fa-solid fa-eye"></i></span>
                                         <span class="eye eye-slash"><i class="fa-solid fa-eye-slash"></i></span>
                                     </div>
@@ -141,6 +145,31 @@
             });
         });
     </script>
+<script>
+function validateInput(input) {
+    const regex = /^[a-zA-Z\s]*$/;  // Regular expression for letters and spaces
+    const errorMessage = document.getElementById('error-message');
+
+    if (!regex.test(input.value)) {
+        errorMessage.style.display = 'inline';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
+function validatePassword(input) {
+    // Regular expression for password validation
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const errorMessage = document.getElementById('password-error-message');
+
+    if (!regex.test(input.value)) {
+        errorMessage.style.display = 'inline';
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
+</script>
 </body>
 
 </html>

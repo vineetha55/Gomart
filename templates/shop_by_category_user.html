@@ -25,7 +25,7 @@
                             <h2 class="mb-2 text-center">Shop By Category</h2>
                             <nav>
                                 <ol class="breadcrumb justify-content-center">
-                                    <li class="breadcrumb-item fw-bold" aria-current="page"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item fw-bold" aria-current="page"><a href="/HomePage">Home</a></li>
                                     <li class="breadcrumb-item fw-bold" aria-current="page">Page</li>
                                     <li class="breadcrumb-item fw-bold" aria-current="page">Category</li>
                                 </ol>
@@ -142,10 +142,11 @@
                                  <p class="mb-0 fw-bold">Showing 1-6 of {{p_count}} results</p>
                                 <div class="listing-top-right text-end d-inline-flex align-items-center gap-3 flex-wrap">
 
-                                    <div class="select-filter d-inline-flex align-items-center gap-3">
+                                   <div class="select-filter d-inline-flex align-items-center gap-3">
                                         <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
                                         <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
-                                            <option>------Select any option---------</option>
+                                            <option value="recent">---Select Any Option---</option>
+                                            <option value="recent">Recent Products</option>
                                             <option value="high">High to Low</option>
                                             <option value="low">Low to high</option>
 
@@ -170,17 +171,23 @@
                                             </div>
                                         </div>
                                         <div class="card-content">
-                                            <div class="mb-2  tt-category tt-line-clamp tt-clamp-1">
-                                                <a href="#" class="d-inline-block text-muted fs-xxs">Fresh Organic</a>
+                                            <div class="mb-1  tt-category tt-line-clamp tt-clamp-1">
+                                                <a href="#" class="d-inline-block text-muted fs-xxs">{{i.brand.name}}</a>
                                             </div>
-                                            <span>{{i.brand.name}}</span>
+
 
                                             <a href="/view_product_single/{{i.id}}"
                                                class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}</a>
-
+                                            <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                             <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-                                            <a href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}"
-                                               class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
+                                            {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -249,7 +256,7 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="index.html" class="logo"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" class="img-fluid"></a>
+                                <a href="#" class="logo"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="164" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
 
@@ -436,13 +443,51 @@
     $("#sorting").change(function(){
     var v=$("#sorting").val();
     if(v=="high"){
-    window.location.href="/shop_by_category_user/{{c.id}}";
+    window.location.href="/shop_by_category_high_user/{{c.id}}";
     }
-    else{
+    else if(v="low"){
     window.location.href="/shop_by_category_user_sort/{{c.id}}";
+    }
+
+    else if(v="recent"){
+    window.location.href="/shop_by_category_user/{{c.id}}";
     }
 
 
     })
+</script>
+<script>
+    function add_to_cart_products3(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+                 if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
 </script>
 

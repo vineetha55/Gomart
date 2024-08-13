@@ -1,5 +1,7 @@
 {% load static %}
+
 {% include 'loggedin_nav.html' %}
+
 
         <!--my account section-->
         <section class="my-account pt-6 pb-120">
@@ -44,7 +46,7 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">{{total}}</h4>
+                                    <h4 class="mb-1">{{total_orders}}</h4>
                                     <span>Total Order</span>
                                 </div>
                             </div>
@@ -78,7 +80,7 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">{{process}}</h4>
+                                    <h4 class="mb-1">{{order_processing}}</h4>
                                     <span>Order Processing</span>
                                 </div>
                             </div>
@@ -131,7 +133,7 @@
                     </svg>
                   </span>
                                 <div>
-                                    <h4 class="mb-1">{{delivery}}</h4>
+                                    <h4 class="mb-1">{{total_delivery}}</h4>
                                     <span>Total Delivered</span>
                                 </div>
                             </div>
@@ -545,7 +547,7 @@
                                 <div class="order-tracking-wrap bg-white rounded py-5 px-4">
                                     <h6 class="mb-4">Order Tracking</h6>
                                     <ol id="progress-bar">
-                                        <li class="fs-xs tt-step tt-step-done">Pending</li>
+                                        <li class="fs-xs tt-step tt-step-done">Order Placed</li>
                                         <li class="fs-xs tt-step tt-step-done">Processing</li>
                                         <li class="fs-xs tt-step active">On the Way</li>
                                         <li class="fs-xs tt-step">Delivered</li>

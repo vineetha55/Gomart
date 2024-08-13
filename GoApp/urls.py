@@ -32,7 +32,8 @@ urlpatterns = [
 
     path("wishlist/", views.wishlist, name="wishlist"),
     path("all_products/", views.all_products, name="all_products"),
-    path("add_to_cart_products/<id>/<price>", views.add_to_cart_products, name="add_to_cart_products"),
+    # path("add_to_cart_products/<id>/<price>", views.add_to_cart_products, name="add_to_cart_products"),
+    path("add_to_cart_products/", views.add_to_cart_products, name="add_to_cart_products"),
     path("signup/", views.signup, name="signup"),
     path("shop_by_category_user/<id>", views.shop_by_category_user, name="shop_by_category_user"),
     path("signout_user/", views.signout_user, name="signout_user"),
@@ -148,5 +149,13 @@ path("add_to_cart_products_single1/<id>/<price>/<q>", views.add_to_cart_products
     path("send_email_sub/",views.send_email_sub,name="send_email_sub"),
     path("view_product_single1/<id>/<deal>",views.view_product_single1,name="view_product_single1"),
     path("edit_shipping_address/<id>",views.edit_shipping_address,name="edit_shipping_address"),
-    path("edit_billing_address/<id>",views.edit_billing_address,name="edit_billing_address")
+    path("edit_billing_address/<id>",views.edit_billing_address,name="edit_billing_address"),
+    path("all_products_high/",views.all_products_high,name="all_products_high"),
+    path("wishlist_to_cart/<id>/<price>/<wid>",views.wishlist_to_cart,name="wishlist_to_cart"),
+    path("all_products_high_user/",views.all_products_high_user,name="all_products_high_user"),
+    path("shop_by_category_high_user/<id>",views.shop_by_category_high_user,name="shop_by_category_high_user"),
+    path("shop_by_category_high/<id>",views.shop_by_category_high,name="shop_by_category_high"),
+    path("search-results/",views.search_results,name="search-results"),
+    path("delete-cart-all/",views.delete_cart_all,name="delete-cart-all"),
+    path("delete-selected-item/",views.delete_selected_item,name="delete-selected-item")
 ]

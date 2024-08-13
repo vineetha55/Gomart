@@ -145,7 +145,8 @@
                                     <div class="select-filter d-inline-flex align-items-center gap-3">
                                         <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
                                         <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
-                                            <option>------Select any option---------</option>
+                                            <option value="recent">---Select Any Option---</option>
+                                            <option value="recent">Recent Products</option>
                                             <option value="high">High to Low</option>
                                             <option value="low">Low to high</option>
 
@@ -171,16 +172,17 @@
                                         </div>
                                         <div class="card-content">
                                             <div class="mb-1  tt-category tt-line-clamp tt-clamp-1">
-                                                <a href="#" class="d-inline-block text-muted fs-xxs">Fresh Organic</a>
+                                                <a href="#" class="d-inline-block text-muted fs-xxs">{{i.brand.name}}</a>
                                             </div>
-                                            <span>{{i.brand.name}}</span>
+
 
                                             <a href="/view_product_single/{{i.id}}"
                                                class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}</a>
+                                            <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
 
                                             <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-                                            <a href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}"
-                                               class="btn btn-outline-secondary d-block btn-md ">Add to Cart</a>
+                                           <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                   onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
                                         </div>
                                     </div>
                                 </div>
@@ -431,16 +433,50 @@
     </button>
 
 <script>
+
     $("#sorting").change(function(){
     var v=$("#sorting").val();
     if(v=="high"){
-    window.location.href="/shop_by_category/{{c.id}}";
+    window.location.href="/shop_by_category_high/{{c.id}}";
     }
-    else{
+    else if(v="low"){
     window.location.href="/shop_by_category_sort/{{c.id}}";
+    }
+
+    else if(v="recent"){
+    window.location.href="/shop_by_category/{{c.id}}";
     }
 
 
     })
+</script>
+
+<script>
+
+    function add_to_cart_products(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+             success: function(response) {
+            if (response.status === 'success') {
+                console.log("success");
+            } else {
+                window.location.href = '/Login/';  // Replace with your cart URL
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: ", status, error);
+            window.location.href = '/Login/';  // Replace with your cart URL
+        }
+        });
+    }
+
+
 </script>
 

@@ -29,33 +29,38 @@ def sample(request):
 # Create your views here.
 @never_cache
 def index(request):
-    cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
-    brand = tbl_Brand.objects.all()
-    best = tbl_Product.objects.filter(best_score__gte=10)
-    prod = tbl_Product.objects.all()
+    try:
+        if request.session['userid']:
+            return redirect("/HomePage/")
+    except:
+        cat = tbl_Category.objects.all()
+        coun = tbl_Country.objects.all()
+        brand = tbl_Brand.objects.all()
+        best = tbl_Product.objects.filter(best_score__gte=10)
+        prod = tbl_Product.objects.all()
 
-    expired_deals = tbl_Deals.objects.filter(status="Start", deal_end_date__lt=date.today())
-    expired_deals.update(status="Closed")
+        expired_deals = tbl_Deals.objects.filter(status="Start", deal_end_date__lt=date.today())
+        expired_deals.update(status="Closed")
 
-    deal = tbl_Deals.objects.filter(status="Start")
-    post1 = tbl_poster1.objects.get()
-    post2 = tbl_poster2.objects.get()
-    post3 = tbl_poster3.objects.get()
-    post4 = tbl_poster4.objects.get()
-    post5 = tbl_poster5.objects.get()
-    post6 = tbl_poster6.objects.get()
-    post7 = tbl_poster7.objects.get()
-    new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
-    organic = tbl_Product.objects.all()[:3]
-    veg = tbl_Product.objects.filter(category__name="Fruit & Vegetables")
-    meat = tbl_Product.objects.filter(category__name="Fish & Meats")
-    return render(request, "index.html",
-                  {"cat": cat, "coun": coun, "brand": brand, "best": best,
-                   "prod": prod, "deal": deal, "post1": post1,
-                   "post2": post2, "post3": post3, "post4": post4,
-                   "post5": post5, "post6": post6, "post7": post7,
-                   "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
+        deal = tbl_Deals.objects.filter(status="Start")
+        post1 = tbl_poster1.objects.get()
+        post2 = tbl_poster2.objects.get()
+        post3 = tbl_poster3.objects.get()
+        post4 = tbl_poster4.objects.get()
+        post5 = tbl_poster5.objects.get()
+        post6 = tbl_poster6.objects.get()
+        post7 = tbl_poster7.objects.get()
+        new_pdt = tbl_Product.objects.all().order_by('-id')[:3]
+        organic = tbl_Product.objects.all()[:3]
+        veg = tbl_Product.objects.filter(category__name="Fruit & Vegetables")
+        meat = tbl_Product.objects.filter(category__name="Fish & Meats")
+
+        return render(request, "index.html",
+                      {"cat": cat, "coun": coun, "brand": brand, "best": best,
+                       "prod": prod, "deal": deal, "post1": post1,
+                       "post2": post2, "post3": post3, "post4": post4,
+                       "post5": post5, "post6": post6, "post7": post7,
+                       "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
 
 @never_cache
 def Admin_login(request):
@@ -210,7 +215,7 @@ def add_product(request):
         name = request.POST.get('name')
         description = request.POST.get('description')
         price = request.POST.get('price')
-        o_price = request.POST.get('price')
+        o_price = request.POST.get('o_price')
         country_id = request.POST.get('country')
         brand_id = request.POST.get('brand')
 
@@ -299,22 +304,59 @@ def add_product(request):
 
 @never_cache
 def show_by_country(request, id):
-    d = tbl_Product.objects.filter(country=id)
-    cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
-    brand = tbl_Brand.objects.all()
-    return render(request, "show_by_country.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
+    try:
+        r = request.session["userid"]
+        try:
+            r=request.session["userid"]
+            d = tbl_Product.objects.filter(country=id)
+            cat = tbl_Category.objects.all()
+            coun = tbl_Country.objects.all()
+            brand = tbl_Brand.objects.all()
+            cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+            cart = list(cart_products.values_list('product_id', flat=True))
+            cart_count = cart_products.count()
+            return render(request, "show_by_country_user.html", {"cart_count":cart_count,"d": d, "cat": cat, "coun": coun, "brand": brand,"cart":cart})
+        except:
+            d = tbl_Product.objects.filter(country=id)
+            cat = tbl_Category.objects.all()
+            coun = tbl_Country.objects.all()
+            brand = tbl_Brand.objects.all()
+            return render(request, "show_by_country.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
+    except:
+        return redirect("/Login/")
+
+
 
 @never_cache
 def show_by_brand(request, id):
-    d = tbl_Product.objects.filter(brand=id)
-    cat = tbl_Category.objects.all()
-    coun = tbl_Country.objects.all()
-    brand = tbl_Brand.objects.all()
-    latest = tbl_Product.objects.all()[:9]
-    n = range(2)
-    return render(request, "show_by_brand.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
-                                                  "latest": latest, "n": n})
+    try:
+        us=request.session['userid']
+        try:
+            if request.session['userid']:
+                d = tbl_Product.objects.filter(brand=id)
+                cat = tbl_Category.objects.all()
+                coun = tbl_Country.objects.all()
+                brand = tbl_Brand.objects.all()
+                latest = tbl_Product.objects.all()[:9]
+                n = range(2)
+                cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+                cart = list(cart_products.values_list('product_id', flat=True))
+                cart_count = cart_products.count()
+
+                return render(request, "show_by_brand_user.html", {"cart":cart,"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                              "latest": latest, "n": n,"cart_count":cart_count})
+        except:
+
+            d = tbl_Product.objects.filter(brand=id)
+            cat = tbl_Category.objects.all()
+            coun = tbl_Country.objects.all()
+            brand = tbl_Brand.objects.all()
+            latest = tbl_Product.objects.all()[:9]
+            n = range(2)
+            return render(request, "show_by_brand.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                          "latest": latest, "n": n})
+    except:
+        return redirect("/Login/")
 
 @never_cache
 def shop_by_category(request, id):
@@ -364,24 +406,30 @@ def save_signup(request):
 
         # Check if a user with the given email already exists
         user = User.objects.filter(email=email).first()
+        user1 = User.objects.filter(username=fullname).first()
 
         # If user does not exist, create a new user
         if not user:
-            user = User.objects.create_user(username=fullname, email=email, password=password)
+            if not user1:
+                user = User.objects.create_user(username=fullname, email=email, password=password)
 
-            signup = tbl_SignUp.objects.create(
-                user=user,
-                mobile=mobile,
-                fullname=fullname,
-                email=email,
-                password=password,
-                status="Allow"
+                signup = tbl_SignUp.objects.create(
+                    user=user,
+                    mobile=mobile,
+                    fullname=fullname,
+                    email=email,
+                    password=password,
+                    status="Allow"
 
-            )
-            messages.success(request,"Successfully Registered Please Login.")
-            return redirect("/Login/")
+                )
+                messages.success(request,"Successfully Registered Please Login.")
+                return redirect("/Login/")
+            else:
+                messages.error(request, "Username Already Taken")
+                return redirect("/signup/")
+
         else:
-            messages.error(request,"You are already registered with this email id")
+            messages.error(request,"You are already registered with this Email-id")
             return redirect("/signup/")
 
 
@@ -435,13 +483,16 @@ def HomePage(request):
             organic = tbl_Product.objects.all()[:3]
             veg = tbl_Product.objects.filter(category__name="Fruit & Vegetables")
             meat = tbl_Product.objects.filter(category__name="Fish & Meats")
+            cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+            cart = list(cart_products.values_list('product_id', flat=True))
+            cart_count=cart_products.count()
 
             return render(request, "HomePage.html",
-                          {"user": user, "cat": cat, "coun": coun, "brand": brand, "best": best,
+                          {"cart_count":cart_count,"user": user, "cat": cat, "coun": coun, "brand": brand, "best": best,
                            "prod": prod, "deal": deal, "post1": post1,
                            "post2": post2, "post3": post3, "post4": post4,
                            "post5": post5, "post6": post6, "post7": post7,
-                           "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat})
+                           "new_pdt": new_pdt, "organic": organic, "veg": veg, "meat": meat,"cart":cart})
         else:
             return redirect("/")
     except:
@@ -484,9 +535,7 @@ def view_product_single(request, id):
     try:
         single = tbl_Product.objects.get(id=id)
         cat = tbl_Category.objects.all()
-
         interest = tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
-
         return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
     except:
         single = tbl_Product.objects.get(id=id)
@@ -514,13 +563,10 @@ def view_product_single1(request, id,deal):
 @never_cache
 def cart_user(request):
     try:
-
+        us=request.session["userid"]
         try:
-
-            b=request.session['b']
-
-
-
+            print("first")
+            b = request.session['b']
             c = tbl_Cart.objects.get(user=request.session["userid"])
             cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
             cat = tbl_Category.objects.all()
@@ -529,30 +575,52 @@ def cart_user(request):
                 cart_details1.deal_price = b
                 cart_details1.save()
             del request.session['b']
+            cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+            cart = list(cart_products.values_list('product_id', flat=True))
+            cart_count = cart_products.count()
 
 
-            return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
+            return render(request, "cart_user.html", {"cart_count":cart_count,"cart_details": cart_details, "cat": cat, "c": c})
 
         except:
-            c = tbl_Cart.objects.get(user=request.session["userid"])
-            cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
-            cat = tbl_Category.objects.all()
+            print("second")
+            try:
+                print("third")
 
-            return render(request, "cart_user.html", {"cart_details": cart_details, "cat": cat, "c": c})
+                c = tbl_Cart.objects.get(user=request.session["userid"])
+                cart_details = tbl_Cart_Products.objects.filter(user=request.session["userid"], cart=c)
+                cat = tbl_Category.objects.all()
+                cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+                cart = list(cart_products.values_list('product_id', flat=True))
+                cart_count = cart_products.count()
+
+                return render(request, "cart_user.html", {"cart_count":cart_count,"cart_details": cart_details, "cat": cat, "c": c})
+            except:
+                print("fourth")
+                cat = tbl_Category.objects.all()
+                c1 = True
+                return render(request, "cart_user.html", {"cat": cat, "c1": c1})
+
     except:
-        cat = tbl_Category.objects.all()
-        return render(request, "cart_user.html", {"cat": cat})
+        return redirect("/Login/")
 
 
 @never_cache
 def wishlist(request):
-    wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
-    return render(request, "wishlist.html", {"wish": wish})
+    try:
+        request.session['userid']
+        wish = tbl_Wishlist.objects.filter(user=request.session["userid"])
+        cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+        cart = list(cart_products.values_list('product_id', flat=True))
+        cart_count = cart_products.count()
+        return render(request, "wishlist.html", {"wish": wish,"cart_count":cart_count})
+    except:
+        return redirect("/Login/")
 
 @never_cache
 def all_products(request):
-    d = tbl_Product.objects.all()
-    d2 = tbl_Product.objects.all()
+    d = tbl_Product.objects.all().order_by("-id")
+    d2 = tbl_Product.objects.all().order_by("-id")
     cat = tbl_Category.objects.all()
     p_count = d2.count()
     paginator = Paginator(d2, 6)  # 6 products per page
@@ -568,13 +636,13 @@ def all_products(request):
     cou=tbl_Country.objects.all()
 
     return render(request, "all_products.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                 'page_range': page_range,"cou":cou })
-
-
+                                               'page_range': page_range,"cou":cou })
 @never_cache
-def add_to_cart_products(request, id, price):
+def wishlist_to_cart(request,id,price,wid):
     try:
         if request.session['userid']:
+
+
             if tbl_Cart.objects.filter(user=request.session['userid']).exists():
                 cart = tbl_Cart.objects.get(user=request.session['userid'])
                 s = cart.sub_total
@@ -591,8 +659,11 @@ def add_to_cart_products(request, id, price):
                 c.total_price = price
                 c.user_id = request.session['userid']
                 c.save()
+                tbl_Wishlist.objects.get(id=wid).delete()
                 return redirect("/cart_user/")
+
             else:
+
 
                 cart = tbl_Cart()
                 cart.user_id = request.session['userid']
@@ -606,11 +677,73 @@ def add_to_cart_products(request, id, price):
                 c.total_price = price
                 c.user_id = request.session['userid']
                 c.save()
+                tbl_Wishlist.objects.get(id=wid).delete()
                 return redirect("/cart_user/")
+
         else:
             return redirect("/Login/")
     except:
+
         return redirect("/Login/")
+
+
+@never_cache
+def add_to_cart_products(request):
+    try:
+        if request.session['userid']:
+
+            id = request.GET.get("id")
+            price = request.GET.get("gross_total")
+            if tbl_Cart_Products.objects.filter(user=request.session['userid'],product=id).exists():
+                return JsonResponse({'status':"already"})
+            else:
+                if tbl_Cart.objects.filter(user=request.session['userid']).exists():
+                    cart = tbl_Cart.objects.get(user=request.session['userid'])
+
+                    s = cart.sub_total
+                    s += float(price)
+                    cart.sub_total = round(s, 2)
+                    t = cart.total
+                    t += float(price)
+                    cart.total = round(t, 2)
+                    cart.save()
+                    c = tbl_Cart_Products()
+                    c.cart_id = cart.id
+                    c.product_id = id
+                    c.quantity = 1
+                    c.total_price = price
+                    c.user_id = request.session['userid']
+                    c.save()
+
+                    print("success")
+                    cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+                    cart_count = cart_products.count()
+
+                    return JsonResponse({'status': 'success','cart_count':cart_count})
+
+                else:
+                    print("hello")
+
+                    cart = tbl_Cart()
+                    cart.user_id = request.session['userid']
+                    cart.sub_total = price
+                    cart.total = price
+                    cart.save()
+                    c = tbl_Cart_Products()
+                    c.cart_id = cart.id
+                    c.product_id = id
+                    c.quantity = 1
+                    c.total_price = price
+                    c.user_id = request.session['userid']
+                    c.save()
+                    return JsonResponse({'status': 'success'})
+
+        else:
+            print("kukooo")
+            return JsonResponse({'status': 'error'})
+    except:
+        print("howww")
+        return JsonResponse({'status': 'error'})
 
 
 @never_cache
@@ -711,8 +844,12 @@ def shop_by_category_user(request, id):
         coun = tbl_Country.objects.all()
         brand = tbl_Brand.objects.all()
         c = tbl_Category.objects.get(id=id)
-        return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
-                                                              "table_count": table_count,"c":c})
+        cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+        cart = list(cart_products.values_list('product_id', flat=True))
+        cart_count = cart_products.count()
+
+        return render(request, "shop_by_category_user.html", {"cart_count":cart_count,"d": d, "cat": cat, "coun": coun, "brand": brand,
+                                                              "table_count": table_count,"c":c,"cart":cart})
     except:
         return redirect("/Login/")
 
@@ -838,8 +975,16 @@ def get_location_from_eircode(eircode):
 
 
 def about(request):
-    brand = tbl_Brand.objects.all()
-    return render(request, "about.html", {"brand": brand})
+    try:
+        us=request.session['userid']
+        brand = tbl_Brand.objects.all()
+        cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+        cart_count = cart_products.count()
+
+        return render(request, "about.html", {"brand": brand,"us":us,"cart_count":cart_count})
+    except:
+        brand = tbl_Brand.objects.all()
+        return render(request, "about.html", {"brand": brand})
 
 
 def save_ship_address(request):
@@ -879,7 +1024,7 @@ def edit_billing_address(request,id):
     data.user_id = request.session['userid']
     data.Eircode = request.POST.get("eircode")
     data.save()
-    return redirect("my_account")
+    return redirect("/my_account/")
 
 @never_cache
 def checkout1(request, id):
@@ -1051,23 +1196,140 @@ def all_products_user(request):
         print(page_range)
         d = page_obj.object_list
         coun=tbl_Country.objects.all()
+        cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+        cart = list(cart_products.values_list('product_id', flat=True))
+        cart_count = cart_products.count()
 
-        return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
-                                                          'page_range': page_range,"coun":coun })
+        return render(request, "all_products_user.html", {"cart_count":cart_count,"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                          'page_range': page_range,"coun":coun,"cart":cart })
     except:
         return redirect("/Login/")
+def all_products_high(request):
+    d = tbl_Product.objects.all().order_by('-price')
+    d2 = tbl_Product.objects.all().order_by('-price')
+    cat = tbl_Category.objects.all()
+    p_count = d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+    cou = tbl_Country.objects.all()
+
+    return render(request, "all_products.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range, "cou": cou})
+
+def all_products_high_user(request):
+    d = tbl_Product.objects.all().order_by('-price')
+    d2 = tbl_Product.objects.all().order_by('-price')
+    cat = tbl_Category.objects.all()
+    p_count = d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+    cou = tbl_Country.objects.all()
+
+    return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range, "cou": cou})
+
+def shop_by_category_high(request,id):
+    d = tbl_Product.objects.filter(category=id).order_by('-price')
+    c = tbl_Category.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+
+    p_count = d.count()
+    paginator = Paginator(d, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "shop_by_category.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                          'page_range': page_range, "brand": brand, "c": c})
+
+
+def shop_by_category_high_user(request,id):
+    d = tbl_Product.objects.filter(category=id).order_by('-price')
+    c = tbl_Category.objects.get(id=id)
+    cat = tbl_Category.objects.all()
+    brand = tbl_Brand.objects.all()
+
+    p_count = d.count()
+    paginator = Paginator(d, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+
+    return render(request, "shop_by_category_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                          'page_range': page_range, "brand": brand, "c": c})
 
 
 def all_product_user_sort(request):
     d = tbl_Product.objects.all().order_by('price')
+    d2 = tbl_Product.objects.all().order_by('price')
     cat = tbl_Category.objects.all()
-    return render(request, "all_products_user.html", {"d": d, "cat": cat})
+    p_count = d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+    cou=tbl_Country.objects.all()
+
+    return render(request, "all_products_user.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range,"cou":cou })
+
 
 
 def all_products_sort(request):
     d = tbl_Product.objects.all().order_by('price')
+    d2 = tbl_Product.objects.all().order_by('price')
     cat = tbl_Category.objects.all()
-    return render(request, "all_products.html", {"d": d, "cat": cat})
+    p_count = d2.count()
+    paginator = Paginator(d2, 6)  # 6 products per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    # Determine the range of page numbers to display
+    start_page = max(page_obj.number - 2, 1)
+    end_page = min(page_obj.number + 2, paginator.num_pages)
+    page_range = range(start_page, end_page + 1)
+    print(page_range)
+    d = page_obj.object_list
+    cou=tbl_Country.objects.all()
+
+    return render(request, "all_products.html", {"d": d, "cat": cat, "p_count": p_count, 'page_obj': page_obj,
+                                                 'page_range': page_range,"cou":cou })
+
 
 @never_cache
 def shop_by_category_sort(request, id):
@@ -1122,9 +1384,15 @@ def my_account(request):
             ship = tbl_Shipment_Address.objects.filter(user=request.session['userid'])
             bill = tbl_Billing_Address.objects.filter(user=request.session['userid'])
             recent_orders = tbl_Checkout.objects.filter(user=request.session['userid']).order_by('-id')[:6]
-
+            cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+            cart_count = cart_products.count()
+            total_orders=tbl_Checkout.objects.filter(user=request.session['userid'],status="Complete").count()
+            total_delivery=tbl_Checkout.objects.filter(user=request.session['userid'],status="Delivery").count()
+            order_processing = tbl_Checkout.objects.filter(status="Pending",user=request.session['userid']).count()
             return render(request, "my_account.html", {"cat": cat, "my": my, "ship": ship, "bill": bill,
-                                                       "recent_orders": recent_orders})
+                                                       "recent_orders": recent_orders,"cart_count":cart_count,
+                                                       "total_delivery":total_delivery,"total_orders":total_orders,
+                                                       "order_processing":order_processing})
         else:
             return redirect("/Login/")
     except:
@@ -1147,16 +1415,38 @@ def update_profile(request):
     except:
         d.save()
     return redirect("/my_account/")
+def delete_selected_item(request):
+    pid = request.POST.getlist("select_product")
+    print(pid)
 
+    for i in pid:
+        product = tbl_Cart_Products.objects.get(id=i)
+
+        c = tbl_Cart.objects.get(user=request.session['userid'])
+        c.total = round(float(c.total) - float(product.total_price), 2)
+        c.sub_total = round(float(c.sub_total) - float(product.total_price), 2)
+        c.save()
+        product.delete()
+    return redirect("/cart_user/")
+
+
+def delete_cart_all(request):
+    c = tbl_Cart.objects.get(user=request.session['userid'])
+    product = tbl_Cart_Products.objects.filter(cart=c.id)
+    product.delete()
+    c.delete()
+    messages.success(request,"Cart Cleared successfully")
+    return redirect("/cart_user/")
 
 def remove_product(request):
     pid = request.GET.get("product_id")
+    print(pid)
     try:
         product = tbl_Cart_Products.objects.get(id=pid)
 
         c = tbl_Cart.objects.get(user=request.session['userid'])
-        c.total = float(c.total) - float(product.total_price)
-        c.sub_total = float(c.sub_total) - float(product.total_price)
+        c.total = round(float(c.total) - float(product.total_price), 2)
+        c.sub_total = round(float(c.sub_total) - float(product.total_price), 2)
         c.save()
         product.delete()
         return JsonResponse({'success': True, 'message': 'Product removed successfully'})
@@ -1187,6 +1477,10 @@ def password_send(request):
         send_mail(subject, Message, settings.EMAIL_HOST_USER, [email])
         messages.success(request, "Password sent to your email ,Please check ")
         return redirect("/forgot_password/")
+    else:
+        messages.error(request, "The Email is not registered")
+        return redirect("/forgot_password/")
+
 
 
 @never_cache
@@ -1196,7 +1490,10 @@ def view_product_single_user(request, id):
     print(single.category.id)
     interest = tbl_Product.objects.filter(category=single.category.id).exclude(id=id)
     print(interest)
-    return render(request, "view_product_single.html", {"single": single, "cat": cat, "interest": interest})
+    cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+    cart = list(cart_products.values_list('product_id', flat=True))
+    cart_count=cart_products.count()
+    return render(request, "view_product_single_user.html", {"cart_count":cart_count,"cart":cart,"single": single, "cat": cat, "interest": interest})
 
 @never_cache
 def remove_from_wishlist(request, id):
@@ -1471,7 +1768,8 @@ def save_enquiry(request):
     subject = "New Enquiry from GoMart"
     msg = f"Name: {f.firstname} {f.lastname}\nPhone: {f.phone}\nMessage: {f.message}"
     send_mail(subject, msg, f.email, [settings.EMAIL_HOST_USER])
-    return redirect("/")
+    messages.success(request,"Message sent successfully")
+    return redirect("/quick-enquiry/")
 
 
 def filter_by_price(request):
@@ -2211,9 +2509,32 @@ def email_to_subscribers(request):
 def send_email_sub(request):
     subject=request.POST.get("subject")
     message=request.POST.get("message")
+    message=request.POST.get("message")
     d=tbl_Subscribe.objects.all()
     for i in d:
         send_mail(subject,message,settings.EMAIL_HOST_USER,[i.email])
     messages.success(request,"Email Sent Successfully")
     messages.success(request,"Email Sent Successfully")
     return redirect("/email_to_subscribers/")
+
+def search_results(request):
+    try:
+        us=request.session['userid']
+        search = request.POST.get("search")
+        s_result = tbl_Product.objects.filter(name__icontains=search)
+        print(s_result)
+        cat = tbl_Category.objects.all()
+        p_count = s_result.count()
+        cart_products = tbl_Cart_Products.objects.filter(user=request.session['userid'])
+        cart = list(cart_products.values_list('product_id', flat=True))
+        cart_count = cart_products.count()
+
+        return render(request, "search_result.html", {"cart":cart,"cart_count":cart_count,"s_result": s_result, "cat": cat, "p_count": p_count,"us":us})
+
+    except:
+        search=request.POST.get("search")
+        s_result=tbl_Product.objects.filter(name__icontains=search)
+        print(s_result)
+        cat=tbl_Category.objects.all()
+        p_count=s_result.count()
+        return render(request,"search_result.html",{"s_result":s_result,"cat":cat,"p_count":p_count})

@@ -75,49 +75,49 @@
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>First Name</label>
-                                                                <input type="text" placeholder="Saiful" name="firstname" id="fname" value="{{d.first_name}}">
+                                                                <input type="text" required name="firstname" id="fname" value="{{d.first_name}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Last Name</label>
-                                                                <input type="text" placeholder="Talukdar" name="lastname" id="lname" value="{{d.last_name}}">
+                                                                <input type="text" required name="lastname" id="lname" value="{{d.last_name}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="label-input-field">
                                                                 <label>Street Address</label>
-                                                                <input type="text" placeholder="Mountain View, California, United States" name="street" id="s_address" value="{{d.street_address}}">
+                                                                <input type="text" required name="street" id="s_address" value="{{d.street_address}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Mobile</label>
-                                                                <input type="tel" placeholder="Phone Number" name="mobile" id="mobile" value="{{d.mobile}}">
+                                                                <input type="tel" required name="mobile" id="mobile" value="{{d.mobile}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Email</label>
-                                                                <input type="email" placeholder="Your Email" name="email" id="email" value="{{d.email}}">
+                                                                <input type="email" required name="email" id="email" value="{{d.email}}">
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-4">
                                                             <div class="label-input-field">
                                                                 <label>State</label>
-                                                                <input type="text" placeholder="Dhaka" name="state" id="state" value="{{d.state}}">
+                                                                <input type="text" name="state" id="state" value="{{d.state}}" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="label-input-field">
                                                                 <label>EirCode</label>
-                                                                <input type="text" placeholder="123456" name="eircode" id="eircode" value="{{d.Eircode}}">
+                                                                <input type="text"  name="eircode" id="eircode" value="{{d.Eircode}}" required>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mt-6 d-flex">
-                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Use this Address</button>
+                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Save this Address</button>
                                                     </div>
                                                 </form>
 
@@ -144,49 +144,49 @@
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>First Name</label>
-                                                                <input type="text" placeholder="Saiful" name="firstname">
+                                                                <input type="text" placeholder="Saiful" name="firstname" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Last Name</label>
-                                                                <input type="text" placeholder="Talukdar" name="lastname">
+                                                                <input type="text" placeholder="Talukdar" name="lastname" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-12">
                                                             <div class="label-input-field">
                                                                 <label>Street Address</label>
-                                                                <input type="text" placeholder="Mountain View, California, United States" name="street">
+                                                                <input type="text" placeholder="Mountain View, California, United States" name="street" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Mobile</label>
-                                                                <input type="tel" placeholder="Phone Number" name="mobile">
+                                                                <input type="tel" placeholder="Phone Number" name="mobile" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
                                                             <div class="label-input-field">
                                                                 <label>Email</label>
-                                                                <input type="email" placeholder="Your Email" name="email">
+                                                                <input type="email" placeholder="Your Email" name="email" required>
                                                             </div>
                                                         </div>
 
                                                         <div class="col-sm-4">
                                                             <div class="label-input-field">
                                                                 <label>State</label>
-                                                                <input type="text" placeholder="Dhaka" name="state">
+                                                                <input type="text" placeholder="Dhaka" name="state" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4">
                                                             <div class="label-input-field">
                                                                 <label>EirCode</label>
-                                                                <input type="text" placeholder="123456" name="eircode">
+                                                                <input type="text" placeholder="123456" name="eircode" required>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="mt-6 d-flex">
-                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Use this Address</button>
+                                                        <button type="submit" class="btn btn-secondary btn-md me-3">Save this Address</button>
                                                     </div>
                                                 </form>
                                                   </div>
@@ -247,20 +247,19 @@
       {% endif %}
                                 <button class="btn btn-primary btn-md rounded mt-6 w-100" id="submit" >Place Order via Online</button>
   </form>
-      <form action="/cod_invoice/" method="post" enctype="multipart/form-data" class="mb-2">{% csrf_token %}
-                         <input type="hidden" value="{{razorpay_order_id}}" name="razorpay_order_id">
-                                    <input type="hidden" value="{{razorpay_amount}}" name="razorpay_amount">
+      <form action="/cod_invoice/" method="post" enctype="multipart/form-data" class="mb-2" id="form" onsubmit="return check_ship_address(event)">{% csrf_token %}
+
                                     <input type="hidden" value="{{currency}}" name="currency">
                                     <input type="hidden" value="{{total_items}}" name="total_items">
                                     <input type="hidden" value="{{item_price}}" name="item_price">
                                     <input type="hidden" value="{{ship_charge}}" name="ship_charge">
                                     <input type="hidden" value="{{total_after_ship}}" name="total_after_ship">
                                     <input type="hidden" value="{{discount}}" name="discount">
-                                    <input type="hidden" value="{{d.id}}" name="ship">
+                                    <input type="hidden" value="{{d.id}}" name="ship" id="ship">
 
                                     <input type="hidden" name="payment_id" value="{{payment_id}}">
 
-                                <button class="btn btn-primary btn-md rounded mt-6 w-100" >Place Order Cash On Delivery</button>
+                                <button class="btn btn-primary btn-md rounded mt-6 w-100">Place Order Cash On Delivery</button>
                                 </form>
                                     <p class="mt-3 mb-0 fs-xs">By Placing your order your agree to our company <a href="#">Privacy-policy</a></p>
                             </div>
@@ -323,8 +322,8 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a class="logo" href="index.html"><img alt="logo" class="img-fluid"
-                                                                       src="{% static 'index/assets/img/logo_new.png' %}"
+                                <a class="logo" href=""><img alt="logo" class="img-fluid"
+                                                                       src="{% static 'index/assets/img/gomart_logo.png' %}"
                                                                        width="150"></a>
                             </div>
                         </div>
@@ -543,34 +542,7 @@
     })
     }
 </script>
-<!--<script>-->
-<!--    function place_order(){-->
-<!--    var ship_id={{d.id}};-->
-<!--    var total_items=document.getElementById("lname").value;-->
-<!--    var total_price=document.getElementById("email").value;-->
-<!--    var ship_charge=document.getElementById("mobile").value;-->
-<!--    var price_after_ship=document.getElementById("s_address").value;-->
-<!--    var discount=document.getElementById("eircode").value;-->
-<!--    var bill_id={{d.id}};-->
-<!--     $.ajax({-->
-<!--    url:/place_order/,-->
-<!--    data:{-->
-<!--    "ship_id":ship_id,"total_items":total_items,"total_price":total_price,"ship_charge":ship_charge,-->
-<!--    "price_after_ship":price_after_ship,"discount":discount,"bill_id":bill_id-->
-<!--    },-->
-<!--    success:function(){-->
-<!--    if(data.msg == "success"){-->
-<!--    return true;-->
-<!--    }-->
 
-<!--    },-->
-
-<!--    error: function(xhr, status, error) {-->
-<!--        console.error(error);-->
-<!--    }-->
-<!--    })-->
-<!--    }-->
-<!--</script>-->
 
 <!-- Razorpay's Javascript code. -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -582,41 +554,7 @@
 
 
 
-<!--<script>-->
-<!--    var options = {-->
-<!--        "key": "{{ razorpay_merchant_key }}", // Enter the Key ID generated from the Dashboard-->
-<!--        "amount": "{{ razorpay_amount }}", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise-->
-<!--        "currency": "{{ currency }}",-->
-<!--        "name": "test",-->
-<!--        "description": "Test Transaction",-->
-<!--        "image": "https://example.com/your_logo",-->
-<!--        "order_id": "{{razorpay_order_id}}", //This is a sample Order ID. Pass the id obtained in the response of Step 1-->
-<!--        "handler": function (response){-->
-<!--            $('#pay input[name=payment_id]').val(response.razorpay_payment_id)-->
-<!--            document.getElementById('pay').submit();-->
-<!--        },-->
-<!--        "prefill": {-->
-<!--            "name": "",-->
-<!--            "email": "",-->
-<!--            "contact": ""-->
-<!--        },-->
-<!--        "notes": {-->
-<!--            "address": "Razorpay Corporate Office"-->
-<!--        },-->
-<!--        "theme": {-->
-<!--            "color": "rgb(104,222,238)"-->
-<!--        }-->
-<!--    };-->
-<!--    var rzp1 = new Razorpay(options);-->
-<!--    rzp1.on('payment.failed', function (response){-->
-<!--        $('#myModal').modal();-->
-<!--    });-->
-<!--    document.getElementById('rzp-button1').onclick = function(e){-->
 
-<!--        rzp1.open();-->
-<!--        e.preventDefault();-->
-<!--    }-->
-<!--</script>-->
 
 <script src="https://js.stripe.com/v3/"></script>
 <script src="https://js.stripe.com/v3/"></script>
@@ -692,4 +630,26 @@
         });
     });
 
+</script>
+
+<script>
+    function check_ship_address(){
+    event.preventDefault();
+    var b = document.getElementById("billing-info").checked;
+    var d = document.getElementById("ship").value;
+        if (d === "") {
+            alert("Please fill & save the Shipping Address");
+            return false;
+
+        }
+
+        else if (!b) {
+            alert("Please select billing address");
+            return false;
+
+        }
+        else{
+         document.getElementById("form").submit();
+         }
+    }
 </script>

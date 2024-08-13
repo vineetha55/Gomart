@@ -37,7 +37,7 @@
                     <h2 class="mb-2 text-center">Shop By Category</h2>
                     <nav>
                         <ol class="breadcrumb justify-content-center">
-                            <li aria-current="page" class="breadcrumb-item fw-bold"><a href="index.html">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item fw-bold"><a href="/HomePage">Home</a></li>
                             <li aria-current="page" class="breadcrumb-item fw-bold">Page</li>
                             <li aria-current="page" class="breadcrumb-item fw-bold">Category</li>
                         </ol>
@@ -159,15 +159,15 @@
                         <p class="mb-0 fw-bold">Showing 1-6 of {{p_count}} results</p>
                         <div class="listing-top-right text-end d-inline-flex align-items-center gap-3 flex-wrap">
 
-                            <div class="select-filter d-inline-flex align-items-center gap-3">
-                                <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
-                                <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
-                                    <option>------Select any option---------</option>
-                                    <option value="high">High to Low</option>
-                                    <option value="low">Low to high</option>
+<!--                            <div class="select-filter d-inline-flex align-items-center gap-3">-->
+<!--                                <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>-->
+<!--                                <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">-->
+<!--                                    <option>&#45;&#45;&#45;&#45;&#45;&#45;Select any option-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+<!--                                    <option value="high">High to Low</option>-->
+<!--                                    <option value="low">Low to high</option>-->
 
-                                </select>
-                            </div>
+<!--                                </select>-->
+<!--                            </div>-->
 
                         </div>
                     </div>
@@ -188,16 +188,16 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="mb-2  tt-category tt-line-clamp tt-clamp-1">
-                                        <a class="d-inline-block text-muted fs-xxs" href="#">Fresh Organic</a>
                                     </div>
                                     <span>{{i.brand.name}}</span>
 
                                     <a class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2"
                                        href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                    <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
 
                                     <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-                                    <a class="btn btn-outline-secondary d-block btn-md"
-                                       href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                                    <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                   onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +277,7 @@
                 </div>
                 <div class="col-lg-4 d-none d-lg-block">
                     <div class="logo-wrapper text-center">
-                        <a class="logo" href="index.html"><img alt="logo" class="img-fluid"
+                        <a class="logo" href="#"><img alt="logo" class="img-fluid"
                                                                src="{% static 'index/assets/img/gomart_logo.png' %}"
                                                                width="164"></a>
                     </div>
@@ -483,6 +483,35 @@
 
 
     })
+
+</script>
+
+<script>
+
+    function add_to_cart_products(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+             success: function(response) {
+            if (response.status === 'success') {
+                console.log("success");
+            } else {
+                window.location.href = '/Login/';  // Replace with your cart URL
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: ", status, error);
+            window.location.href = '/Login/';  // Replace with your cart URL
+        }
+        });
+    }
+
 
 </script>
 

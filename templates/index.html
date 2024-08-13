@@ -197,7 +197,7 @@ position: relative;
                         <div class="swiper-wrapper">
                         {% for i in cat %}
                             <div class=" swiper-slide ">
-                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden" >
+                            <div class="gshop-animated-iconbox py-5 px-4 text-center border rounded-3 position-relative overflow-hidden bg-white" >
                                 <div class="animated-icon d-inline-flex align-items-center justify-content-center rounded-circle position-relative"
                                      style="width:120px; height:120px;border-style:solid;">
                                     <a href="/shop_by_category/{{i.id}}"><img alt="flower" class="img-fluid rounded-circle" src="{{i.image}}">
@@ -328,7 +328,7 @@ position: relative;
                             {% for i in prod %}
 
                             <div class=" swiper-slide" style="border: 1px solid #f4f4f4;">
-                                <div  class="vertical-product-card rounded-2 position-relative border-0">
+                                <div  class="vertical-product-card rounded-2 position-relative bg-white border-0">
                                     <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                                     <div class="thumbnail position-relative text-center p-4">
                                         <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -343,7 +343,7 @@ position: relative;
                                             Organic</a>
 
                                         <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
-                                       <span class="fw-bold h6 deleted me-1">€{{i.o_price}}</span>
+                                       <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                         <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                         <div class="card-progressbar mb-2 rounded-pill">
                                             <span class="card-progress bg-primary-light" data-progress="60%"></span>
@@ -351,7 +351,7 @@ position: relative;
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
                                         <a class="btn btn-secondary d-block btn-md mt-5 rounded-1 add-to-cart-btn"
-                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                                           onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
 
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
@@ -396,7 +396,7 @@ position: relative;
                     {% for i in veg %}
 
                     <div class=" swiper-slide " style="border: 1px solid #f4f4f4;">
-                        <div  class="vertical-product-card rounded-2 position-relative">
+                        <div  class="vertical-product-card rounded-2 position-relative bg-white">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
                                 <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -419,7 +419,7 @@ position: relative;
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
                                 <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                                   onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
 
                             </div>
                             <!--                <div class="card-btn bg-white">-->
@@ -464,7 +464,7 @@ position: relative;
                     {% for i in meat %}
 
                     <div class=" swiper-slide " style="border: 1px solid #f4f4f4;">
-                        <div  class="vertical-product-card rounded-2 position-relative">
+                        <div  class="vertical-product-card rounded-2 position-relative bg-white">
                             <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
                             <div class="thumbnail position-relative text-center p-4">
                                 <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
@@ -487,7 +487,7 @@ position: relative;
                                         <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                         </p>
                                         <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                           href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}">Add to Cart</a>
+                                           onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
 
                                     </div>
                                     <!--                <div class="card-btn bg-white">-->
@@ -1065,8 +1065,8 @@ position: relative;
                         <span class="mobile-toolbar-label">Search</span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-start border-0">
-                        <form class="search-form d-flex align-items-center" action="#">
-                            <input type="text" placeholder="Search products..." class="w-100">
+                        <form class="search-form d-flex align-items-center" action="/search-results/" method="post">{% csrf_token %}
+                            <input type="text" placeholder="Search products..." name="search" class="w-100">
                             <button type="submit" class="submit-icon-btn-secondary"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </form>
                     </div>
@@ -1236,6 +1236,34 @@ position: relative;
     </button>
     <!--scroll bottom to top button end-->
     <!--build:js-->
+<script>
+
+    function add_to_cart_products(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+             success: function(response) {
+            if (response.status === 'success') {
+                console.log("success");
+            } else {
+                window.location.href = '/Login/';  // Replace with your cart URL
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: ", status, error);
+            window.location.href = '/Login/';  // Replace with your cart URL
+        }
+        });
+    }
+
+
+</script>
 <script>
 
     function check_deal_time(pid,id){

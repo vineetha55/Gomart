@@ -1,5 +1,9 @@
 {% load static %}
+{% if us %}
+{% include 'loggedin_nav.html' %}
+{% else %}
 {% include 'indexnavbar.html' %}
+{% endif %}
         <!--offcanvas menu end-->
 
         <!--breadcrumb section start-->

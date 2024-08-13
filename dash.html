@@ -1,36 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML FORMS</title>
 </head>
 <body>
-<table border="1">
-    <tr>
-        <th colspan="2">Subject</th>
-        <th>John</th>
-        <th>lluther</th>
-
-    </tr>
-    <tr>
-        <td rowspan="2">Biology</td>
-        <td>Practical</td>
-        <td>a</td>
-        <td>A</td>
-    </tr>
-    <tr><td>Theory</td>
-    <td>A+</td>
-        <td>A</td>
-    </tr>
-    <tr>
-        <td rowspan="2">Chemistry</td>
-        <td>Practical</td>
-        <td>A</td>
-        <Td>A+</Td>
-    </tr>
-    <tr>
-        <td>Thory</td>
-        <td>!</td>
-        <td>B</td>
-    </tr>
-</table>
+   <form>
+       <label>Name</label>
+       <input type="text" name="name" placeholder="Your Name">
+       <br><br>
+       <label>Qualification</label>
+       <input type="text" name="qualification" placeholder="Your Qualification">
+       <br><br>
+       <label>Age</label>
+       <input type="number" name="age" placeholder="Your Age">
+       <br><br>
+       <label>Email</label>
+       <input type="email" name="email" placeholder="Your Email">
+       <br><br>
+       <label>Password</label>
+       <input type="password" name="password" placeholder="Your Password">
+       <br><br>
+       <input type="submit" value="Save Data">
+       <input type="reset" value="Clear Data">
+   </form>
 </body>
 </html>

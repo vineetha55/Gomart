@@ -1,160 +1,42 @@
+<!DOCTYPE html>
 {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+{% if us %}
+{% include 'loggedin_nav.html' %}
+{% else %}
 {% include 'indexnavbar.html' %}
-        <!--offcanvas menu end-->
-
-        <!--breadcrumb section start-->
-        <div class="gstore-breadcrumb position-relative z-1 overflow-hidden mt--50">
-            <img src="{% static 'index/assets/img/shapes/bg-shape-6_new.png' %}" alt="bg-shape" class="position-absolute start-0 z--1 w-100 bg-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="pata" class="position-absolute pata-xs z--1 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/onion_new.png' %}" alt="onion" class="position-absolute z--1 onion start-0 top-0 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/frame-circle_new.svg' %}" alt="frame circle" class="position-absolute z--1 frame-circle vector-shape">
-            <img src="{% static 'index/assets/img/shapes/leaf_new.svg' %}" alt="leaf" class="position-absolute z--1 leaf vector-shape">
-            <img src="{% static 'index/assets/img/shapes/garlic-white_new.png' %}" alt="garlic" class="position-absolute z--1 garlic vector-shape">
-            <img src="{% static 'index/assets/img/shapes/roll-1_new.png' %}" alt="roll" class="position-absolute z--1 roll vector-shape">
-            <img src="{% static 'index/assets/img/shapes/roll-2_new.png' %}" alt="roll" class="position-absolute z--1 roll-2 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/pata-xs_new.svg' %}" alt="roll" class="position-absolute z--1 pata-xs-2 vector-shape">
-            <img src="{% static 'index/assets/img/shapes/tomato-half_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato-half vector-shape">
-            <img src="{% static 'index/assets/img/shapes/tomato-slice_new.svg' %}" alt="tomato" class="position-absolute z--1 tomato-slice vector-shape">
-            <img src="{% static 'index/assets/img/shapes/cauliflower_new.png' %}" alt="tomato" class="position-absolute z--1 cauliflower vector-shape">
-            <img src="{% static 'index/assets/img/shapes/leaf-gray_new.png' %}" alt="tomato" class="position-absolute z--1 leaf-gray vector-shape">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="breadcrumb-content">
-                            <h2 class="mb-2 text-center">All Products</h2>
-                            <nav>
-                                <ol class="breadcrumb justify-content-center">
-                                    <li class="breadcrumb-item fw-bold" aria-current="page"><a href="index.html">Home</a></li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">Page</li>
-                                    <li class="breadcrumb-item fw-bold" aria-current="page">products</li>
-                                </ol>
-                            </nav>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--breadcrumb section end-->
-
+{% endif %}
         <!--shop grid section start-->
         <section class="gshop-gshop-grid ptb-120">
             <div class="container">
                 <div class="row g-4">
-                    <div class="col-xl-3">
-                        <div class="gshop-sidebar bg-white rounded-2 overflow-hidden">
-                            <div class="sidebar-widget search-widget bg-white py-5 px-4">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Search Now</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <form class="search-form d-flex align-items-center mt-4">
-                                    <input type="text" placeholder="Search...">
-                                    <button type="submit" class="submit-icon-btn-secondary"><i
-                                            class="fa-solid fa-magnifying-glass"></i></button>
-                                </form>
-                            </div>
-                            <div class="sidebar-widget category-widget bg-white py-5 px-4 border-top">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Countries</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <ul class="widget-nav mt-4">
-                                    {% for i in cou %}
-                                    <li><a class="d-flex justify-content-between align-items-center"
-                                           href="/show_by_country/{{i.id}}">{{i.name}}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="sidebar-widget category-widget bg-white py-5 px-4 border-top">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Categories</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <ul class="widget-nav mt-4">
-                                    {% for i in cat %}
-                                    <li><a href="/shop_by_category/{{i.id}}"
-                                           class="d-flex justify-content-between align-items-center">{{i.name}}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            <div class="sidebar-widget price-filter-widget bg-white py-5 px-4 border-top">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Filter by Price</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <div class="at-pricing-range mt-4">
-                                    <form class="range-slider-form" action="/filter_by_price/" method="POST">{% csrf_token %}
-                                        <div class="price-filter-range"></div>
-                                        <div class="d-flex align-items-center mt-3">
-                                            <input type="text" oninput="validity.valid||(value='0');" class="min_price price-range-field price-input" name="min_price">
-                                            <span class="d-inline-block ms-2 me-2 fw-bold">-</span>
-                                            <input type="text" oninput="validity.valid||(value='10000');" class="max_price price-range-field price-input" name="max_price">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary btn-sm mt-3">Filter</button>
-                                        <a class="btn btn-primary btn-sm mt-3" href="/all_products/">All</a>
-                                    </form>
-                                </div>
-                            </div>
-                                                  <div class="sidebar-widget products-widget py-5 px-4 bg-white border-top">
-                                <div class="widget-title d-flex">
-                                    <h6 class="mb-0 flex-shrink-0">Best Selling</h6>
-                                    <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
-                                </div>
-                                <div class="sidebar-products-list">
-                                    {% if best%}
-                                    {% for i in best %}
-                                    <div class="horizontal-product-card d-sm-flex align-items-center bg-white rounded-2 mt-4 gap-3 card-md">
-                                        <div class="thumbnail position-relative rounded-2">
-                                            <a href="#"><img src="{% static 'index/assets/img/products/p-sm-1.png' %}" alt="product" class="img-fluid"></a>
-                                            <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                                <a href="product-details.html" class="rounded-btn"><i class="fa-solid fa-eye"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="card-content mt-3 mt-sm-0">
-                                            <a href="#" class="d-block fs-sm fw-bold text-heading title d-block">Strawberry juice Fruit</a>
-                                            <div class="pricing mt-0">
-                                                <span class="fw-bold fs-xxs text-danger">€140.00</span>
-                                            </div>
-                                            <div class="d-flex align-items-center flex-nowrap star-rating mt-1">
-                                                <ul class="d-flex align-items-center me-2">
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                    <li class="text-warning"><i class="fa-solid fa-star"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endfor %}
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-9">
+  <div class="col-xl-12">
                         <div class="shop-grid">
                             <div class="listing-top d-flex align-items-center justify-content-between flex-wrap gap-3 bg-white rounded-2 px-4 py-5 mb-6">
-                                <p class="mb-0 fw-bold">Showing 1-6 of {{p_count}} results</p>
+                                <p class="mb-0 fw-bold">Showing {{p_count}} results</p>
                                 <div class="listing-top-right text-end d-inline-flex align-items-center gap-3 flex-wrap">
 
-                                    <div class="select-filter d-inline-flex align-items-center gap-3">
-                                        <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
-                                        <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
-                                            <option value="recent">---Select Any Option---</option>
-                                            <option value="recent">Recent Products</option>
-                                            <option value="high">High to Low</option>
-                                            <option value="low">Low to high</option>
+<!--                                    <div class="select-filter d-inline-flex align-items-center gap-3">-->
+<!--                                        <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>-->
+<!--                                        <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">-->
+<!--                                            <option value="recent">-&#45;&#45;Select Any Option-&#45;&#45;</option>-->
+<!--                                            <option value="recent">Recent Products</option>-->
+<!--                                            <option value="high">High to Low</option>-->
+<!--                                            <option value="low">Low to high</option>-->
 
-                                        </select>
-                                    </div>
+<!--                                        </select>-->
+<!--                                    </div>-->
 
                                 </div>
                             </div>
                             <div class="row g-4 justify-content-center">
 
-                                {% for i in d %}
+                                {% for i in s_result %}
                                 <div class="col-lg-4 col-md-6 col-sm-10">
                                     <div class="vertical-product-card rounded-2 position-relative border-0 bg-white bg-white"
                                          >
@@ -171,17 +53,33 @@
                                             <div class="mb-1  tt-category tt-line-clamp tt-clamp-1">
                                                 <a href="#" class="d-inline-block text-muted fs-xxs">{{i.brand.name}}</a>
                                             </div>
+                                            {% if not us %}
 
                                 <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
-                                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
+                                            {% else %}
+                                            <a class="card-title fw-bold d-block mb-1" href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
+
+                                {% endif %}
+                                            <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
                                 <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
                                 <div class="card-progressbar mb-2 rounded-pill">
                                     <span class="card-progress bg-primary-light" data-progress="60%"></span>
                                 </div>
                                 <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
                                 </p>
+                                            {% if not us %}
                                            <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
                                    onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                            {% else %}
+                                              {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
+                                            {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -203,8 +101,6 @@
                 </div>
             </div>
         </section>
-        <!--shop grid section end-->
-
 
 
         <!--footer section start-->
@@ -480,5 +376,39 @@
     }
 
 
+</script>
+<script>
+    function add_to_cart_products3(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+                 if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
 </script>
 

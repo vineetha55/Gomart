@@ -73,7 +73,7 @@
                                 </div>
                                 <ul class="widget-nav mt-4">
                                     {% for i in cat %}
-                                    <li><a href="/shop_by_category/{{i.id}}"
+                                    <li><a href="/shop_by_category_user/{{i.id}}"
                                            class="d-flex justify-content-between align-items-center">{{i.name}}</a></li>
                                     {% endfor %}
                                 </ul>
@@ -139,9 +139,11 @@
                                 <p class="mb-0 fw-bold">Showing 1-6 of {{p_count}} results</p>
                                 <div class="listing-top-right text-end d-inline-flex align-items-center gap-3 flex-wrap">
 
-                                    <div class="select-filter d-inline-flex align-items-center gap-3">
+                                   <div class="select-filter d-inline-flex align-items-center gap-3">
                                         <label class="fw-bold fs-xs text-dark flex-shrink-0">Sort Price By:</label>
                                         <select class="form-select fs-xxs fw-medium theme-select select-sm" id="sorting">
+                                            <option value="recent">---Select Any Option---</option>
+                                            <option value="recent">Recent Products</option>
                                             <option value="high">High to Low</option>
                                             <option value="low">Low to high</option>
 
@@ -167,16 +169,22 @@
                                         </div>
                                         <div class="card-content">
                                             <div class="mb-2  tt-category tt-line-clamp tt-clamp-1">
-                                                <a href="#" class="d-inline-block text-muted fs-xxs">Fresh Organic</a>
                                             </div>
                                             <span>{{i.brand.name}}</span>
 
-                                            <a href="/view_product_single/{{i.id}}"
+                                            <a href="/view_product_single_user/{{i.id}}"
                                                class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2">{{i.name}}</a>
+                                            <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
 
                                             <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-                                            <a href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}"
-                                               class="btn btn-outline-secondary d-block btn-md">Add to Cart</a>
+                                              {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
                                         </div>
                                     </div>
                                 </div>
@@ -251,7 +259,7 @@
                         </div>
                         <div class="col-lg-4 d-none d-lg-block">
                             <div class="logo-wrapper text-center">
-                                <a href="index.html" class="logo"><img src="{% static 'index/assets/img/logo_new.png' %}" width="150" alt="logo" class="img-fluid"></a>
+                                <a href="" class="logo"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="150" alt="logo" class="img-fluid"></a>
                             </div>
                         </div>
 
@@ -309,7 +317,7 @@
         <div class="offcanvas-left-menu position-fixed">
             <div class="mobile-menu">
                 <button class="offcanvas-close"><i class="fa-solid fa-xmark"></i></button>
-                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/logo_new.png' %}" width="100" alt="logo"></a>
+                <a href="#" class="d-inline-block mb-5"><img src="{% static 'index/assets/img/gomart_logo.png' %}" width="150" alt="logo"></a>
                 <nav class="mobile-menu-wrapper scrollbar">
                     <ul>
                         {% for i in cat %}
@@ -433,16 +441,54 @@
     </button>
 
 <script>
-    $("#sorting").click(function(){
+    $("#sorting").change(function(){
     var v=$("#sorting").val();
     if(v=="high"){
-    window.location.href="/all_products/";
+    window.location.href="/all_products_high_user/";
     }
-    else{
-    window.location.href="/all_products_sort/";
+    else if(v="low"){
+    window.location.href="/all_products_user_sort/";
+    }
+
+    else if(v="recent"){
+    window.location.href="/all_products_user/";
     }
 
 
     })
 </script>
 
+<script>
+    function add_to_cart_products3(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+                 if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
+            }
+        });
+    }
+</script>

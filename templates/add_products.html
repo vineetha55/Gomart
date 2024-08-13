@@ -77,10 +77,12 @@
                     </div>
 
 
-<!--                     <button id="addButton" type="button" onclick="add_more()">Add More</button>-->
+
 
                     <div class="form-group">
                         <label>Weight / Product</label>
+<!--                        <button id="addButton" type="button" class="btn btn-primary m-1" onclick="add_more()">Add More</button>-->
+
                          <input class="form-control" type="number" name="weight">
                          <select class="form-control" name="weight_measure">
                              <option>Select</option>
@@ -90,6 +92,8 @@
                              <option>Liter</option>
                              <option>ml</option>
                          </select>
+                    </div>
+                    <div class="form-group" id="weight_row">
                     </div>
                     <div class="form-group">
                         <label>Opening Stock</label>
@@ -132,16 +136,44 @@
     var price= $("#price").val();
     vatAmount = (23 / 100) * price;
     formattedVatAmount = vatAmount.toFixed(2);
-
-
     $("#tax_amount").val(formattedVatAmount);
     gross_total=parseFloat(formattedVatAmount) + parseFloat(price)
     formattedPrice = gross_total.toFixed(2);
     $("#gross_total").val(formattedPrice);
+
+
+    var original= $("#o_price").val();
+    vatAmount1 = (23 / 100) * original;
+    formattedVatAmount1 = vatAmount1.toFixed(2);
+    gross_total1=parseFloat(formattedVatAmount1) + parseFloat(original)
+    formattedPrice1 = gross_total1.toFixed(2);
+    $("#o_price").val(formattedPrice1);
+
     })
 </script>
 <script>
-    function add_more(){
+        function add_more() {
+            var div = document.getElementById("weight_row");
+            div.insertAdjacentHTML('afterend', `
+                <div class="weight-entry">
+                    <label>Weight / Product</label>
+                    <button class="btn btn-danger m-1" onclick="remove_weight(this)">Delete</button>
+                    <input class="form-control" type="number" name="weight">
+                    <select class="form-control" name="weight_measure">
+                        <option>Select</option>
+                        <option>Kg</option>
+                        <option>Nos</option>
+                        <option>gm</option>
+                        <option>Liter</option>
+                        <option>ml</option>
+                    </select>
+                </div>
+            `);
+        }
 
-    }
-</script>
+        function remove_weight(button) {
+            // Find the parent div with class 'weight-entry' and remove it
+            var weightEntryDiv = button.parentNode;
+            weightEntryDiv.parentNode.removeChild(weightEntryDiv);
+        }
+    </script>

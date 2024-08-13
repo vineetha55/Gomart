@@ -67,6 +67,11 @@ class tbl_Product(models.Model):
     def __str__(self):
         return self.name if self.name else 'Unnamed Product'
 
+class tbl_Measures(models.Model):
+    product=models.ForeignKey(tbl_Product,on_delete=models.CASCADE,null=True)
+    product_weight = models.CharField(max_length=100, null=True)
+    product_measure = models.CharField(max_length=100, null=True)
+
 
 class tbl_SignUp(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

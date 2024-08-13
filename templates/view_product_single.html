@@ -163,33 +163,96 @@
                     </div>
                 </div>
                 <div class="rl-products-slider swiper mt-8">
-                    <div class="swiper-wrapper">
-                        {% for i in interest %}
-                        <div class="vertical-product-card rounded-2 position-relative swiper-slide">
-                            <div class="thumbnail position-relative text-center p-4">
-                                <img src="{{i.image}}" alt="apple" class="img-fluid">
-                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
-                                    <a href="/add_to_wishlist/{{i.id}}" class="rounded-btn"><i class="fa-regular fa-heart"></i></a>
+                    <div class="row justify-content-center g-4 mt-5 filter_group">
+            <div class="brands-slider1 swiper px-2 pt-4 pb-7">
+                <div class="swiper-wrapper">
+                    {% for i in interest %}
 
+                    <div class=" swiper-slide ">
+                        <div class="vertical-product-card rounded-2 position-relative bg-white">
+                            <span class="offer-badge text-white fw-bold fs-xxs bg-danger position-absolute start-0 top-0">-12% OFF</span>
+                            <div class="thumbnail position-relative text-center p-4">
+                                <a href=""><img alt="apple" class="img-fluid product-image" src="{{i.image}}"
+                                                style="max-width:100%;height:200px;"></a>
+                                <div class="product-btns position-absolute d-flex gap-2 flex-column">
+                                    <a class="rounded-btn" href="/add_to_wishlist/{{i.id}}"><i
+                                            class="fa-regular fa-heart"></i></a>
                                 </div>
                             </div>
                             <div class="card-content">
-                                <a href="#" class="mb-2 d-inline-block text-secondary fw-semibold fs-xxs">Fresh Organic</a>
-                                <a href="/view_product_single/{{i.id}}" class="card-title fw-bold d-block mb-2">{{i.name}}</a>
-                                <h6 class="price text-danger mb-3">€{{i.gross_total}}</h6>
 
-                                <a href="/add_to_cart_products/{{i.id}}/{{i.gross_total}}" class="btn btn-outline-secondary btn-md border-secondary d-block mt-4">Add to Cart</a>
+                                <a class="card-title fw-bold d-block mb-1" href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
+                                <h6 class="price text-danger mb-2">€{{i.gross_total}}</h6>
+                                <div class="card-progressbar mb-2 rounded-pill">
+                                    <span class="card-progress bg-primary-light" data-progress="60%"></span>
+                                </div>
+                                <p class="mb-0 fw-semibold">Available: <span class="fw-bold text-secondary">{{i.current_stock}}/{{i.opening_stock}}</span>
+                                </p>
+                             <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
+                                   onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+
                             </div>
+                            <!--                <div class="card-btn bg-white">-->
+                            <!--                </div>-->
                         </div>
-                        {% endfor %}
-
                     </div>
+
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </div>
                 </div>
             </div>
         </section> <!--related products slider end-->
 
+<script>
+     document.addEventListener('DOMContentLoaded', function () {
+        var swiper = new Swiper('.brands-slider1', {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 2500,
+                disableOnInteraction: false,
+            },
+            breakpoints: {
+      0: {
+        slidesPerView: 1
+      },
+      550: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      },
+      1400: {
+        slidesPerView: 5
+      }
+    }
+        });
 
-
+        // Ensure the swiper instance is properly initialized before attaching hover event
+        if (swiper && swiper.autoplay) {
+            // Handle hover event
+            $('.swiper-slide').hover(
+                function() {
+                    swiper.autoplay.stop();
+                },
+                function() {
+                    swiper.autoplay.start();
+                }
+            );
+        } else {
+            console.error('Swiper instance or autoplay is not defined');
+        }
+    });
+</script>
         <!--footer section start-->
         <div class="footer-curve position-relative overflow-hidden">
             <span class="position-absolute section-curve-wrapper top-0 h-100" data-background="{% static 'index/assets/img/shapes/section-curve.png' %}"></span>
@@ -499,4 +562,33 @@ var addToCartBtn = document.getElementById("addToCartBtn");
 
             addToCartBtn.href = "/add_to_cart_products_single1/" + {{deals.product.id}} + "/" + totalAmount + "/" + q;
 }
+</script>
+
+<script>
+
+    function add_to_cart_products3(id,gross_total){
+        event.preventDefault();
+
+        $.ajax({
+            url: '/add_to_cart_products/',  // Replace with your view URL
+            method: 'GET',  // or 'POST' based on your requirements
+            data: {
+                gross_total: gross_total,  // Replace with your actual pid
+                id: id     // Replace with your actual id
+            },
+             success: function(response) {
+            if (response.status === 'success') {
+                console.log("success");
+            } else {
+                window.location.href = '/Login/';  // Replace with your cart URL
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error("Error: ", status, error);
+            window.location.href = '/Login/';  // Replace with your cart URL
+        }
+        });
+    }
+
+
 </script>

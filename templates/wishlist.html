@@ -65,8 +65,8 @@
                                             <span class="stock-btn text-dark fw-bold fs-xxs d-inline-block rounded-pill">In Stock</span>
                                         </td>
                                         <td class="text-end">
-                                            <span class="price fw-bold text-dark">{{i.product.price}}</span>
-                                            <a href="/add_to_cart_products/{{i.product.id}}/{{i.product.price}}" class="btn btn-secondary btn-sm ms-5 rounded-1">Add to Cart</a>
+                                            <span class="price fw-bold text-dark">{{i.product.gross_total}}</span>
+                                            <a href="/wishlist_to_cart/{{i.product.id}}/{{i.product.gross_total}}/{{i.id}}" class="btn btn-secondary btn-sm ms-5 rounded-1">Add to Cart</a>
                                             <a href="/remove_from_wishlist/{{i.id}}" class="close-btn ms-3"><i class="fas fa-close"></i></a>
                                         </td>
                                     </tr>

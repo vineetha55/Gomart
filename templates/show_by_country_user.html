@@ -1,5 +1,5 @@
 {% load static %}
-{% include 'indexnavbar.html' %}
+{% include 'loggedin_nav.html' %}
 <!--offcanvas menu end-->
 
 <!--breadcrumb section start-->
@@ -37,7 +37,7 @@
                     <h2 class="mb-2 text-center">Shop By Countries</h2>
                     <nav>
                         <ol class="breadcrumb justify-content-center">
-                            <li aria-current="page" class="breadcrumb-item fw-bold"><a href="index.html">Home</a></li>
+                            <li aria-current="page" class="breadcrumb-item fw-bold"><a href="/HomePage">Home</a></li>
                             <li aria-current="page" class="breadcrumb-item fw-bold">Page</li>
                             <li aria-current="page" class="breadcrumb-item fw-bold">country</li>
                         </ol>
@@ -126,7 +126,7 @@
                                     <a href="#"><img alt="product" class="img-fluid"
                                                      src="{% static 'index/assets/img/products/p-sm-1.png' %}"></a>
                                     <div class="product-overlay position-absolute start-0 top-0 w-100 h-100 d-flex align-items-center justify-content-center gap-2 rounded-2">
-                                        <a class="rounded-btn" href="product-details.html"><i
+                                        <a class="rounded-btn" href=""><i
                                                 class="fa-solid fa-eye"></i></a>
                                     </div>
                                 </div>
@@ -188,17 +188,26 @@
                                 </div>
                                 <div class="card-content">
                                     <div class="mb-2  tt-category tt-line-clamp tt-clamp-1">
+                                        <a class="d-inline-block text-muted fs-xxs" href="#">Fresh Organic</a>
                                     </div>
                                     <span>{{i.brand.name}}</span>
 
                                     <a class="card-title fw-bold d-block mb-2 tt-line-clamp tt-clamp-2"
-                                       href="/view_product_single/{{i.id}}">{{i.name}}</a>
+                                       href="/view_product_single_user/{{i.id}}">{{i.name}}</a>
                                     <span class="fw-bold  deleted me-1" style="font-size:15px;">€{{i.o_price}}</span>
 
                                     <h6 class="price text-danger mb-4">€{{i.gross_total}}</h6>
-          <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn"
-                                   onclick="add_to_cart_products({{i.id}},{{i.gross_total}})">Add to Cart</a>
-                                </div>
+                                     {% if not i.id in cart %}
+
+                                <a class="btn btn-secondary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    onclick="add_to_cart_products3({{i.id}},{{i.gross_total}})">Add to Cart</a>
+                                {% else %}
+                                <a class="btn btn-primary d-block btn-md rounded-1 add-to-cart-btn" id="add-to-cart-btn3-{{i.id}}"
+                                    href="/cart_user/">Go to Cart</a>
+                                    {% endif %}
+
+
+                </div>
                             </div>
                         </div>
                         {% endfor %}
@@ -277,7 +286,7 @@
                 </div>
                 <div class="col-lg-4 d-none d-lg-block">
                     <div class="logo-wrapper text-center">
-                        <a class="logo" href="index.html"><img alt="logo" class="img-fluid"
+                        <a class="logo" href="#"><img alt="logo" class="img-fluid"
                                                                src="{% static 'index/assets/img/gomart_logo.png' %}"
                                                                width="150"></a>
                     </div>
@@ -486,8 +495,7 @@
 
 </script>
 <script>
-
-    function add_to_cart_products(id,gross_total){
+    function add_to_cart_products3(id,gross_total){
         event.preventDefault();
 
         $.ajax({
@@ -497,20 +505,29 @@
                 gross_total: gross_total,  // Replace with your actual pid
                 id: id     // Replace with your actual id
             },
-             success: function(response) {
-            if (response.status === 'success') {
-                console.log("success");
-            } else {
-                window.location.href = '/Login/';  // Replace with your cart URL
+            success: function(response) {
+            if (response.status === 'already') {
+                console.log("already added");
+                }
+               else if (response.status === 'success') {
+                    const button = document.getElementById(`add-to-cart-btn3-${id}`);
+                    button.textContent = "Go to Cart";
+                    button.classList.remove('btn-secondary');
+                    button.classList.add('btn-primary');
+                    button.onclick = function() {
+                        window.location.href = '/cart_user/';  // Replace with your cart URL
+                    };
+                }
+                 if (response.cart_count) {
+                document.getElementById('cart_count').innerHTML=response.cart_count;
+                }
+            },
+            error: function() {
+                alert('An error occurred. Please try again.');
             }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error: ", status, error);
-            window.location.href = '/Login/';  // Replace with your cart URL
-        }
         });
     }
-
-
 </script>
+
+
 
