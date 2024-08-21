@@ -157,5 +157,6 @@ path("add_to_cart_products_single1/<id>/<price>/<q>", views.add_to_cart_products
     path("shop_by_category_high/<id>",views.shop_by_category_high,name="shop_by_category_high"),
     path("search-results/",views.search_results,name="search-results"),
     path("delete-cart-all/",views.delete_cart_all,name="delete-cart-all"),
-    path("delete-selected-item/",views.delete_selected_item,name="delete-selected-item")
+    path("delete-selected-item/",views.delete_selected_item,name="delete-selected-item"),
+    path("download_database/",views.download_database,name="download_database")
 ]

@@ -1,6 +1,9 @@
 import json
+import os
+import zipfile
 
 from datetime import date, datetime
+from io import BytesIO
 
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
@@ -17,7 +20,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import FileSystemStorage
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import render, redirect
 
 from django.views.decorators.csrf import csrf_exempt
@@ -289,7 +292,7 @@ def add_product(request):
         cat = tbl_Category.objects.all()
         bran = tbl_Brand.objects.all()
         d = tbl_Product.objects.all().last()
-        print(d)
+
 
         if d == None:
             pdt_code = 'GM/PD00' + '1'
@@ -460,12 +463,9 @@ def check_login(request):
 @never_cache
 def HomePage(request):
     try:
-
         r = request.session['userid']
-
         if r:
             user = tbl_SignUp.objects.get(id=r)
-            print(user, "jj")
             cat = tbl_Category.objects.all()
             coun = tbl_Country.objects.all()
             brand = tbl_Brand.objects.all()
@@ -2538,3 +2538,27 @@ def search_results(request):
         cat=tbl_Category.objects.all()
         p_count=s_result.count()
         return render(request,"search_result.html",{"s_result":s_result,"cat":cat,"p_count":p_count})
+
+
+def download_database(request):
+    db_path = os.path.join(settings.BASE_DIR, 'db.sqlite3')
+    media_path = os.path.join(settings.MEDIA_ROOT)
+
+    # Create an in-memory ZIP file
+    zip_buffer = BytesIO()
+    with zipfile.ZipFile(zip_buffer, 'w') as zip_file:
+        # Add the SQLite3 database to the ZIP file
+        zip_file.write(db_path, 'db.sqlite3')
+
+        # Add the media folder to the ZIP file
+        for root, dirs, files in os.walk(media_path):
+            for file in files:
+                file_path = os.path.join(root, file)
+                relative_path = os.path.relpath(file_path, media_path)
+                zip_file.write(file_path, os.path.join('media', relative_path))
+
+    zip_buffer.seek(0)
+
+    # Serve the ZIP file as a download
+    response = FileResponse(zip_buffer, as_attachment=True, filename='database_and_media.zip')
+    return response
