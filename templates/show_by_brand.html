@@ -73,7 +73,7 @@
                             <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
                         </div>
                         <ul class="widget-nav mt-4">
-                            {% for i in cont%}
+                            {% for i in coun%}
                             <li><a class="d-flex justify-content-between align-items-center"
                                    href="/show_by_country/{{i.id}}">{{i.name}}</a></li>
                             {% endfor %}
@@ -97,8 +97,7 @@
                             <span class="hr-line w-100 position-relative d-block align-self-end ms-1"></span>
                         </div>
                         <div class="at-pricing-range mt-4">
-                            <form action="/filter_by_price_category/{{c.id}}" class="range-slider-form" method="POST">{%
-                                csrf_token %}
+                            <form action="/filter_by_price_category/{{c.id}}" class="range-slider-form" method="POST">{% csrf_token %}
                                 <div class="price-filter-range"></div>
                                 <div class="d-flex align-items-center mt-3">
                                     <input class="min_price price-range-field price-input" name="min_price"

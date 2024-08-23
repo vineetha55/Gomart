@@ -307,8 +307,6 @@ def add_product(request):
 
 @never_cache
 def show_by_country(request, id):
-    try:
-        r = request.session["userid"]
         try:
             r=request.session["userid"]
             d = tbl_Product.objects.filter(country=id)
@@ -325,15 +323,12 @@ def show_by_country(request, id):
             coun = tbl_Country.objects.all()
             brand = tbl_Brand.objects.all()
             return render(request, "show_by_country.html", {"d": d, "cat": cat, "coun": coun, "brand": brand})
-    except:
-        return redirect("/Login/")
+
 
 
 
 @never_cache
 def show_by_brand(request, id):
-    try:
-        us=request.session['userid']
         try:
             if request.session['userid']:
                 d = tbl_Product.objects.filter(brand=id)
@@ -358,8 +353,7 @@ def show_by_brand(request, id):
             n = range(2)
             return render(request, "show_by_brand.html", {"d": d, "cat": cat, "coun": coun, "brand": brand,
                                                           "latest": latest, "n": n})
-    except:
-        return redirect("/Login/")
+
 
 @never_cache
 def shop_by_category(request, id):
